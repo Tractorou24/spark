@@ -16,6 +16,7 @@ spark_add_executable(${TARGET_NAME}
 
 target_link_libraries(${TARGET_NAME} 
     PUBLIC
+        ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_audio
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_base
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_core
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_engine
