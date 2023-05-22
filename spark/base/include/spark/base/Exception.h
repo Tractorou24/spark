@@ -125,6 +125,11 @@ namespace spark::base
      * \brief Exception thrown when trying to read/write past the end of a buffer.
      */
     SPARK_BASE_DEFINE_EXCEPTION(OverflowException)
+
+    /**
+     * \brief Exception thrown when trying to load a file with an unsupported format.
+     */
+    SPARK_BASE_DEFINE_EXCEPTION(UnsupportedFileFormatException)
 }
 
 #undef SPARK_BASE_DEFINE_EXCEPTION
