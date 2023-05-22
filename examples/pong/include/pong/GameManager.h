@@ -1,11 +1,15 @@
 #pragma once
 
+#include "pong/ui/Background.h"
+
+#include "spark/audio/Sound.h"
 #include "spark/core/Application.h"
 #include "spark/core/Input.h"
 #include "spark/core/SceneManager.h"
 #include "spark/engine/GameObject.h"
 #include "spark/engine/components/Rectangle.h"
 #include "spark/engine/components/Transform.h"
+#include "spark/path/Paths.h"
 
 #include <numeric>
 
@@ -20,7 +24,8 @@ namespace pong
 
     public:
         explicit GameManager(std::string name, spark::engine::GameObject* parent)
-            : GameObject(std::move(name), parent) { }
+            : GameObject(std::move(name), parent), m_hitSound(spark::path::assets_path() / "hit.ogg"), m_looseSound(spark::path::assets_path() / "loose.ogg"),
+              m_menuSound(spark::path::assets_path() / "menu.ogg") { }
 
         void onSpawn() override
         {
@@ -34,10 +39,13 @@ namespace pong
             SPARK_ASSERT(m_rightPaddle != nullptr)
             SPARK_ASSERT(m_ball != nullptr)
 
-            m_looseSlotKey = m_ball->onLoose.connect([]
+            m_looseSlotKey = m_ball->onLoose.connect([this]
             {
+                m_looseSound.play();
                 spark::core::SceneManager::LoadScene("MainMenu");
             });
+
+            m_menuSound.play();
 
             // Set the paddles and the ball to their initial positions.
             reset();
@@ -72,9 +80,12 @@ namespace pong
             }
 
             // Update paddle speed from score
-            const float score = getScore();
-            m_ball->velocity += (score - m_lastScore) * 5;
-            m_lastScore = score;
+            if (const float score = getScore(); m_lastScore != score)
+            {
+                m_hitSound.play();
+                m_ball->velocity += (score - m_lastScore) * 5;
+                m_lastScore = score;
+            }
         }
 
         void onDestroyed() override
@@ -82,6 +93,7 @@ namespace pong
             GameObject::onDestroyed();
 
             m_ball->onLoose.disconnect(m_looseSlotKey);
+            m_menuSound.stop();
         }
 
         /**
@@ -131,7 +143,7 @@ namespace pong
             return std::accumulate(scores.begin(),
                                    scores.end(),
                                    0.0f,
-                                   [](const float acc, const ui::Score* score)
+                                   [](const float acc, const class ui::Score* score)
                                    {
                                        return acc + static_cast<float>(score->getScore());
                                    });
@@ -141,6 +153,7 @@ namespace pong
         std::size_t m_looseSlotKey = 0;
         float m_lastScore = 0;
         spark::engine::GameObject *m_leftPaddle = nullptr, *m_rightPaddle = nullptr;
+        spark::audio::Sound m_hitSound, m_looseSound, m_menuSound;
         pong::Ball* m_ball = nullptr;
     };
 }

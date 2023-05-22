@@ -24,8 +24,6 @@ namespace spark::audio
          */
         explicit Sound(const std::filesystem::path& file);
 
-        ~Sound();
-
         /**
          * \brief Starts playing the sound.
          */

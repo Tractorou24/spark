@@ -14,12 +14,6 @@ namespace spark::audio
         m_sound.setBuffer(m_buffer);
     }
 
-    Sound::~Sound()
-    {
-        m_sound.stop();
-        m_sound.resetBuffer();
-    }
-
     void Sound::play()
     {
         m_sound.play();
