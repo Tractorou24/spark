@@ -58,12 +58,22 @@ namespace spark::engine
 
     GameObject::~GameObject()
     {
+        // Ensure onDestroyed() was called
+        SPARK_CORE_ASSERT(!m_initialized)
+
         for (const auto& [component, managed] : m_components | std::views::values)
             if (managed)
                 delete component;
 
-        // Ensure onDestroyed() was called
-        SPARK_CORE_ASSERT(!m_initialized)
+        traverse([this](GameObject* obj)
+        {
+            // Ensure we don't destroy the object we're currently destroying, results in an infinite loop otherwise
+            if (obj == this)
+                return;
+
+            obj->getParent()->remove(obj);
+            delete obj;
+        });
     }
 
     const lib::Uuid& GameObject::getUuid() const
