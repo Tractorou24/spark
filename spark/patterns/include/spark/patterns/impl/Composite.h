@@ -70,16 +70,22 @@ namespace spark::patterns
     template <typename DerivedType>
     void Composite<DerivedType>::traverse(std::function<void(DerivedType*)> fn)
     {
-        for (auto* child : m_children)
+        for (std::size_t i = 0; i < m_children.size(); ++i)
+        {
+            auto* child = m_children[i];
             child->traverse(fn);
+        }
         std::invoke(fn, static_cast<DerivedType*>(this));
     }
 
     template <typename DerivedType>
     void Composite<DerivedType>::traverse(std::function<void(const DerivedType*)> fn) const
     {
-        for (const auto* child : m_children)
+        for (std::size_t i = 0; i < m_children.size(); ++i)
+        {
+            const auto* child = m_children[i];
             child->traverse(fn);
+        }
         std::invoke(fn, static_cast<const DerivedType*>(this));
     }
 
