@@ -39,4 +39,9 @@ namespace spark::core
         }
         return s_scenes.at(name);
     }
+
+    void SceneManager::UnregisterAllScenes()
+    {
+        s_scenes.clear();
+    }
 }
