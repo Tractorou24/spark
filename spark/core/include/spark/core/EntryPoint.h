@@ -1,6 +1,7 @@
 #pragma once
 
 #include "spark/core/Application.h"
+#include "spark/core/SceneManager.h"
 #include "spark/log/Logger.h"
 
 extern std::unique_ptr<spark::core::Application> spark_main(const spark::core::ApplicationSpecification& default_settings);
@@ -29,5 +30,8 @@ int main(const int argc, char* argv[])
     // Run application
     const auto app = spark_main(settings);
     app->run();
+
+    spark::core::SceneManager::UnregisterAllScenes();
+
     return 0;
 }

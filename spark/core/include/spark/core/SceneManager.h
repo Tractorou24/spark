@@ -43,6 +43,11 @@ namespace spark::core
          */
         static std::shared_ptr<engine::Scene> GetScene(const std::string& name, bool fail = true);
 
+        /**
+         * \brief Unregister all scenes.
+         */
+        static void UnregisterAllScenes();
+
     private:
         static std::unordered_map<std::string, std::shared_ptr<engine::Scene>> s_scenes;
     };
