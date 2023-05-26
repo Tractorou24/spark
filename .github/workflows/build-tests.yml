@@ -1,4 +1,4 @@
-name: CI BUILD - Windows (x64)
+name: CI BUILD - Windows & Linux (x64)
 
 on: [push]
 
@@ -54,3 +54,67 @@ jobs:
         with:
           configurePreset: 'dev_vc143_ninja'
           buildPreset: 'dev_vc143_ninja_release'
+  
+#############################################################
+################## Linux Debug (x64) build ##################
+#############################################################
+  linux-debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+        # Install latest verison of CMake
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+        # Install packages required by vcpkg for building dependencies
+      - name: Install apt packages
+        run: |
+          sudo apt update
+          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev
+
+        # Setup VCPKG repo and register it
+      - name: Setup VCPKG
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: '${{ vars.VCPKG_COMMIT_ID }}'
+
+        # Build and test in Debug
+      - name: Build & Test in Debug
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: 'dev_gcc_ninja'
+          buildPreset: 'dev_gcc_ninja_debug'
+
+###############################################################
+################## Linux Release (x64) build ##################
+###############################################################
+  linux-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+        # Install latest verison of CMake
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+        # Install packages required by vcpkg for building dependencies
+      - name: Install apt packages
+        run: |
+          sudo apt update
+          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev
+
+        # Setup VCPKG repo and register it
+      - name: Setup VCPKG
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: '${{ vars.VCPKG_COMMIT_ID }}'
+
+        # Build and test in Release
+      - name: Build & Test in Release
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: 'dev_gcc_ninja'
+          buildPreset: 'dev_gcc_ninja_release'
