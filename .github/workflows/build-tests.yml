@@ -1,0 +1,56 @@
+name: CI BUILD - Windows (x64)
+
+on: [push]
+
+jobs:
+###############################################################
+################## Windows Debug (x64) build ##################
+###############################################################
+  windows-debug:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+        # Install latest verison of CMake
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+        # Setup VCPKG repo and register it
+      - name: Setup VCPKG
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: '${{ vars.VCPKG_COMMIT_ID }}'
+
+        # Build and test in Debug
+      - name: Build & Test in Debug
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: 'dev_vc143_ninja'
+          buildPreset: 'dev_vc143_ninja_debug'
+  
+#################################################################
+################## Windows Release (x64) build ##################
+#################################################################
+  windows-release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+        # Install latest verison of CMake
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+        # Setup VCPKG repo and register it
+      - name: Setup VCPKG
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: '${{ vars.VCPKG_COMMIT_ID }}'
+
+        # Build and test in Release
+      - name: Build & Test in Release
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: 'dev_vc143_ninja'
+          buildPreset: 'dev_vc143_ninja_release'
