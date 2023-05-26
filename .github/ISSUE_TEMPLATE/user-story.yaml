@@ -1,0 +1,37 @@
+name: Story
+description: Enter a new story
+labels:
+  - triage
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: 'Enter a description for the story:'
+      placeholder: 'As a **XX**, I want to **XX** so that **XX**.'
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: 'Enter the acceptance criteria for the story:'
+      placeholder: 'Given **XX**, when **XX**, then **XX**.'
+    validations:
+      required: true
+  - type: textarea
+    id: technical-notes
+    attributes:
+      label: Technical Notes
+      description: 'Enter any technical notes for the story:'
+      placeholder: 'Add any technical notes here.'
+    validations:
+      required: false
+  - type: textarea
+    id: test-notes
+    attributes:
+      label: Test Notes
+      description: 'Enter any test notes for the story:'
+      placeholder: 'Add any test notes here.'
+    validations:
+      required: false
