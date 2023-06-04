@@ -6,6 +6,8 @@
 
 #include <string>
 
+#include <cstdint>
+
 namespace spark::lib
 {
     /**
@@ -83,7 +85,7 @@ namespace spark::lib
         void bytes(char* bytes) const;
 
     private:
-        alignas(128) uint8_t m_data[16];
+        alignas(128) std::uint8_t m_data[16];
     };
 }
 

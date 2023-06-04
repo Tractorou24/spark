@@ -94,7 +94,7 @@ namespace spark::core
                 }
             default:
                 {
-                    SPARK_CORE_WARN("Unhandled event type: {}", event.type);
+                    SPARK_CORE_WARN("Unhandled event type: {}", static_cast<int>(event.type));
                     break;
                 }
             }
