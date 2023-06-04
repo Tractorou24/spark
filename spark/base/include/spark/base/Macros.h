@@ -15,11 +15,11 @@
 
 #	define SPARK_DISABLE_MSVC_WARNING(warningNumber) DO_PRAGMA(warning(disable: warningNumber))
 #	define SPARK_SUPPRESS_MSVC_WARNING(warningNumber) DO_PRAGMA(warning(suppress: warningNumber))
-
 #	define SPARK_DISABLE_GCC_WARNING(warningName)
+#	define SPARK_DISABLE_CLANG_WARNING(warningName)
 
 #	define SPARK_DEBUG_BREAK __debugbreak()
-#else
+#elif SPARK_COMPILER_GCC
 #   define DO_PRAGMA(pragma) _Pragma(#pragma)
 
 #   define SPARK_WARNING_PUSH DO_PRAGMA(GCC diagnostic push)
@@ -27,10 +27,35 @@
 
 #   define SPARK_DISABLE_MSVC_WARNING(warningNumber)
 #   define SPARK_SUPPRESS_MSVC_WARNING(warningNumber)
-
 #   define SPARK_DISABLE_GCC_WARNING(warningName) DO_PRAGMA(GCC diagnostic ignored #warningName)
+#   define SPARK_DISABLE_CLANG_WARNING(warningName)
 
 #   define SPARK_DEBUG_BREAK __builtin_trap()
+#elif SPARK_COMPILER_CLANG
+#   define DO_PRAGMA(pragma) _Pragma(#pragma)
+
+#   define SPARK_WARNING_PUSH DO_PRAGMA(clang diagnostic push)
+#   define SPARK_WARNING_POP  DO_PRAGMA(clang diagnostic pop)
+
+#   define SPARK_DISABLE_MSVC_WARNING(warningNumber)
+#   define SPARK_SUPPRESS_MSVC_WARNING(warningNumber)
+#   define SPARK_DISABLE_GCC_WARNING(warningName)
+#   define SPARK_DISABLE_CLANG_WARNING(warningName) DO_PRAGMA(clang diagnostic ignored #warningName)
+
+#   define SPARK_DEBUG_BREAK __builtin_trap()
+#else
+#   define DO_PRAGMA(pragma) 
+
+#   define SPARK_WARNING_PUSH
+#   define SPARK_WARNING_POP
+
+#   define SPARK_DISABLE_MSVC_WARNING(warningNumber)
+#   define SPARK_SUPPRESS_MSVC_WARNING(warningNumber)
+#   define SPARK_DISABLE_GCC_WARNING(warningName)
+#   define SPARK_DISABLE_CLANG_WARNING(warningName)
+
+#   define SPARK_DEBUG_BREAK 
+
 #endif
 
 /*
