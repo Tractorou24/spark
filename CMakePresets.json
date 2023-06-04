@@ -27,13 +27,24 @@
     {
       "name": "msvc143",
       "hidden": true,
-      "inherits": [ "WinOnly" ],
+      "inherits": ["WinOnly"],
       "cacheVariables": {
         "CMAKE_CXX_COMPILER": "cl"
-      },
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
+      }
+    },
+    {
+      "name": "gcc13",
+      "hidden": true,
+      "inherits": "LinuxOnly",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "clang16",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++"
       }
     },
     {
@@ -45,53 +56,13 @@
       "generator": "Ninja Multi-Config"
     },
     {
-      "name": "ninja_rel",
-      "hidden": true,
-      "description": "Ninja generator base preset - Release",
-      "binaryDir": "${sourceDir}/out/build-spark-ninja-rel",
-      "installDir": "${sourceDir}/out/install-spark-ninja-rel",
-      "generator": "Ninja",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "ninja_deb",
-      "hidden": true,
-      "description": "Ninja generator base preset - Debug",
-      "binaryDir": "${sourceDir}/out/build-spark-ninja-deb",
-      "installDir": "${sourceDir}/out/install-spark-ninja-deb",
-      "generator": "Ninja",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "vc143_ninja_multi",
-      "hidden": true,
-      "inherits": [ "ninja_multi", "msvc143" ],
-      "description": "Ninja Multi-Config for VC2022 preset"
-    },
-    {
-      "name": "vc143_ninja_rel",
-      "hidden": true,
-      "inherits": [ "ninja_rel", "msvc143" ],
-      "description": "Ninja - Release for VC2022 preset"
-    },
-    {
-      "name": "vc143_ninja_deb",
-      "hidden": true,
-      "inherits": [ "ninja_deb", "msvc143" ],
-      "description": "Ninja - Debug for VC2022 preset"
-    },
-    {
       "name": "dev_base",
       "hidden": true,
       "description": "Developer base preset"
     },
     {
       "name": "dev_vc143",
-      "inherits": [ "dev_base", "WinOnly" ],
+      "inherits": ["dev_base", "msvc143", "WinOnly"],
       "displayName": "Developer - MSVC - VS 17 2022",
       "description": "Developer build using MSVC and Visual Studio 17 2022 generator",
       "binaryDir": "${sourceDir}/out/build-spark-vs22",
@@ -104,15 +75,21 @@
     },
     {
       "name": "dev_vc143_ninja",
-      "inherits": [ "dev_base", "vc143_ninja_multi" ],
+      "inherits": ["dev_base", "ninja_multi", "msvc143"],
       "displayName": "Developer - MSVC - Ninja Multi-Config - VS 2022",
       "description": "Developer build using MSVC and Ninja Multi-Config generator"
     },
     {
       "name": "dev_gcc_ninja",
-      "inherits": [ "dev_base", "ninja_multi", "LinuxOnly" ],
+      "inherits": ["dev_base", "ninja_multi", "gcc13"],
       "displayName": "Developer - GCC - Ninja Multi-Config",
       "description": "Developer build using GCC and Ninja Multi-Config generator"
+    },
+    {
+      "name": "dev_clang_ninja",
+      "inherits": ["dev_base", "ninja_multi", "clang16"],
+      "displayName": "Developer - Clang - Ninja Multi-Config",
+      "description": "Developer build using Clang and Ninja Multi-Config generator"
     }
   ],
   "buildPresets": [
@@ -137,11 +114,11 @@
     {
       "name": "msbuild",
       "hidden": true,
-      "nativeToolOptions": [ "-m" ]
+      "nativeToolOptions": ["-m"]
     },
     {
       "name": "dev_vc143_release",
-      "inherits": [ "msbuild", "WinOnly" ],
+      "inherits": ["msbuild", "WinOnly"],
       "displayName": "Release",
       "description": "Build in Release",
       "configuration": "Release",
@@ -149,7 +126,7 @@
     },
     {
       "name": "dev_vc143_debug",
-      "inherits": [ "msbuild", "WinOnly" ],
+      "inherits": ["msbuild", "WinOnly"],
       "displayName": "Debug",
       "description": "Build in Debug",
       "configuration": "Debug",
@@ -157,7 +134,7 @@
     },
     {
       "name": "dev_vc143_ninja_release",
-      "inherits": [ "WinOnly" ],
+      "inherits": ["WinOnly"],
       "displayName": "Release",
       "description": "Build in Release",
       "configuration": "Release",
@@ -165,7 +142,7 @@
     },
     {
       "name": "dev_vc143_ninja_debug",
-      "inherits": [ "WinOnly" ],
+      "inherits": ["WinOnly"],
       "displayName": "Debug",
       "description": "Build in Debug",
       "configuration": "Debug",
@@ -173,7 +150,7 @@
     },
     {
       "name": "dev_gcc_ninja_release",
-      "inherits": [ "LinuxOnly" ],
+      "inherits": ["LinuxOnly"],
       "displayName": "Release",
       "description": "Build in Release",
       "configuration": "Release",
@@ -181,11 +158,25 @@
     },
     {
       "name": "dev_gcc_ninja_debug",
-      "inherits": [ "LinuxOnly" ],
+      "inherits": ["LinuxOnly"],
       "displayName": "Debug",
       "description": "Build in Debug",
       "configuration": "Debug",
       "configurePreset": "dev_gcc_ninja"
+    },
+    {
+      "name": "dev_clang_ninja_debug",
+      "displayName": "Debug",
+      "description": "Build in Debug",
+      "configuration": "Debug",
+      "configurePreset": "dev_clang_ninja"
+    },
+    {
+      "name": "dev_clang_release",
+      "displayName": "Release",
+      "description": "Build in Release",
+      "configuration": "Release",
+      "configurePreset": "dev_clang_ninja"
     }
   ]
 }
