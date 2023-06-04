@@ -72,7 +72,9 @@ jobs:
       - name: Install apt packages
         run: |
           sudo apt update
-          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev
+          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev g++-13
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 50
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 50
 
         # Setup VCPKG repo and register it
       - name: Setup VCPKG
@@ -104,7 +106,9 @@ jobs:
       - name: Install apt packages
         run: |
           sudo apt update
-          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev
+          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev g++-13
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 50
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 50
 
         # Setup VCPKG repo and register it
       - name: Setup VCPKG
