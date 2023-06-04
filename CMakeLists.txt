@@ -63,6 +63,17 @@ block()
         set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${TYPE_UPPER} ${LIBRARY_OUTPUT_DIRECTORY} PARENT_SCOPE)
         set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${TYPE_UPPER} ${RUNTIME_OUTPUT_DIRECTORY} PARENT_SCOPE)
     endif()
+
+    # Check compiler version
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "13.1")
+            message(FATAL_ERROR "Insufficient GCC version (required>=13.1)")
+        endif()
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.31")
+            message(FATAL_ERROR "Insufficient MSVC version (required>=19.31)")
+        endif()
+    endif()
 endblock()
 
 # Include our internal API for target definition
