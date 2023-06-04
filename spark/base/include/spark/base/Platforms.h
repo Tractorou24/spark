@@ -22,7 +22,8 @@
         // Target OS is Linux
         #define SPARK_OS_LINUX 1
         #if defined(__clang__)
-            #error "Clang is not supported"
+            // Compiler is Clang
+            #define SPARK_COMPILER_CLANG 1
         #elif defined(__GNUC__) || defined(__GNUG__)
             // Compiler is GCC
             #define SPARK_COMPILER_GCC 1
