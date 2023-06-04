@@ -27,7 +27,7 @@ Feel free to contribute to this project by forking it and submitting a pull requ
 To build the engine, you will need to install the following dependencies:
 - [CMake](https://cmake.org/download/) (>= 3.25)
 - [VCPKG](https://vcpkg.io/en/getting-started.html) with executable in PATH
-- A C++ compiler (MSVC (>=14.3) or GCC (>=12))
+- A C++ compiler (MSVC (>=19.31) or GCC (>=13.1))
 
 You have the following CMake presets to build the engine:
 
