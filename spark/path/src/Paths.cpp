@@ -20,13 +20,13 @@ namespace spark::path
                                                 reinterpret_cast<LPWSTR>(&executable_path),
                                                 &hm);
         if (!success)
-            throw std::system_error::system_error(std::error_code(static_cast<int>(GetLastError()), std::system_category()), "Failed to get module handle");
+            throw std::system_error(std::error_code(static_cast<int>(GetLastError()), std::system_category()), "Failed to get module handle");
 
         // Get the full path to the executable executing this code using Win32 API.
         WCHAR wide_path_buffer[MAX_PATH];
         const DWORD path_size = GetModuleFileNameW(hm, wide_path_buffer, MAX_PATH);
         if (path_size == 0 || (path_size == MAX_PATH && GetLastError() == ERROR_INSUFFICIENT_BUFFER))
-            throw std::system_error::system_error(std::error_code(static_cast<int>(GetLastError()), std::system_category()), "Failed to get module filename");
+            throw std::system_error(std::error_code(static_cast<int>(GetLastError()), std::system_category()), "Failed to get module filename");
 
         // Convert std::wstring to std::filesystem::path
         auto result = std::filesystem::path(wide_path_buffer).parent_path();
