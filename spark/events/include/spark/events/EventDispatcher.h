@@ -8,7 +8,7 @@ namespace spark::events
     /**
      * \brief A class that dispatches events to the appropriate event handler.
      */
-    class SPARK_EVENTS_EXPORT EventDispatcher final
+    class EventDispatcher final
     {
     public:
         /**
