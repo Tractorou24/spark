@@ -2,8 +2,7 @@
 
 #include "spark/base/Exception.h"
 
-#include "fmt/core.h"
-
+#include <format>
 namespace spark::ser
 {
     FileSerializer::FileSerializer(const std::filesystem::path& filename, const bool is_reading)
@@ -12,7 +11,7 @@ namespace spark::ser
         m_file.open(filename, isReading ? (std::fstream::in | std::fstream::binary) : (std::fstream::out | std::fstream::trunc | std::fstream::binary));
         if (!m_file.is_open())
         {
-            const std::string error_message = fmt::format("Can't open file {0} for {1}", filename.string(), is_reading ? "reading" : "writing");
+            const std::string error_message = std::format("Can't open file {0} for {1}", filename.string(), is_reading ? "reading" : "writing");
             SPARK_BASE_THROW_EXCEPTION(spark::base::CouldNotOpenFileException, error_message.c_str());
         }
     }

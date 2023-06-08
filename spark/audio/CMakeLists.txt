@@ -1,5 +1,4 @@
 find_package(SFML COMPONENTS audio REQUIRED)
-find_package(fmt CONFIG REQUIRED)
 
 set (TARGET_NAME ${SPARK_NAME}_audio)
 set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -18,5 +17,4 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_log
     PRIVATE
         sfml-audio
-        fmt::fmt-header-only
 )
