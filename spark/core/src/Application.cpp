@@ -94,12 +94,12 @@ namespace spark::core
             close();
             return true;
         });
-        result |= dispatcher.dispatch<events::MouseMovedEvent>([this](events::MouseMovedEvent&)
+        result |= dispatcher.dispatch<events::MouseMovedEvent>([](events::MouseMovedEvent&)
         {
             core::Input::mouseMovedEvent.emit();
             return true;
         });
-        result |= dispatcher.dispatch<events::KeyPressedEvent>([this](const events::KeyPressedEvent& e)
+        result |= dispatcher.dispatch<events::KeyPressedEvent>([](const events::KeyPressedEvent& e)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace spark::core
                 return false;
             }
         });
-        result |= dispatcher.dispatch<events::KeyReleasedEvent>([this](const events::KeyReleasedEvent& e)
+        result |= dispatcher.dispatch<events::KeyReleasedEvent>([](const events::KeyReleasedEvent& e)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace spark::core
                 return false;
             }
         });
-        result |= dispatcher.dispatch<events::MouseButtonPressedEvent>([this](const events::MouseButtonEvent& e)
+        result |= dispatcher.dispatch<events::MouseButtonPressedEvent>([](const events::MouseButtonEvent& e)
         {
             try
             {
@@ -135,7 +135,7 @@ namespace spark::core
                 return false;
             }
         });
-        result |= dispatcher.dispatch<events::MouseButtonReleasedEvent>([this](const events::MouseButtonEvent& e)
+        result |= dispatcher.dispatch<events::MouseButtonReleasedEvent>([](const events::MouseButtonEvent& e)
         {
             try
             {

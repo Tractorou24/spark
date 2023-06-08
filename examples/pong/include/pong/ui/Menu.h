@@ -39,11 +39,11 @@ namespace pong::ui
         {
             GameObject::onSpawn();
 
-            m_playButtonSlotId = m_playButton->onClicked.connect([this]
+            m_playButtonSlotId = m_playButton->onClicked.connect([]
             {
                 spark::core::SceneManager::LoadScene("Game");
             });
-            m_quitButtonSlotId = m_quitButton->onClicked.connect([this]
+            m_quitButtonSlotId = m_quitButton->onClicked.connect([]
             {
                 spark::core::Application::Instance()->close();
             });
