@@ -4,8 +4,7 @@
 #include "spark/base/Macros.h"
 #include "spark/base/details/Exception.h"
 
-#include "fmt/core.h"
-
+#include <format>
 #include <stdexcept>
 
 /**
@@ -50,7 +49,7 @@ namespace spark::base
     protected:
         static std::string FormatMessage(const char* file_name, const int line_number, const char* additional_message, const char* class_name)
         {
-            return fmt::format("Exception of type {0} has been thrown.\nError happen in {1} at line number {2}.\nException contains the message:\n{3}",
+            return std::format("Exception of type {0} has been thrown.\nError happen in {1} at line number {2}.\nException contains the message:\n{3}",
                                class_name, file_name, line_number, additional_message);
         }
     };

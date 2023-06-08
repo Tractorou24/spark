@@ -83,7 +83,8 @@ jobs:
       - name: Install apt packages
         run: |
           sudo apt update
-          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev
+          sudo apt seatch clang-16
+          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev gcc-13
 
         # Install Clang 16
       - name: Install LLVM and Clang

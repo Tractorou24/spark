@@ -1,5 +1,3 @@
-find_package(fmt CONFIG REQUIRED)
-
 set (TARGET_NAME ${SPARK_NAME}_base)
 set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set (SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -21,6 +19,4 @@ spark_add_library(${TARGET_NAME}
 target_link_libraries(${TARGET_NAME}
     PUBLIC
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_log
-    PRIVATE
-        fmt::fmt-header-only
 )
