@@ -5,7 +5,6 @@ set (SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 spark_add_library(${TARGET_NAME}
     CXX_SOURCES
         ${SOURCE_DIR}/Event.cpp
-        ${SOURCE_DIR}/EventDispatcher.cpp
         ${SOURCE_DIR}/KeyEvents.cpp
         ${SOURCE_DIR}/MouseEvents.cpp
         ${SOURCE_DIR}/WindowEvents.cpp
