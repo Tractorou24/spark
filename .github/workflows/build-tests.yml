@@ -12,6 +12,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+        # Install Clang 16
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: "16.0"
+
+        # Add Clang to PATH
+      - name: Add Clang to PATH
+        run: |
+          echo ${{ env.LLVM_PATH }} | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
         # Install latest verison of CMake
       - name: Install CMake
         uses: lukka/get-cmake@latest
@@ -26,8 +37,8 @@ jobs:
       - name: Build & Test in Debug
         uses: lukka/run-cmake@v10
         with:
-          configurePreset: 'dev_vc143_ninja'
-          buildPreset: 'dev_vc143_ninja_debug'
+          configurePreset: 'dev_clang_ninja'
+          buildPreset: 'dev_clang_ninja_debug'
   
 #################################################################
 ################## Windows Release (x64) build ##################
@@ -72,9 +83,19 @@ jobs:
       - name: Install apt packages
         run: |
           sudo apt update
-          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev g++-13
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 50
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 50
+          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev
+
+        # Install Clang 16
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: "16.0"
+
+        # Add Clang to PATH
+      - name: Add clang-16 aliases
+        run: |
+          sudo update-alternatives --install /usr/bin/clang clang ${{ env.LLVM_PATH }}/bin/clang 50
+          sudo update-alternatives --install /usr/bin/clang++ clang++ ${{ env.LLVM_PATH }}/bin/clang++ 50
 
         # Setup VCPKG repo and register it
       - name: Setup VCPKG
@@ -86,8 +107,8 @@ jobs:
       - name: Build & Test in Debug
         uses: lukka/run-cmake@v10
         with:
-          configurePreset: 'dev_gcc_ninja'
-          buildPreset: 'dev_gcc_ninja_debug'
+          configurePreset: 'dev_clang_ninja'
+          buildPreset: 'dev_clang_ninja_debug'
 
 ###############################################################
 ################## Linux Release (x64) build ##################
