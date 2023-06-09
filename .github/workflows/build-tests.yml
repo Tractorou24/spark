@@ -116,27 +116,23 @@ jobs:
 ###############################################################
   linux-release:
     runs-on: ubuntu-latest
+    container:
+      image: tracto/spark-linux-gcc13:latest
+      credentials:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-        # Install latest verison of CMake
-      - name: Install CMake
-        uses: lukka/get-cmake@latest
-
-        # Install packages required by vcpkg for building dependencies
-      - name: Install apt packages
-        run: |
-          sudo apt update
-          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev g++-13
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 50
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 50
-
-        # Setup VCPKG repo and register it
-      - name: Setup VCPKG
-        uses: lukka/run-vcpkg@v11
+      # Update / Restore Vcpkg binary cache
+      - name: Restore Vcpkg cache
+        id: cache-vcpkg
+        uses: actions/cache@v3
         with:
-          vcpkgGitCommitId: '${{ vars.VCPKG_COMMIT_ID }}'
+          path: /vcpkg_cache
+          key: linux-gcc-vcpkg
 
         # Build and test in Release
       - name: Build & Test in Release
