@@ -1,0 +1,101 @@
+FROM ubuntu:mantic
+
+RUN export DEBIAN_FRONTEND=noninteractive;                              \
+    export DEBCONF_NONINTERACTIVE_SEEN=true;                            \
+    echo 'tzdata tzdata/Areas select Etc' | debconf-set-selections;     \
+    echo 'tzdata tzdata/Zones/Etc select UTC' | debconf-set-selections; \
+    apt-get update &&                                                   \
+    apt-get install -qy                                                 \
+    bash                                                                \
+    ninja-build                                                         \
+    git                                                                 \
+    curl                                                                \
+    zip                                                                 \
+    unzip                                                               \
+    wget                                                                \
+    pkg-config                                                          \
+    python3                                                             \
+    python3-pip                                                         \
+    python-is-python3                                                   \
+    software-properties-common                                          \
+    clang-16                                                            \
+    libstdc++-13-dev                                                    \
+    lld-16                                                              \
+    # Install packages required by dependencies
+    autoconf                                                            \
+    libtool                                                             \
+    xorg-dev                                                            \
+    freeglut3-dev                                                       \
+    libx11-dev                                                          \
+    libudev-dev                                                         \
+    libgl1-mesa-dev                                                     \
+    libdbus-1-3                                                         \
+    libgl-dev                                                           \
+    libx11-xcb-dev                                                      \
+    libfontenc-dev                                                      \
+    libice-dev                                                          \
+    libsm-dev                                                           \
+    libxau-dev                                                          \
+    libxaw7-dev                                                         \
+    libxcomposite-dev                                                   \
+    libxcursor-dev                                                      \
+    libxdamage-dev                                                      \
+    libxdmcp-dev                                                        \
+    libxext-dev                                                         \
+    libxfixes-dev                                                       \
+    libxft-dev                                                          \
+    libxi-dev                                                           \
+    libxinerama-dev                                                     \
+    libxkbfile-dev                                                      \
+    libxmu-dev                                                          \
+    libxmuu-dev                                                         \
+    libxpm-dev                                                          \
+    libxrandr-dev                                                       \
+    libxrender-dev                                                      \
+    libxres-dev                                                         \
+    libxss-dev                                                          \
+    libxt-dev                                                           \
+    libxtst-dev                                                         \
+    libxv-dev                                                           \
+    libxvmc-dev                                                         \
+    libxxf86vm-dev                                                      \
+    xtrans-dev                                                          \
+    libxcb-render0-dev                                                  \
+    libxcb-render-util0-dev                                             \
+    libxcb-xkb-dev                                                      \
+    libxcb-icccm4-dev                                                   \
+    libxcb-image0-dev                                                   \
+    libxcb-keysyms1-dev                                                 \
+    libxcb-randr0-dev                                                   \
+    libxcb-shape0-dev                                                   \
+    libxcb-sync-dev                                                     \
+    libxcb-xfixes0-dev                                                  \
+    libxcb-xinerama0-dev                                                \
+    xkb-data                                                            \
+    libxcb-dri3-dev                                                     \
+    uuid-dev                                                            \
+    libxcb-util-dev                                                     \
+    xvfb &&                                                             \
+    # Clean cache to keep some space.
+    apt-get clean &&                                                    \
+    rm -rf /var/lib/apt/lists/*
+
+# Setup alternatives
+RUN update-alternatives --install /usr/bin/lld lld /usr/bin/lld-16 10 &&            \
+    update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-16 10 &&   \
+    update-alternatives --install /usr/bin/clang clang /usr/bin/clang-16 10 &&      \
+    update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-16 10
+
+# Install CMake
+RUN pip3 install --no-cache --break-system-packages cmake
+
+# Install Vcpkg
+RUN git clone https://github.com/microsoft/vcpkg.git --branch 2023.04.15 --depth 1
+RUN cd vcpkg && ./bootstrap-vcpkg.sh && ./vcpkg integrate install && cd ..
+
+# Setup Vcpkg
+ENV PATH="${PATH}:/vcpkg"
+ENV VCPKG_DEFAULT_BINARY_CACHE="/vcpkg_cache"
+RUN mkdir $VCPKG_DEFAULT_BINARY_CACHE
+
+CMD ["/bin/bash"]

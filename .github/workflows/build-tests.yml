@@ -71,38 +71,23 @@ jobs:
 #############################################################
   linux-debug:
     runs-on: ubuntu-latest
+    container:
+      image: tracto/spark-linux-clang16:latest
+      credentials:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-        # Install latest verison of CMake
-      - name: Install CMake
-        uses: lukka/get-cmake@latest
-
-        # Install packages required by vcpkg for building dependencies
-      - name: Install apt packages
-        run: |
-          sudo apt update
-          sudo apt seatch clang-16
-          sudo apt-get install -y libx11-dev libxrandr-dev libxi-dev libudev-dev libgl1-mesa-dev gcc-13
-
-        # Install Clang 16
-      - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v1
+      # Update / Restore Vcpkg binary cache
+      - name: Restore Vcpkg cache
+        id: cache-vcpkg
+        uses: actions/cache@v3
         with:
-          version: "16.0"
-
-        # Add Clang to PATH
-      - name: Add clang-16 aliases
-        run: |
-          sudo update-alternatives --install /usr/bin/clang clang ${{ env.LLVM_PATH }}/bin/clang 50
-          sudo update-alternatives --install /usr/bin/clang++ clang++ ${{ env.LLVM_PATH }}/bin/clang++ 50
-
-        # Setup VCPKG repo and register it
-      - name: Setup VCPKG
-        uses: lukka/run-vcpkg@v11
-        with:
-          vcpkgGitCommitId: '${{ vars.VCPKG_COMMIT_ID }}'
+          path: /vcpkg_cache
+          key: linux-clang-vcpkg
 
         # Build and test in Debug
       - name: Build & Test in Debug
