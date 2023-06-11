@@ -8,6 +8,8 @@ jobs:
 ###############################################################
   windows-debug:
     runs-on: windows-latest
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: C:\vcpkg_cache
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -18,53 +20,56 @@ jobs:
         with:
           version: "16.0"
 
-        # Add Clang to PATH
-      - name: Add Clang to PATH
+        # Setup machine Env (variables/folders...)
+      - name: Setup Environment
         run: |
           echo ${{ env.LLVM_PATH }} | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          if (Test-Path -Path $env:VCPKG_DEFAULT_BINARY_CACHE) { Remove-Item -Force $env:VCPKG_DEFAULT_BINARY_CACHE } New-Item -ItemType "directory" $env:VCPKG_DEFAULT_BINARY_CACHE
 
-        # Install latest verison of CMake
-      - name: Install CMake
-        uses: lukka/get-cmake@latest
-
-        # Setup VCPKG repo and register it
-      - name: Setup VCPKG
-        uses: lukka/run-vcpkg@v11
+        # Update / Restore Vcpkg binary cache
+      - name: Restore Vcpkg cache
+        id: cache-vcpkg
+        uses: actions/cache@v3
         with:
-          vcpkgGitCommitId: '${{ vars.VCPKG_COMMIT_ID }}'
+          path: C:\vcpkg_cache
+          key: windows-clang-vcpkg
 
         # Build and test in Debug
       - name: Build & Test in Debug
-        uses: lukka/run-cmake@v10
-        with:
-          configurePreset: 'dev_clang_ninja'
-          buildPreset: 'dev_clang_ninja_debug'
+        run: |
+          cmake --preset dev_clang_ninja
+          cmake --build --preset dev_clang_ninja_debug
   
 #################################################################
 ################## Windows Release (x64) build ##################
 #################################################################
   windows-release:
     runs-on: windows-latest
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: C:\vcpkg_cache
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-        # Install latest verison of CMake
-      - name: Install CMake
-        uses: lukka/get-cmake@latest
+        # Setup machine Env (variables/folders...)
+      - name: Setup Environment
+        run: |
+          if (Test-Path -Path $env:VCPKG_DEFAULT_BINARY_CACHE) { Remove-Item -Force $env:VCPKG_DEFAULT_BINARY_CACHE } New-Item -ItemType "directory" $env:VCPKG_DEFAULT_BINARY_CACHE
 
-        # Setup VCPKG repo and register it
-      - name: Setup VCPKG
-        uses: lukka/run-vcpkg@v11
+        # Update / Restore Vcpkg binary cache
+      - name: Restore Vcpkg cache
+        id: cache-vcpkg
+        uses: actions/cache@v3
         with:
-          vcpkgGitCommitId: '${{ vars.VCPKG_COMMIT_ID }}'
+          path: C:\vcpkg_cache
+          key: windows-msvc-vcpkg
 
         # Build and test in Release
+      - uses: ilammy/msvc-dev-cmd@v1
       - name: Build & Test in Release
-        uses: lukka/run-cmake@v10
-        with:
-          configurePreset: 'dev_vc143_ninja'
-          buildPreset: 'dev_vc143_ninja_release'
+        run: |
+          cmake --preset dev_vc143_ninja
+          cmake --build --preset dev_vc143_ninja_release
   
 #############################################################
 ################## Linux Debug (x64) build ##################
