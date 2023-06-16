@@ -15,7 +15,7 @@ namespace spark::patterns
         m_creators[key] = std::make_unique<details::DerivedCreator<BaseType, TypeToRegister, Args...>>();
     }
 
-    template <typename Key, typename BaseType, typename ... Args>
+    template <typename Key, typename BaseType, typename... Args>
     typename Factory<Key, BaseType, Args...>::BasePtr Factory<Key, BaseType, Args...>::create(const Key& key, const Args&... args) const
     {
         if (!m_creators.contains(key))

@@ -8,14 +8,13 @@
 
 namespace spark::engine::components
 {
-    class Text final : public spark::engine::Component
+    class Text final : public Component
     {
         DECLARE_SPARK_RTTI(Text, Component)
 
     public:
-        explicit Text(GameObject* parent, std::string content, const spark::math::Vector2<float> offset, std::filesystem::path font_path = "")
-            : Component(parent), m_content(std::move(content)), m_offset(offset), m_fontPath(std::move(font_path))
-        {}
+        explicit Text(GameObject* parent, std::string content, const math::Vector2<float> offset, std::filesystem::path font_path = "")
+            : Component(parent), m_content(std::move(content)), m_offset(offset), m_fontPath(std::move(font_path)) {}
 
         void render() const override
         {
@@ -24,7 +23,7 @@ namespace spark::engine::components
 
     private:
         std::string m_content;
-        spark::math::Vector2<float> m_offset;
+        math::Vector2<float> m_offset;
         std::filesystem::path m_fontPath;
     };
 }

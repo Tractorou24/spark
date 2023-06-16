@@ -11,7 +11,7 @@ namespace spark::engine::components
     /**
      * \brief A component that stores the position of a game object.
      */
-    class SPARK_ENGINE_EXPORT Transform final : public engine::Component
+    class SPARK_ENGINE_EXPORT Transform final : public Component
     {
         DECLARE_SPARK_RTTI(Transform, Component)
 
@@ -19,7 +19,7 @@ namespace spark::engine::components
         math::Vector2<float> position = {};
 
     public:
-        static math::Vector2<float> LocalToWorld(const engine::components::Transform* object)
+        static math::Vector2<float> LocalToWorld(const Transform* object)
         {
             math::Vector2<float> position = {};
             object->getGameObject()->traverseUp([&position](const GameObject* parent)
@@ -30,7 +30,7 @@ namespace spark::engine::components
         }
 
     public:
-        explicit Transform(engine::GameObject* parent)
+        explicit Transform(GameObject* parent)
             : Component(parent) {}
 
         friend bool operator==(const Transform& lhs, const Transform& rhs) { return lhs.position == rhs.position; }

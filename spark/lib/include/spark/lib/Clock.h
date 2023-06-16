@@ -8,13 +8,13 @@
 
 namespace spark::lib
 {
-    #ifdef SPARK_OS_WINDOWS
+#ifdef SPARK_OS_WINDOWS
     template <typename T>
     concept IsDuration = std::chrono::_Is_duration_v<std::remove_cvref_t<T>>;
-    #else
+#else
     template <typename T>
     concept IsDuration = std::chrono::__is_duration<std::remove_cvref_t<T>>::value;
-    #endif
+#endif
 
     /**
      * \brief A class that can be used to measure time like a stopwatch

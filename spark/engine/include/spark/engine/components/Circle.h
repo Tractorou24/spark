@@ -11,7 +11,7 @@ namespace spark::engine::components
     /**
      * \brief A simple component to render a circle.
      */
-    class Circle final : public engine::Component
+    class Circle final : public Component
     {
         DECLARE_SPARK_RTTI(Circle, Component)
 
@@ -19,14 +19,14 @@ namespace spark::engine::components
         float radius;
 
     public:
-        explicit Circle(engine::GameObject* parent, const float radius)
+        explicit Circle(GameObject* parent, const float radius)
             : Component(parent), radius(radius) {}
 
         void render() const override
         {
             Component::render();
 
-            const auto position = engine::components::Transform::LocalToWorld(getGameObject()->getTransform());
+            const auto position = Transform::LocalToWorld(getGameObject()->getTransform());
             core::Renderer2D::DrawCircle(position, {255, 255, 255}, radius);
         }
     };

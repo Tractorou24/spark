@@ -23,7 +23,7 @@ namespace pong
         DECLARE_SPARK_RTTI(GameManager, GameObject)
 
     public:
-        explicit GameManager(std::string name, spark::engine::GameObject* parent)
+        explicit GameManager(std::string name, GameObject* parent)
             : GameObject(std::move(name), parent), m_hitSound(spark::path::assets_path() / "hit.ogg"), m_looseSound(spark::path::assets_path() / "loose.ogg"),
               m_menuSound(spark::path::assets_path() / "menu.ogg") { }
 
@@ -31,9 +31,9 @@ namespace pong
         {
             GameObject::onSpawn();
 
-            m_leftPaddle = spark::engine::GameObject::FindByName(&getRoot(), "Left Paddle");
-            m_rightPaddle = spark::engine::GameObject::FindByName(&getRoot(), "Right Paddle");
-            m_ball = dynamic_cast<pong::Ball*>(spark::engine::GameObject::FindByName(&getRoot(), "Ball"));
+            m_leftPaddle = FindByName(&getRoot(), "Left Paddle");
+            m_rightPaddle = FindByName(&getRoot(), "Right Paddle");
+            m_ball = dynamic_cast<Ball*>(FindByName(&getRoot(), "Ball"));
 
             SPARK_ASSERT(m_leftPaddle != nullptr)
             SPARK_ASSERT(m_rightPaddle != nullptr)
@@ -111,7 +111,7 @@ namespace pong
             m_ball->getTransform()->position = {window_size.x / 2 - 25, window_size.y / 2 - 25};
             m_ball->velocity = 250.0f;
 
-            std::ranges::for_each(spark::engine::GameObject::FindByName(&getRoot(), "Background")->getComponentsInChildren<ui::Score>(), [](ui::Score* score) { score->reset(); });
+            std::ranges::for_each(FindByName(&getRoot(), "Background")->getComponentsInChildren<ui::Score>(), [](ui::Score* score) { score->reset(); });
         }
 
     private:
@@ -139,7 +139,7 @@ namespace pong
          */
         [[nodiscard]] float getScore()
         {
-            const auto scores = spark::engine::GameObject::FindByName(&getRoot(), "Background")->getComponentsInChildren<ui::Score>();
+            const auto scores = FindByName(&getRoot(), "Background")->getComponentsInChildren<ui::Score>();
             return std::accumulate(scores.begin(),
                                    scores.end(),
                                    0.0f,
@@ -152,9 +152,9 @@ namespace pong
     private:
         std::size_t m_looseSlotKey = 0;
         float m_lastScore = 0;
-        spark::engine::GameObject *m_leftPaddle = nullptr, *m_rightPaddle = nullptr;
+        GameObject *m_leftPaddle = nullptr, *m_rightPaddle = nullptr;
         spark::audio::Sound m_hitSound, m_looseSound, m_menuSound;
-        pong::Ball* m_ball = nullptr;
+        Ball* m_ball = nullptr;
     };
 }
 

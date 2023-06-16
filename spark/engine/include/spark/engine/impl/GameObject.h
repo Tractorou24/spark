@@ -5,7 +5,7 @@
 namespace spark::engine
 {
     template <typename T, typename... Args> requires std::is_base_of_v<GameObject, T>
-    T* GameObject::Instantiate(std::string name, engine::GameObject* parent, const Args&... args)
+    T* GameObject::Instantiate(std::string name, GameObject* parent, const Args&... args)
     {
         T* object = new T(std::move(name), parent, args...);
         if (parent)

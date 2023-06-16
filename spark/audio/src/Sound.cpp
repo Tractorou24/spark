@@ -6,7 +6,7 @@
 
 namespace spark::audio
 {
-    const std::vector<std::string_view> Sound::supportedExtensions = { ".wav", ".ogg" };
+    const std::vector<std::string_view> Sound::supportedExtensions = {".wav", ".ogg"};
 
     Sound::Sound(const std::filesystem::path& file)
     {

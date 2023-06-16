@@ -41,7 +41,8 @@ namespace spark::rtti
         [[nodiscard]] virtual bool isSubTypeOf(const RttiBase* potential_parent_type) = 0;
 
     private:
-        SPARK_SUPPRESS_MSVC_WARNING(4251) // warning C4251: 'spark::rtti::RttiBase::m_className': class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'spark::rtti::RttiBase'
+        // warning C4251: 'spark::rtti::RttiBase::m_className': class 'std::basic_string<_Elem,_Traits,_Ax>' needs to have dll-interface to be used by clients of class 'spark::rtti::RttiBase'
+        SPARK_SUPPRESS_MSVC_WARNING(4251)
         std::string m_className;
     };
 }

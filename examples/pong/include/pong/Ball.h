@@ -27,7 +27,7 @@ namespace pong
         spark::patterns::Signal<> onLoose;
 
     public:
-        explicit Ball(std::string name, spark::engine::GameObject* parent, const float radius)
+        explicit Ball(std::string name, GameObject* parent, const float radius)
             : GameObject(std::move(name), parent)
         {
             addComponent<spark::engine::components::Circle>(radius);
@@ -38,10 +38,10 @@ namespace pong
             GameObject::onSpawn();
 
             // Find the paddles.
-            m_leftPaddle = spark::engine::GameObject::FindByName(&getRoot(), "Left Paddle");
+            m_leftPaddle = FindByName(&getRoot(), "Left Paddle");
             SPARK_ASSERT(m_leftPaddle != nullptr)
 
-            m_rightPaddle = spark::engine::GameObject::FindByName(&getRoot(), "Right Paddle");
+            m_rightPaddle = FindByName(&getRoot(), "Right Paddle");
             SPARK_ASSERT(m_rightPaddle != nullptr)
 
             // Set the paddle size (used to calculate the bounce).
@@ -59,7 +59,7 @@ namespace pong
 
         void onUpdate(const float dt) override
         {
-            spark::engine::GameObject::onUpdate(dt);
+            GameObject::onUpdate(dt);
 
             const auto [next_position, next_direction] = calculateNextFrame(getTransform()->position + direction * velocity * dt);
             if (checkLoose(next_position))
@@ -102,7 +102,7 @@ namespace pong
             if (next_position.x < m_leftPaddle->getTransform()->position.x + m_paddleSize.x &&
                 next_position.y > m_leftPaddle->getTransform()->position.y - radius && next_position.y < m_leftPaddle->getTransform()->position.y + m_paddleSize.y)
             {
-                spark::engine::GameObject::FindByName(&getRoot(), "Left Score")->getComponent<ui::Score>()->incrementScore.emit(1);
+                FindByName(&getRoot(), "Left Score")->getComponent<ui::Score>()->incrementScore.emit(1);
                 return {{adjusted_position.x + radius, adjusted_position.y}, {-direction.x, direction.y}};
             }
 
@@ -110,7 +110,7 @@ namespace pong
             if (next_position.x > m_rightPaddle->getTransform()->position.x - radius * 2 &&
                 next_position.y > m_rightPaddle->getTransform()->position.y - radius && next_position.y < m_rightPaddle->getTransform()->position.y + m_paddleSize.y)
             {
-                spark::engine::GameObject::FindByName(&getRoot(), "Right Score")->getComponent<ui::Score>()->incrementScore.emit(1);
+                FindByName(&getRoot(), "Right Score")->getComponent<ui::Score>()->incrementScore.emit(1);
                 return {{adjusted_position.x - radius, adjusted_position.y}, {-direction.x, direction.y}};
             }
 

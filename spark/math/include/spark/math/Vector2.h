@@ -55,7 +55,7 @@ namespace spark::math
         [[nodiscard]] constexpr T distance(const Vector2& other) const noexcept;
         [[nodiscard]] constexpr T angle(const Vector2& other) const noexcept;
 
-        template<typename To>
+        template <typename To>
         [[nodiscard]] constexpr Vector2<To> castTo() const noexcept;
 
     public:

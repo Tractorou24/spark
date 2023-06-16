@@ -16,7 +16,7 @@ namespace pong
         DECLARE_SPARK_RTTI(Paddle, GameObject)
 
     public:
-        explicit Paddle(std::string name, spark::engine::GameObject* parent)
+        explicit Paddle(std::string name, GameObject* parent)
             : GameObject(std::move(name), parent)
         {
             addComponent<spark::engine::components::Rectangle>();

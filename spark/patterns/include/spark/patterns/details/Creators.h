@@ -30,7 +30,7 @@ namespace spark::patterns::details
     class DerivedCreator final : public BaseCreator<BaseType, Args...>
     {
     public:
-        typename details::BaseCreator<BaseType, Args...>::BasePtr create(const Args&... args) const override
+        typename BaseCreator<BaseType, Args...>::BasePtr create(const Args&... args) const override
         {
             return std::make_unique<DerivedType>(args...);
         }

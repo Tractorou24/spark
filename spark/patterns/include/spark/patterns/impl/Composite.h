@@ -110,8 +110,7 @@ namespace spark::patterns
     template <typename DerivedType>
     void Composite<DerivedType>::add(DerivedType* child)
     {
-        // TODO: Use std::ranges::find when GCC STL supports it
-        auto it = std::find(m_children.begin(), m_children.end(), child);
+        auto it = std::ranges::find(m_children, child);
         if (it != m_children.end())
             SPARK_BASE_THROW_EXCEPTION(spark::base::BadArgumentException, "Child already exists in the children list!");
         m_children.push_back(child);
@@ -120,8 +119,7 @@ namespace spark::patterns
     template <typename DerivedType>
     void Composite<DerivedType>::remove(DerivedType* child)
     {
-        // TODO: Use std::ranges::find when GCC STL supports it
-        const auto it = std::find(m_children.begin(), m_children.end(), child);
+        const auto it = std::ranges::find(m_children, child);
         if (it == m_children.end())
             SPARK_BASE_THROW_EXCEPTION(spark::base::BadArgumentException, "Child could not be found in the children list!");
         m_children.erase(it);

@@ -16,8 +16,8 @@ namespace spark::patterns::details
     template <typename... Args>
     class Connection final
     {
-        friend class ::spark::patterns::Slot<Args...>;
-        friend class ::spark::patterns::Signal<Args...>;
+        friend class Slot<Args...>;
+        friend class Signal<Args...>;
 
     public:
         explicit Connection(Signal<Args...>* signal, Slot<Args...>* slot, const std::size_t slot_key, const bool managed)

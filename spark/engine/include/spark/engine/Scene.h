@@ -14,7 +14,7 @@ namespace spark::engine
         DECLARE_SPARK_RTTI(Scene)
 
     public:
-        explicit Scene(engine::GameObject* scene_root);
+        explicit Scene(GameObject* scene_root);
         ~Scene() override;
 
         Scene(const Scene& other) = delete;
@@ -32,7 +32,7 @@ namespace spark::engine
          * \brief Gets the root GameObject of the Scene.
          * \return A reference to the root GameObject.
          */
-        [[nodiscard]] engine::GameObject* getRoot();
+        [[nodiscard]] GameObject* getRoot();
 
         /**
          * \brief Method called when the Scene is loaded.
@@ -51,7 +51,7 @@ namespace spark::engine
 
     private:
         lib::Uuid m_uuid;
-        engine::GameObject* m_root;
+        GameObject* m_root;
         bool m_isLoaded = false;
     };
 }

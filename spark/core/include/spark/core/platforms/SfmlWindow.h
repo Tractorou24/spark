@@ -11,12 +11,12 @@ namespace spark::core
     /**
      * \brief A class representing a window created and managed by SFML.
      */
-    class SPARK_CORE_EXPORT SfmlWindow final : public core::Window
+    class SPARK_CORE_EXPORT SfmlWindow final : public Window
     {
-        friend class core::Renderer2D;
+        friend class Renderer2D;
 
     public:
-        explicit SfmlWindow(const core::WindowSpecification& settings);
+        explicit SfmlWindow(const WindowSpecification& settings);
         ~SfmlWindow() override = default;
 
         void close() override;
@@ -30,7 +30,6 @@ namespace spark::core
 
         [[nodiscard]] void* getNativeWindow() const override;
         void setEventCallback(const std::function<void(events::Event&)>& callback) override;
-        
 
     private:
         std::unique_ptr<sf::RenderWindow> m_window;

@@ -16,7 +16,7 @@ namespace spark::core
         return std::make_unique<SfmlWindow>(settings);
     }
 
-    SfmlWindow::SfmlWindow(const core::WindowSpecification& settings)
+    SfmlWindow::SfmlWindow(const WindowSpecification& settings)
         : m_data {settings.title, settings.width, settings.height, nullptr}
     {
         SPARK_CORE_INFO(R"(Creating window "{}" ({}px * {}px))", m_data.title, m_data.width, m_data.height);
@@ -58,7 +58,7 @@ namespace spark::core
                 }
             case sf::Event::KeyPressed:
                 {
-                    events::KeyPressedEvent key_pressed_event(static_cast<spark::base::KeyCode>(event.key.code));
+                    events::KeyPressedEvent key_pressed_event(static_cast<base::KeyCode>(event.key.code));
                     m_data.eventCallback(key_pressed_event);
                     break;
                 }
@@ -104,7 +104,7 @@ namespace spark::core
     void SfmlWindow::onRender()
     {
         m_window->clear();
-        spark::core::Render2D<engine::Scene>::exec(core::Application::Instance()->getScene());
+        Render2D<engine::Scene>::exec(Application::Instance()->getScene());
         m_window->display();
     }
 

@@ -18,7 +18,7 @@ namespace pong::ui
         DECLARE_SPARK_RTTI(Button, GameObject)
 
     public:
-        explicit Button(std::string name, spark::engine::GameObject* parent, const std::string& text, const spark::math::Vector2<float> size)
+        explicit Button(std::string name, GameObject* parent, const std::string& text, const spark::math::Vector2<float> size)
             : GameObject(std::move(name), parent), m_size(size)
         {
             spark::core::Input::mousePressedEvents[spark::base::MouseCodes::Left].connect([this]

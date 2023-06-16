@@ -5,7 +5,7 @@
 
 namespace spark::engine
 {
-    void GameObject::Destroy(engine::GameObject* object)
+    void GameObject::Destroy(GameObject* object)
     {
         object->traverse([&object](GameObject* obj)
         {
@@ -13,7 +13,7 @@ namespace spark::engine
             if (obj == object)
                 return;
 
-            GameObject::Destroy(obj);
+            Destroy(obj);
         });
         object->onDestroyed();
         object->getParent()->remove(object);
@@ -51,7 +51,7 @@ namespace spark::engine
     }
 
     GameObject::GameObject(std::string name, GameObject* parent)
-        : patterns::Composite<GameObject>(parent), m_name(std::move(name))
+        : Composite<GameObject>(parent), m_name(std::move(name))
     {
         addComponent<components::Transform>();
     }
@@ -86,7 +86,7 @@ namespace spark::engine
         return m_name;
     }
 
-    engine::components::Transform* GameObject::getTransform() const
+    components::Transform* GameObject::getTransform() const
     {
         return getComponent<components::Transform>();
     }
