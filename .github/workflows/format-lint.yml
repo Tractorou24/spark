@@ -1,0 +1,41 @@
+name: CI FORMAT & LINT - Code
+
+on: [push]
+
+jobs:
+###############################################################
+######################## Code Formatting ######################
+###############################################################
+  format:
+    runs-on: windows-latest
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: C:\vcpkg_cache
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+        # Setup machine Env (variables/folders...)
+      - name: Setup Environment
+        run: |
+          if (Test-Path -Path $env:VCPKG_DEFAULT_BINARY_CACHE) { Remove-Item -Force $env:VCPKG_DEFAULT_BINARY_CACHE } New-Item -ItemType "directory" $env:VCPKG_DEFAULT_BINARY_CACHE
+
+        # Update / Restore Vcpkg binary cache for generate
+      - name: Restore Vcpkg cache
+        id: cache-vcpkg
+        uses: actions/cache@v3
+        with:
+          path: C:\vcpkg_cache
+          key: windows-vc143-vcpkg
+
+        # Generate project
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Generate project
+        run: |
+          cmake --preset dev_vc143
+        
+      - name: Cleanup Code
+        uses: ArturWincenciak/ReSharper_CleanupCode@v2.0
+        with:
+          solution: "out/build-spark-vs22/SPARK.sln"
+          fail_on_reformat_needed: "yes"
+          jb_cleanup_code_arg: "--settings=Folder.DotSettings --profile=\"Built-in: Full Cleanup\""
