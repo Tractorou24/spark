@@ -15,9 +15,7 @@ namespace spark::engine::components
 
     public:
         explicit Image(GameObject* parent, std::filesystem::path path)
-            : Component(parent), m_path(std::move(path))
-        {
-        }
+            : Component(parent), m_path(std::move(path)) { }
 
         void render() const override
         {

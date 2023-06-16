@@ -16,7 +16,7 @@ namespace spark::patterns
 
     template <typename... Args>
     template <class T>
-    Slot<Args...>::Slot(T* target, void (T::* method)(Args...))
+    Slot<Args...>::Slot(T* target, void (T::*method)(Args...))
     {
         m_callback = [target, method](Args... args)
         {
@@ -26,7 +26,7 @@ namespace spark::patterns
 
     template <typename... Args>
     template <class T>
-    Slot<Args...>::Slot(T* target, void (T::* method)(Args...) const)
+    Slot<Args...>::Slot(T* target, void (T::*method)(Args...) const)
     {
         m_callback = [target, method](Args... args)
         {

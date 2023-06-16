@@ -1,5 +1,5 @@
-#include "spark/core/Application.h"
 #include "spark/core/Input.h"
+#include "spark/core/Application.h"
 
 #include "boost/preprocessor/seq/for_each.hpp"
 #include "SFML/Window/Keyboard.hpp"
@@ -31,7 +31,7 @@ namespace spark::core
             return map;
         }
     }
-    
+
     std::unordered_map<base::KeyCode, patterns::Signal<>> Input::keyPressedEvents = globals::generate_key_map();
     std::unordered_map<base::KeyCode, patterns::Signal<>> Input::keyReleasedEvents = globals::generate_key_map();
     std::unordered_map<base::MouseCode, patterns::Signal<>> Input::mousePressedEvents = globals::generate_mouse_map();
@@ -50,10 +50,10 @@ namespace spark::core
         return sf::Mouse::isButtonPressed(sfml_button);
     }
 
-    spark::math::Vector2<float> Input::GetMousePosition()
+    math::Vector2<float> Input::GetMousePosition()
     {
-        const auto position = sf::Mouse::getPosition(*static_cast<sf::Window*>(spark::core::Application::Instance()->getWindow().getNativeWindow()));
-        return { static_cast<float>(position.x), static_cast<float>(position.y) };
+        const auto position = sf::Mouse::getPosition(*static_cast<sf::Window*>(Application::Instance()->getWindow().getNativeWindow()));
+        return {static_cast<float>(position.x), static_cast<float>(position.y)};
     }
 }
 

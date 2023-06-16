@@ -35,7 +35,7 @@ namespace spark::patterns
     };
 }
 
-template<typename T, typename Context>
+template <typename T, typename Context>
 T* spark::patterns::Singleton<T, Context>::s_instance = nullptr;
 
 #include "spark/patterns/impl/Singleton.h"

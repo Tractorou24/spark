@@ -26,7 +26,7 @@ namespace spark::core
         window_settings.title = m_specification.name;
 
         m_window = Window::Create(window_settings);
-        m_window->setEventCallback([this](spark::events::Event& e) { onEvent(e); });
+        m_window->setEventCallback([this](events::Event& e) { onEvent(e); });
 
         SPARK_CORE_ASSERT(!s_instance);
         s_instance = this;
@@ -59,7 +59,7 @@ namespace spark::core
         SPARK_CORE_INFO("Closing application");
     }
 
-    core::ApplicationSpecification Application::getSettings() const
+    ApplicationSpecification Application::getSettings() const
     {
         return m_specification;
     }
@@ -96,14 +96,14 @@ namespace spark::core
         });
         result |= dispatcher.dispatch<events::MouseMovedEvent>([](events::MouseMovedEvent&)
         {
-            core::Input::mouseMovedEvent.emit();
+            Input::mouseMovedEvent.emit();
             return true;
         });
         result |= dispatcher.dispatch<events::KeyPressedEvent>([](const events::KeyPressedEvent& e)
         {
             try
             {
-                core::Input::keyPressedEvents.at(e.getKeyCode()).emit();
+                Input::keyPressedEvents.at(e.getKeyCode()).emit();
                 return true;
             } catch (const std::out_of_range&)
             {
@@ -115,7 +115,7 @@ namespace spark::core
         {
             try
             {
-                core::Input::keyReleasedEvents.at(e.getKeyCode()).emit();
+                Input::keyReleasedEvents.at(e.getKeyCode()).emit();
                 return true;
             } catch (const std::out_of_range&)
             {
@@ -127,7 +127,7 @@ namespace spark::core
         {
             try
             {
-                core::Input::mousePressedEvents.at(e.getMouseButton()).emit();
+                Input::mousePressedEvents.at(e.getMouseButton()).emit();
                 return true;
             } catch (const std::out_of_range&)
             {
@@ -139,7 +139,7 @@ namespace spark::core
         {
             try
             {
-                core::Input::mouseReleasedEvents.at(e.getMouseButton()).emit();
+                Input::mouseReleasedEvents.at(e.getMouseButton()).emit();
                 return true;
             } catch (const std::out_of_range&)
             {

@@ -15,7 +15,7 @@ namespace spark::rtti
     class Rtti final : public RttiBase
     {
     public:
-        using ParentTypes = spark::mpl::typelist<BaseTypes...>;
+        using ParentTypes = mpl::typelist<BaseTypes...>;
 
     public:
         explicit Rtti();

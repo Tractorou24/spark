@@ -11,7 +11,7 @@ namespace spark::engine::components
     /**
      * \brief A simple component to render a square/rectangle.
      */
-    class Rectangle final : public engine::Component
+    class Rectangle final : public Component
     {
         DECLARE_SPARK_RTTI(Rectangle, Component)
 
@@ -19,14 +19,14 @@ namespace spark::engine::components
         math::Vector2<float> size = {50, 50};
 
     public:
-        explicit Rectangle(engine::GameObject* parent)
+        explicit Rectangle(GameObject* parent)
             : Component(parent) {}
 
         void render() const override
         {
             Component::render();
 
-            const auto position = engine::components::Transform::LocalToWorld(getGameObject()->getTransform());
+            const auto position = Transform::LocalToWorld(getGameObject()->getTransform());
             core::Renderer2D::DrawQuad(position, size, {255, 255, 255});
         }
     };

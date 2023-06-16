@@ -30,8 +30,8 @@ namespace spark::core
      */
     class SPARK_CORE_EXPORT Application final
     {
-        friend class spark::core::Renderer2D;
-        friend class spark::core::SceneManager;
+        friend class Renderer2D;
+        friend class SceneManager;
 
     public:
         /**
@@ -73,7 +73,7 @@ namespace spark::core
          * \brief Gets the window for the application.
          * \return A reference to the \link spark::core::Window \endlink for the application.
          */
-        [[nodiscard]] core::Window& getWindow();
+        [[nodiscard]] Window& getWindow();
 
         /**
          * \brief Sets the scene to render.
@@ -96,9 +96,10 @@ namespace spark::core
 
     private:
         static Application* s_instance;
+
     private:
-        core::ApplicationSpecification m_specification;
-        std::unique_ptr<core::Window> m_window;
+        ApplicationSpecification m_specification;
+        std::unique_ptr<Window> m_window;
         std::shared_ptr<engine::Scene> m_scene;
         bool m_isRunning = true;
     };

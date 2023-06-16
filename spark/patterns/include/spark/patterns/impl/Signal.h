@@ -2,6 +2,7 @@
 
 #include "spark/patterns/Slot.h"
 
+#include <algorithm>
 #include <ranges>
 
 namespace spark::patterns

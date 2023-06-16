@@ -41,7 +41,7 @@ namespace spark::patterns
          * \param method The address of the method to use as callback.
          */
         template <class T>
-        Slot(T* target, void (T::* method)(Args...));
+        Slot(T* target, void (T::*method)(Args...));
 
         /**
          * \brief Instantiates a slot from a const method pointer.
@@ -50,7 +50,7 @@ namespace spark::patterns
          * \param method The address of the method to use as callback.
          */
         template <class T>
-        Slot(T* target, void (T::* method)(Args...) const);
+        Slot(T* target, void (T::*method)(Args...) const);
 
         ~Slot();
 

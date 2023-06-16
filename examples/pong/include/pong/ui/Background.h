@@ -86,21 +86,21 @@ namespace pong::ui
         DECLARE_SPARK_RTTI(Background, GameObject)
 
     public:
-        explicit Background(std::string name, spark::engine::GameObject* parent)
+        explicit Background(std::string name, GameObject* parent)
             : GameObject(std::move(name), parent)
         {
             const auto window_size = spark::core::Application::Instance()->getWindow().getSize().castTo<std::size_t>();
             addComponent<DashedLine>(window_size.x / 2);
 
-            m_leftScore = spark::engine::GameObject::Instantiate("Left Score", this);
-            m_leftScore->addComponent<ui::Score>(spark::math::Vector2<float>(window_size.castTo<float>().x / 2 - 150, 35));
+            m_leftScore = Instantiate("Left Score", this);
+            m_leftScore->addComponent<Score>(spark::math::Vector2<float>(window_size.castTo<float>().x / 2 - 150, 35));
 
-            m_rightScore = spark::engine::GameObject::Instantiate("Right Score", this);
-            m_rightScore->addComponent<ui::Score>(spark::math::Vector2<float>(window_size.castTo<float>().x / 2 + 75, 35));
+            m_rightScore = Instantiate("Right Score", this);
+            m_rightScore->addComponent<Score>(spark::math::Vector2<float>(window_size.castTo<float>().x / 2 + 75, 35));
         }
 
     private:
-        spark::engine::GameObject *m_leftScore = nullptr, *m_rightScore = nullptr;
+        GameObject *m_leftScore = nullptr, *m_rightScore = nullptr;
     };
 }
 

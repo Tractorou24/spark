@@ -35,12 +35,12 @@ namespace spark::engine
          * \details This method should only be called during the game runtime, not in editor. Use \link GameObject::GameObject \endlink for this.
          */
         template <typename T = GameObject, typename... Args> requires std::is_base_of_v<GameObject, T>
-        static T* Instantiate(std::string name, engine::GameObject* parent, const Args&... args);
+        static T* Instantiate(std::string name, GameObject* parent, const Args&... args);
 
         /**
          * \brief Destroys the current GameObject and all its children from the current scene.
          */
-        static void Destroy(engine::GameObject* object);
+        static void Destroy(GameObject* object);
 
         /**
          * \brief Finds a GameObject by its UUID.
@@ -85,7 +85,7 @@ namespace spark::engine
          * \brief Gets the transform component of the GameObject.
          * \return A pointer to the transform component of the GameObject.
          */
-        [[nodiscard]] engine::components::Transform* getTransform() const;
+        [[nodiscard]] components::Transform* getTransform() const;
 
         /**
          * \brief Adds a component to the GameObject.
@@ -192,7 +192,7 @@ namespace spark::engine
          *
          * \details Use \link GameObject::Instantiate \endlink to instantiate a GameObject externally.
          */
-        explicit GameObject(std::string name, engine::GameObject* parent = nullptr);
+        explicit GameObject(std::string name, GameObject* parent = nullptr);
 
     private:
         lib::Uuid m_uuid;
@@ -222,7 +222,7 @@ namespace spark::core
             for (const auto* component : game_object.getComponents())
                 component->render();
             for (const auto* child : game_object.getChildren())
-                Render2D<engine::GameObject>::exec(*child);
+                exec(*child);
         }
     };
 }

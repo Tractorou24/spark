@@ -11,13 +11,13 @@
 
 namespace spark::core
 {
-    sf::Font Renderer2D::s_font = Renderer2D::loadDefaultFont();
+    sf::Font Renderer2D::s_font = loadDefaultFont();
     std::unordered_map<std::string, sf::Text> Renderer2D::s_texts;
 
     void Renderer2D::DrawQuad(const math::Vector2<float> position, const math::Vector2<float> size, const math::Vector3<unsigned char> color)
     {
-        auto* raw_window = core::Application::Instance()->m_window.get();
-        const auto* window = dynamic_cast<core::SfmlWindow*>(raw_window);
+        auto* raw_window = Application::Instance()->m_window.get();
+        const auto* window = dynamic_cast<SfmlWindow*>(raw_window);
 
         auto object = sf::RectangleShape(sf::Vector2f(size.x, size.y));
         object.setPosition(position.x, position.y);
@@ -27,8 +27,8 @@ namespace spark::core
 
     void Renderer2D::DrawRotatedQuad(math::Vector2<float> position, math::Vector2<float> size, math::Vector3<unsigned char> color, float rotation)
     {
-        auto* raw_window = core::Application::Instance()->m_window.get();
-        const auto* window = dynamic_cast<core::SfmlWindow*>(raw_window);
+        auto* raw_window = Application::Instance()->m_window.get();
+        const auto* window = dynamic_cast<SfmlWindow*>(raw_window);
 
         auto object = sf::RectangleShape(sf::Vector2f(size.x, size.y));
         object.setPosition(position.x, position.y);
@@ -39,8 +39,8 @@ namespace spark::core
 
     void Renderer2D::DrawCircle(const math::Vector2<float> position, const math::Vector3<unsigned char> color, const float radius)
     {
-        auto* raw_window = core::Application::Instance()->m_window.get();
-        const auto* window = dynamic_cast<core::SfmlWindow*>(raw_window);
+        auto* raw_window = Application::Instance()->m_window.get();
+        const auto* window = dynamic_cast<SfmlWindow*>(raw_window);
 
         auto object = sf::CircleShape(radius);
         object.setPosition(position.x, position.y);
@@ -50,8 +50,8 @@ namespace spark::core
 
     void Renderer2D::DrawText(const std::string& text, const math::Vector2<float> position, const std::size_t character_size, const std::filesystem::path& font_path)
     {
-        auto* raw_window = core::Application::Instance()->m_window.get();
-        const auto* window = dynamic_cast<core::SfmlWindow*>(raw_window);
+        auto* raw_window = Application::Instance()->m_window.get();
+        const auto* window = dynamic_cast<SfmlWindow*>(raw_window);
 
         // TODO: This is a temporary solution, we should not be creating a new text & font object every frame, but storing them with a specific lifetime
         sf::Font font = s_font;
@@ -66,12 +66,12 @@ namespace spark::core
 
     void Renderer2D::DrawImage(const std::filesystem::path& path, math::Vector2<float> position, const std::optional<math::Vector2<float>>& size)
     {
-        auto* raw_window = core::Application::Instance()->m_window.get();
-        const auto* window = dynamic_cast<core::SfmlWindow*>(raw_window);
+        auto* raw_window = Application::Instance()->m_window.get();
+        const auto* window = dynamic_cast<SfmlWindow*>(raw_window);
 
         // TODO: This is temporary, use real resource management when switching the renderer, we should not reload the image every frame !
         sf::Texture texture;
-        if(!texture.loadFromFile(path.generic_string()))
+        if (!texture.loadFromFile(path.generic_string()))
             SPARK_CORE_ERROR("Failed to load texture from file: {}", path.generic_string());
 
         sf::Sprite sprite(texture);
