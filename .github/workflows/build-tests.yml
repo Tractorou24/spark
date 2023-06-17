@@ -24,15 +24,13 @@ jobs:
       - name: Setup Environment
         run: |
           echo ${{ env.LLVM_PATH }} | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-          if (Test-Path -Path $env:VCPKG_DEFAULT_BINARY_CACHE) { Remove-Item -Force $env:VCPKG_DEFAULT_BINARY_CACHE } New-Item -ItemType "directory" $env:VCPKG_DEFAULT_BINARY_CACHE
 
-        # Update / Restore Vcpkg binary cache
-      - name: Restore Vcpkg cache
-        id: cache-vcpkg
-        uses: actions/cache@v3
+        # Setup vcpkg and cache the packages
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
         with:
-          path: C:\vcpkg_cache
-          key: windows-clang-vcpkg
+          vcpkgGitCommitId: "501db0f17ef6df184fcdbfbe0f87cde2313b6ab1"
+          runVcpkgInstall : true
 
         # Build and test in Debug
       - name: Build & Test in Debug
@@ -51,18 +49,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-        # Setup machine Env (variables/folders...)
-      - name: Setup Environment
-        run: |
-          if (Test-Path -Path $env:VCPKG_DEFAULT_BINARY_CACHE) { Remove-Item -Force $env:VCPKG_DEFAULT_BINARY_CACHE } New-Item -ItemType "directory" $env:VCPKG_DEFAULT_BINARY_CACHE
-
-        # Update / Restore Vcpkg binary cache
-      - name: Restore Vcpkg cache
-        id: cache-vcpkg
-        uses: actions/cache@v3
+        # Setup vcpkg and cache the packages
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
         with:
-          path: C:\vcpkg_cache
-          key: windows-msvc-vcpkg
+          vcpkgGitCommitId: "501db0f17ef6df184fcdbfbe0f87cde2313b6ab1"
+          runVcpkgInstall : true
 
         # Build and test in Release
       - uses: ilammy/msvc-dev-cmd@v1
