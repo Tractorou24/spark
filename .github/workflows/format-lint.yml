@@ -51,3 +51,20 @@ jobs:
       - name: Lint
         run: |
           ruff .
+
+###############################################################
+####################### Commit Linting ########################
+###############################################################
+  commit-lint:
+    runs-on: ubuntu-latest
+    container: tracto/spark-python-tools:latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Lint Commits
+        run: |
+          git config --global --add safe.directory /__w/spark/spark
+          python .github/scripts/commit-linter.py repository . origin/main
