@@ -4,9 +4,9 @@ on: [push]
 
 jobs:
 ###############################################################
-######################## Code Formatting ######################
+######################## C++ Formatting #######################
 ###############################################################
-  format:
+  format-cpp:
     runs-on: windows-latest
     env:
       VCPKG_DEFAULT_BINARY_CACHE: C:\vcpkg_cache
@@ -33,3 +33,21 @@ jobs:
           solution: "out/build-spark-vs22/SPARK.sln"
           fail_on_reformat_needed: "yes"
           jb_cleanup_code_arg: "--settings=Folder.DotSettings --profile=\"Built-in: Full Cleanup\""
+
+###############################################################
+###################### Python Formatting ######################
+###############################################################
+  format-lint-python:
+    runs-on: ubuntu-latest
+    container: tracto/spark-python-tools:latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Format
+        run: |
+          black --check --diff --color .
+
+      - name: Lint
+        run: |
+          ruff .
