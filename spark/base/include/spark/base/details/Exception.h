@@ -39,7 +39,7 @@ namespace spark::base::details
     class SPARK_BASE_EXPORT Exception : public std::runtime_error
     {
     public:
-        explicit Exception(const char* class_name, const char* message, const std::source_location& source_location)
+        explicit Exception(const char* class_name, const std::string_view& message, const std::source_location& source_location)
             : std::runtime_error(FormatMessage(class_name, message, source_location).c_str()) {}
 
         ~Exception() override = default;
@@ -50,7 +50,7 @@ namespace spark::base::details
         Exception& operator=(Exception&& other) noexcept = default;
 
     protected:
-        static std::string FormatMessage(const char* class_name, const char* message, const std::source_location& source_location)
+        static std::string FormatMessage(const char* class_name, const std::string_view& message, const std::source_location& source_location)
         {
             return std::format("Exception of type {0} has been thrown.\nError happen in {1}:{2}.\nException contains the message:\n{3}",
                                class_name,

@@ -10,13 +10,13 @@
 * \brief Macro used to define and implement a derived exception class.
 * \param DerivedClass The name of the derived exception to create.
 */
-#define SPARK_BASE_DEFINE_EXCEPTION(DerivedClass)                                                                           \
-    class SPARK_BASE_EXPORT DerivedClass : public spark::base::details::Exception                                           \
-    {                                                                                                                       \
-    public:                                                                                                                 \
-        DerivedClass(const char* message, const std::source_location& source_location = std::source_location::current())    \
-            : base::details::Exception(typeid(DerivedClass).name(), message, source_location)                               \
-        {}                                                                                                                  \
+#define SPARK_BASE_DEFINE_EXCEPTION(DerivedClass)                                                                                       \
+    class SPARK_BASE_EXPORT DerivedClass : public spark::base::details::Exception                                                       \
+    {                                                                                                                                   \
+    public:                                                                                                                             \
+        DerivedClass(const std::string_view& message, const std::source_location& source_location = std::source_location::current())    \
+            : base::details::Exception(typeid(DerivedClass).name(), message, source_location)                                           \
+        {}                                                                                                                              \
     };
 
 /**
