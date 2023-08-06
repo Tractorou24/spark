@@ -32,16 +32,6 @@ namespace spark::base
     SPARK_BASE_DEFINE_EXCEPTION(BadArgumentException)
 
     /**
-     * \brief Exception thrown when a parameter already exist.
-     */
-    SPARK_BASE_DEFINE_EXCEPTION(DuplicatedParameterException)
-
-    /**
-     * \brief Exception thrown when a parameter is missing.
-     */
-    SPARK_BASE_DEFINE_EXCEPTION(CouldNotFindParameterException)
-
-    /**
      * \brief Exception thrown when a functionality which is not implemented yet is called.
      */
     SPARK_BASE_DEFINE_EXCEPTION(NotImplementedException)
