@@ -87,13 +87,13 @@ namespace spark::patterns
          * \brief Emits the signal to all connected slots.
          * \param args The arguments for the slots.
          */
-        void emit(Args... args) const;
+        void emit(Args&&... args) const;
 
         /**
          * \brief Emits the signal to all connected slots. Same as \ref emit.
          * \param args The arguments for the slots.
          */
-        void operator()(Args... args) const;
+        void operator()(Args&&... args) const;
 
     private:
         /**
