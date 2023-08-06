@@ -15,7 +15,7 @@
     {                                                                                                                                   \
     public:                                                                                                                             \
         DerivedClass(const std::string_view& message, const std::source_location& source_location = std::source_location::current())    \
-            : base::details::Exception(typeid(DerivedClass).name(), message, source_location)                                           \
+            : base::details::Exception(#DerivedClass, message, source_location)                                                         \
         {}                                                                                                                              \
     };
 
