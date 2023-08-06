@@ -112,7 +112,7 @@ namespace spark::patterns
     {
         auto it = std::ranges::find(m_children, child);
         if (it != m_children.end())
-            SPARK_BASE_THROW_EXCEPTION(spark::base::BadArgumentException, "Child already exists in the children list!");
+            throw spark::base::BadArgumentException("Child already exists in the children list!");
         m_children.push_back(child);
     }
 
@@ -121,7 +121,7 @@ namespace spark::patterns
     {
         const auto it = std::ranges::find(m_children, child);
         if (it == m_children.end())
-            SPARK_BASE_THROW_EXCEPTION(spark::base::BadArgumentException, "Child could not be found in the children list!");
+            throw spark::base::BadArgumentException("Child could not be found in the children list!");
         m_children.erase(it);
     }
 }

@@ -19,11 +19,6 @@
         {}                                                                                                                              \
     };
 
-/**
- * \brief The macro used to throw a spark exception.
- */
-#define SPARK_BASE_THROW_EXCEPTION(...) SPARK_BASE_DETAILS_THROW_EXCEPTION_MACRO_CHOOSER(__VA_ARGS__)
-
 namespace spark::base
 {
     /**

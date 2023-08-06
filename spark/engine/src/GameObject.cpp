@@ -28,7 +28,7 @@ namespace spark::engine
             if (obj->getUuid() == uuid)
             {
                 if (found != nullptr)
-                    SPARK_BASE_THROW_EXCEPTION(base::UnknownException, "Found multiple GameObjects with the same UUID!");
+                    throw base::UnknownException("Found multiple GameObjects with the same UUID!");
                 found = obj;
             }
         });
@@ -43,7 +43,7 @@ namespace spark::engine
             if (obj->getName() == name)
             {
                 if (found != nullptr)
-                    SPARK_BASE_THROW_EXCEPTION(base::UnknownException, "Found multiple GameObjects with the same name!");
+                    throw base::UnknownException("Found multiple GameObjects with the same name!");
                 found = obj;
             }
         });
@@ -94,7 +94,7 @@ namespace spark::engine
     void GameObject::addComponent(Component* component, bool managed)
     {
         if (m_components.contains(&component->getRttiInstance()))
-            SPARK_BASE_THROW_EXCEPTION(base::BadArgumentException, "Unable to add the same component twice!");
+            throw base::BadArgumentException("Unable to add the same component twice!");
 
         m_components.insert({&component->getRttiInstance(), {component, managed}});
         if (m_initialized)
@@ -104,7 +104,7 @@ namespace spark::engine
     void GameObject::removeComponent(Component* component)
     {
         if (!m_components.contains(&component->getRttiInstance()))
-            SPARK_BASE_THROW_EXCEPTION(base::BadArgumentException, "Unable to remove a non-existing component!");
+            throw base::BadArgumentException("Unable to remove a non-existing component!");
 
         m_components.erase(&component->getRttiInstance());
         component->onDetach();

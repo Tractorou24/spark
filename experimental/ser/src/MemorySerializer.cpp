@@ -20,10 +20,10 @@ namespace spark::ser
     void MemorySerializer::readImpl(char* dest, const std::size_t size)
     {
         if (!isReading)
-            SPARK_BASE_THROW_EXCEPTION(spark::base::WrongSerializerMode, "Can't read when in write mode");
+            throw spark::base::WrongSerializerMode("Can't read when in write mode");
 
         if (size + m_readOffset > m_data.size())
-            SPARK_BASE_THROW_EXCEPTION(spark::base::OverflowException, "Can't read past the end of the buffer");
+            throw spark::base::OverflowException("Can't read past the end of the buffer");
 
         std::memcpy(dest, &m_data[m_readOffset], size);
         m_readOffset += size;
@@ -32,7 +32,7 @@ namespace spark::ser
     void MemorySerializer::writeImpl(const char* src, const std::size_t size)
     {
         if (isReading)
-            SPARK_BASE_THROW_EXCEPTION(spark::base::WrongSerializerMode, "Can't write when in read mode");
+            throw spark::base::WrongSerializerMode("Can't write when in read mode");
 
         const std::size_t offset = m_data.size();
         m_data.resize(offset + size);
