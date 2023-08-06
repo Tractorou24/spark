@@ -31,9 +31,9 @@ namespace spark::patterns
     }
 
     template <typename... Args>
-    void Signal<Args...>::operator()(Args... args) const
+    void Signal<Args...>::operator()(Args&&... args) const
     {
-        emit(args...);
+        emit(std::forward<Args>(args)...);
     }
 
     template <typename... Args>
@@ -98,7 +98,7 @@ namespace spark::patterns
     }
 
     template <typename... Args>
-    void Signal<Args...>::emit(Args... args) const
+    void Signal<Args...>::emit(Args&&... args) const
     {
         /*
          * When emitting, we need to make sure that:
