@@ -7,7 +7,7 @@ namespace spark::engine
         : m_gameObject(parent)
     {
         if (!parent)
-            SPARK_BASE_THROW_EXCEPTION(base::BadArgumentException, "Cannot create a component with a null parent GameObject");
+            throw base::BadArgumentException("Cannot create a component with a null parent GameObject");
     }
 
     const lib::Uuid& Component::getUuid() const

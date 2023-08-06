@@ -11,10 +11,10 @@ namespace spark::audio
     Sound::Sound(const std::filesystem::path& file)
     {
         if (std::ranges::find(supportedExtensions, file.extension()) == supportedExtensions.end())
-            SPARK_BASE_THROW_EXCEPTION(base::UnsupportedFileFormatException, std::format("Unsupported file format: {}", file.extension().generic_string()).c_str());
+            throw base::UnsupportedFileFormatException(std::format("Unsupported file format: {}", file.extension().generic_string()));
 
         if (!m_buffer.loadFromFile(file.generic_string()))
-            SPARK_BASE_THROW_EXCEPTION(base::CouldNotOpenFileException, std::format("Could not open file: {}", file.generic_string()).c_str());
+            throw base::CouldNotOpenFileException(std::format("Could not open file: {}", file.generic_string()));
         m_sound.setBuffer(m_buffer);
     }
 
