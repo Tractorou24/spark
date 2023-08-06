@@ -1,6 +1,6 @@
 #pragma once
 
-#define SPARK_BASE_DETAILS_THROW_EXCEPTION_2_ARG(ExceptionType, additionalMessage) throw ExceptionType(__FILE__, __LINE__, additionalMessage)
+#define SPARK_BASE_DETAILS_THROW_EXCEPTION_2_ARG(ExceptionType, additionalMessage) throw ExceptionType(additionalMessage)
 #define SPARK_BASE_DETAILS_THROW_EXCEPTION_1_ARG(ExceptionType)                    SPARK_BASE_DETAILS_THROW_EXCEPTION_2_ARG(ExceptionType, nullptr)
 #define SPARK_BASE_DETAILS_GET_3_TH_ARG(arg1, arg2, arg3, ...)                     arg3
 #define SPARK_BASE_DETAILS_GET_3_TH_ARG_IN_SET(argsWithParenthesis)                SPARK_BASE_DETAILS_GET_3_TH_ARG argsWithParenthesis
