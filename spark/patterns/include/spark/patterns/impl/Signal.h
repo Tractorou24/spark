@@ -108,9 +108,8 @@ namespace spark::patterns
          * So, we copy the connections into a vector, and then iterate over the vector to avoid any iterator invalidation and check if the connection still exists.
          */
 
-        std::vector<std::size_t> keys;
-        keys.reserve(m_connections.size());
-        std::ranges::transform(m_connections, std::back_inserter(keys), [](const auto& connection) { return connection.first; });
+        auto keys_view = m_connections | std::views::keys;
+        std::vector<std::size_t> keys = { keys_view.begin(), keys_view.end() };
 
         for (const auto& key : keys)
         {
