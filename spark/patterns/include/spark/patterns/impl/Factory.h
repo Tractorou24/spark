@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "spark/patterns/details/Creators.h"
 
 #include "spark/base/Exception.h"
@@ -11,7 +13,7 @@ namespace spark::patterns
     void Factory<Key, BaseType, Args...>::registerType(const Key& key)
     {
         if (m_creators.contains(key))
-            throw spark::base::DuplicatedParameterException("Type is already registered into the factory.");
+            throw spark::base::BadArgumentException("Type is already registered into the factory.");
         m_creators[key] = std::make_unique<details::DerivedCreator<BaseType, TypeToRegister, Args...>>();
     }
 
@@ -19,7 +21,7 @@ namespace spark::patterns
     typename Factory<Key, BaseType, Args...>::BasePtr Factory<Key, BaseType, Args...>::create(const Key& key, const Args&... args) const
     {
         if (!m_creators.contains(key))
-            throw spark::base::CouldNotFindParameterException("Type is not registered into the factory.");
+            throw spark::base::BadArgumentException("Type is not registered into the factory.");
         return m_creators.at(key)->create(args...);
     }
 
