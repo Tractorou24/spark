@@ -5,19 +5,20 @@
 #include "spark/base/details/Exception.h"
 
 #include <format>
+#include <source_location>
 #include <stdexcept>
 
 /**
 * \brief Macro used to define and implement a derived exception class.
 * \param DerivedClass The name of the derived exception to create.
 */
-#define SPARK_BASE_DEFINE_EXCEPTION(DerivedClass)                                                               \
-    class SPARK_BASE_EXPORT DerivedClass : public spark::base::Exception                                        \
-    {                                                                                                           \
-    public:                                                                                                     \
-        DerivedClass(const char* file_name, const int line_number, const char* additional_message)              \
-            : base::Exception(file_name, line_number, additional_message, typeid(DerivedClass).name())   \
-        {}                                                                                                      \
+#define SPARK_BASE_DEFINE_EXCEPTION(DerivedClass)                                                                           \
+    class SPARK_BASE_EXPORT DerivedClass : public spark::base::Exception                                                    \
+    {                                                                                                                       \
+    public:                                                                                                                 \
+        DerivedClass(const char* message, const std::source_location& source_location = std::source_location::current())    \
+            : base::Exception(typeid(DerivedClass).name(), message, source_location)                                        \
+        {}                                                                                                                  \
     };
 
 /**
@@ -36,8 +37,8 @@ namespace spark::base
     class SPARK_BASE_EXPORT Exception : public std::runtime_error
     {
     public:
-        explicit Exception(const char* file_name, const int line_number, const char* additional_message, const char* class_name)
-            : std::runtime_error(FormatMessage(file_name, line_number, additional_message, class_name).c_str()) {}
+        explicit Exception(const char* class_name, const char* message, const std::source_location& source_location)
+            : std::runtime_error(FormatMessage(class_name, message, source_location).c_str()) {}
 
         ~Exception() override = default;
 
@@ -47,13 +48,13 @@ namespace spark::base
         Exception& operator=(Exception&& other) noexcept = default;
 
     protected:
-        static std::string FormatMessage(const char* file_name, const int line_number, const char* additional_message, const char* class_name)
+        static std::string FormatMessage(const char* class_name, const char* message, const std::source_location& source_location)
         {
-            return std::format("Exception of type {0} has been thrown.\nError happen in {1} at line number {2}.\nException contains the message:\n{3}",
+            return std::format("Exception of type {0} has been thrown.\nError happen in {1}:{2}.\nException contains the message:\n{3}",
                                class_name,
-                               file_name,
-                               line_number,
-                               additional_message);
+                               source_location.file_name(),
+                               source_location.line(),
+                               message);
         }
     };
 
