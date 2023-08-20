@@ -93,13 +93,19 @@ block()
             # Add support of addresses >= 2GB
             /LARGEADDRESSAWARE
         )
-    else() # Linux
+    else() # GCC or Clang
         # Compiler options
         target_compile_options(${_spark_compiler_linker_opt_target} INTERFACE
             # Enables all the warnings about constructions that some users consider questionable, and that are easy to avoid (or modify to prevent the warning), even in conjunction with macros.
             $<${_c_cxx_lang}:-Wall>
             -march=native
-        )
+        )        
+
+        if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+            target_compile_options(${_spark_compiler_linker_opt_target} INTERFACE
+                -D __cpp_consteval=1
+            )        
+        endif()
 
         # Define installation directories variables using GNU Standard.
         include(GNUInstallDirs)
