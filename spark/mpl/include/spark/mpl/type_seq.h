@@ -91,4 +91,62 @@ namespace spark::mpl::type_seq
 
     template <typename... Ts>
     using back_t = typename back<Ts...>::type;
+
+    // push_front
+    template <typename T, typename List>
+    struct push_front {};
+
+    template <template<typename...> typename C, typename T, typename... Ts>
+    struct push_front<T, C<Ts...>>
+    {
+        using type = C<T, Ts...>;
+    };
+
+    template <typename T, typename... Ts>
+    using push_front_t = typename push_front<T, Ts...>::type;
+
+    // push_back
+    template <typename T, typename... Ts>
+    struct push_back {};
+
+    template <template<typename...> typename C, typename T, typename... Ts>
+    struct push_back<T, C<Ts...>>
+    {
+        using type = C<Ts..., T>;
+    };
+
+    template <typename T, typename... Ts>
+    using push_back_t = typename push_back<T, Ts...>::type;
+
+    // pop_front
+    template <typename List>
+    struct pop_front {};
+
+    template <template<typename...> typename C, typename Head, typename... Ts>
+    struct pop_front<C<Head, Ts...>>
+    {
+        using type = C<Ts...>;
+    };
+
+    template <typename... Ts>
+    using pop_front_t = typename pop_front<Ts...>::type;
+
+    // pop_back
+    template <typename... Ts>
+    struct pop_back {};
+
+    template <template<typename...> typename C, typename Head, typename... Ts>
+    struct pop_back<C<Head, Ts...>>
+    {
+        using type = typename push_front<Head, typename pop_back<C<Ts...>>::type>::type;
+    };
+
+    template <template<typename...> typename C, typename Head>
+    struct pop_back<C<Head>>
+    {
+        using type = C<>;
+    };
+
+    template <typename... Ts>
+    using pop_back_t = typename pop_back<Ts...>::type;
 }
