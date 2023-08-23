@@ -71,4 +71,28 @@ namespace spark::mpl::testing
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<char>::back, char);
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<char, double>::back, double);
     }
+
+    TEST(TypelistsShould, haveAWorkingPushFrontMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<>::push_front<char>, spark::mpl::typelist<char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float>::push_front<char>, spark::mpl::typelist<char, int, float>);
+    }
+
+    TEST(TypelistsShould, haveAWorkingPushBackMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<>::push_back<char>, spark::mpl::typelist<char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float>::push_back<char>, spark::mpl::typelist<int, float, char>);
+    }
+
+    TEST(TypelistsShould, haveAWorkingPopFrontMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::pop_front, spark::mpl::typelist<double, char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::pop_front, spark::mpl::typelist<>);
+    }
+
+    TEST(TypelistsShould, haveAWorkingPopBackMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::pop_back, spark::mpl::typelist<int, double>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::pop_back, spark::mpl::typelist<>);
+    }
 }

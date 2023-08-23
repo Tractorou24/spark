@@ -27,6 +27,20 @@ namespace spark::mpl
          */
         template <typename T>
         inline static constexpr bool contains = type_seq::contains_v<T, Ts...>;
+
+        /**
+         * \brief Add a type at the front of the typelist
+         * \tparam T Type to add
+         */
+        template <typename T>
+        using push_front = type_seq::push_front_t<T, typelist<Ts...>>;
+
+        /**
+         * \brief Add a type at the back of the typelist
+         * \tparam T Type to add
+         */
+        template <typename T>
+        using push_back = type_seq::push_back_t<T, typelist<Ts...>>;
     };
 
     // Specialization for empty typelist
@@ -53,5 +67,15 @@ namespace spark::mpl
          * \brief The last type of the typelist
          */
         using back = type_seq::back_t<First, Ts...>;
+
+        /**
+         * \brief Remove the first type of the typelist
+         */
+        using pop_front = type_seq::pop_front_t<typelist<First, Ts...>>;
+
+        /**
+         * \brief Remove the last type of the typelist
+         */
+        using pop_back = type_seq::pop_back_t<typelist<First, Ts...>>;
     };
 }
