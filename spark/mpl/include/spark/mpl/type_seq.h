@@ -355,4 +355,67 @@ namespace spark::mpl::type_seq
 
     template <template <typename...> typename T, typename... Ts>
     using convert_t = typename convert<T, Ts...>::type;
+
+    // transform
+    template <template <typename> typename F, typename... Ts>
+    struct transform {};
+
+    template <template <typename...> typename C, template <typename> typename F, typename Head, typename... Ts>
+    struct transform<F, C<Head, Ts...>>
+    {
+        using type = typename push_front<typename F<Head>::type, typename transform<F, C<Ts...>>::type>::type;
+    };
+
+    template <template <typename...> typename C, template <typename> typename F>
+    struct transform<F, C<>>
+    {
+        using type = C<>;
+    };
+
+    template <template <typename> typename F, typename... Ts>
+    using transform_t = typename transform<F, Ts...>::type;
+
+    // concat
+    template <typename... Lists>
+    struct concat {};
+
+    template <template <typename...> class C, typename... Ts>
+    struct concat<C<Ts...>>
+    {
+        using type = C<Ts...>;
+    };
+
+    template <template <typename...> class C, typename... Ts, typename... Us>
+    struct concat<C<Ts...>, C<Us...>>
+    {
+        using type = C<Ts..., Us...>;
+    };
+
+    template <typename T, typename U, typename V, typename... O>
+    struct concat<T, U, V, O...>
+    {
+        using type = typename concat<typename concat<T, U>::type, typename concat<V, O...>::type>::type;
+    };
+
+    template <typename... Lists>
+    using concat_t = typename concat<Lists...>::type;
+
+    // flatten
+    template <typename List>
+    struct flatten {};
+
+    template <template <typename...> class C, typename... Ts>
+    struct flatten<C<Ts...>>
+    {
+        using type = typename concat<Ts...>::type;
+    };
+
+    template <template <typename...> class C>
+    struct flatten<C<>>
+    {
+        using type = C<>;
+    };
+
+    template <typename List>
+    using flatten_t = typename flatten<List>::type;
 }
