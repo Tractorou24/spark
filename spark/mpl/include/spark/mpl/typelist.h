@@ -46,6 +46,13 @@ namespace spark::mpl
          * \brief Removes all types from the typelist
          */
         using clear = typelist<>;
+
+        /**
+         * \brief Convert the typelist with the function F
+         * \tparam T Type to convert to
+         */
+        template <template <typename...> typename T>
+        using convert = type_seq::convert_t<T, Ts...>;
     };
 
     // Specialization for empty typelist
@@ -62,6 +69,13 @@ namespace spark::mpl
          */
         template <typename T>
         inline static constexpr std::size_t index_of = type_seq::index_of_v<T, First, Ts...>;
+
+        /**
+         * \brief Find the index of the type T in the typelist
+         * \tparam T Type to search
+         */
+        template <typename T>
+        inline static constexpr std::size_t find = type_seq::find_v<T, Ts...>;
 
         /**
          * \brief The first type of the typelist
@@ -82,7 +96,7 @@ namespace spark::mpl
          * \brief Remove the last type of the typelist
          */
         using pop_back = type_seq::pop_back_t<typelist<First, Ts...>>;
-            
+
         /**
          * \brief Get the type at the index N
          * \tparam N Index
@@ -127,5 +141,17 @@ namespace spark::mpl
          */
         template <std::size_t N, typename T>
         using replace_at = type_seq::replace_at_t<N, T, typelist<First, Ts...>>;
+
+        /**
+         * \brief Reverse the typelist
+         */
+        using reverse = type_seq::reverse_t<typelist<First, Ts...>>;
+
+        /**
+         * \brief Filter the typelist with the predicate F
+         * \tparam F Predicate taking a type as parameter and having a static constexpr value member as result
+         */
+        template <template <typename> typename F>
+        using filter = type_seq::filter_t<F, typelist<First, Ts...>>;
     };
 }

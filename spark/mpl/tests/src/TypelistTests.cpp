@@ -145,4 +145,22 @@ namespace spark::mpl::testing
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double>::replace_at<1, void>, spark::mpl::typelist<int, void>);
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::replace_at<0, void>, spark::mpl::typelist<void>);
     }
+
+    TEST(TypelistsShould, haveAWorkingReverseMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::reverse, spark::mpl::typelist<int>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::reverse, spark::mpl::typelist<char, double, int>);
+    }
+
+    TEST(TypelistsShould, haveAWorkingFilterMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char, float>::filter<std::is_integral>, spark::mpl::typelist<int, char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::filter<std::is_floating_point>, spark::mpl::typelist<>);
+    }
+
+    TEST(TypelistsShould, haveAWorkingConvertMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::convert<std::tuple>, std::tuple<int, double, char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<>::convert<std::tuple>, std::tuple<>);
+    }
 }
