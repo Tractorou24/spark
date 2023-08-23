@@ -59,4 +59,16 @@ namespace spark::mpl::testing
         STATIC_EXPECT_EQ((spark::mpl::typelist<int, float, char>::index_of<float>), 1);
         STATIC_EXPECT_EQ((spark::mpl::typelist<int, float, char>::index_of<char>), 2);
     }
+
+    TEST(TypelistsShould, haveAWorkingFrontMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::front, int);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<char, double>::front, char);
+    }
+
+    TEST(TypelistsShould, haveAWorkingBackMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<char>::back, char);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<char, double>::back, double);
+    }
 }
