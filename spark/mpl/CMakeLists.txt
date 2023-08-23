@@ -8,3 +8,7 @@ spark_add_library(${TARGET_NAME} INTERFACE
         ${HEADER_DIR}/${SPARK_NAME}/mpl/index_list.h
         ${HEADER_DIR}/${SPARK_NAME}/mpl/type_seq.h
 )
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
