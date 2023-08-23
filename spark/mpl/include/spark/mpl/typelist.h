@@ -89,5 +89,27 @@ namespace spark::mpl
          */
         template <std::size_t N>
         using at = type_seq::at_t<N, typelist<First, Ts...>>;
+
+        /**
+         * \brief Erase the type T from the typelist
+         * \tparam T Type to erase
+         */
+        template <typename T>
+        using erase = type_seq::erase_t<T, typelist<First, Ts...>>;
+
+        /**
+         * \brief Erase the type at index N from the typelist
+         * \tparam N Index
+         */
+        template <std::size_t N>
+        using erase_at = type_seq::erase_at_t<N, typelist<First, Ts...>>;
+
+        /**
+         * \brief Insert a type at the index N of the typelist
+         * \tparam N Index
+         * \tparam T Type to insert
+         */
+        template <std::size_t N, typename T>
+        using insert_at = type_seq::insert_at_t<N, T, typelist<First, Ts...>>;
     };
 }

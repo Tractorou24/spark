@@ -108,4 +108,26 @@ namespace spark::mpl::testing
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<>::clear, spark::mpl::typelist<>);
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::clear, spark::mpl::typelist<>);
     }
+
+    TEST(TypelistsShould, haveAWorkingEraseMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::erase<int>, spark::mpl::typelist<double, char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::erase<double>, spark::mpl::typelist<int, char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::erase<char>, spark::mpl::typelist<int, double>);
+    }
+
+    TEST(TypelistsShould, haveAWorkingEraseAtMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float, char>::erase_at<0>, spark::mpl::typelist<float, char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float, char>::erase_at<1>, spark::mpl::typelist<int, char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float, char>::erase_at<2>, spark::mpl::typelist<int, float>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<double>::erase_at<0>, spark::mpl::typelist<>);
+    }
+
+    TEST(TypelistsShould, haveAWorkingInsertAtMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::insert_at<0, void>, spark::mpl::typelist<void, int>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float>::insert_at<1, void>, spark::mpl::typelist<int, void, float>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float>::insert_at<5, void>, spark::mpl::typelist<int, float, void>);
+    }
 }

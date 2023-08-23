@@ -168,4 +168,67 @@ namespace spark::mpl::type_seq
 
     template <std::size_t N, typename... Ts>
     using at_t = typename at<N, Ts...>::type;
+
+    // erase
+    template <typename T, typename... Ts>
+    struct erase {};
+
+    template <template<typename...> typename C, typename T, typename... Ts>
+    struct erase<T, C<T, Ts...>>
+    {
+        using type = C<Ts...>;
+    };
+
+    template <template<typename...> typename C, typename T, typename Head, typename... Ts>
+    struct erase<T, C<Head, Ts...>>
+    {
+        using type = typename push_front<Head, typename erase<T, C<Ts...>>::type>::type;
+    };
+
+    template <typename T, typename... Ts>
+    using erase_t = typename erase<T, Ts...>::type;
+
+    // erase_at
+    template <std::size_t N, typename... Ts>
+    struct erase_at {};
+
+    template <template<typename...> typename C, std::size_t N, typename Head, typename... Ts>
+    struct erase_at<N, C<Head, Ts...>>
+    {
+        using type = typename push_front<Head, typename erase_at<N - 1, C<Ts...>>::type>::type;
+    };
+
+    template <template<typename...> typename C, typename Head, typename... Ts>
+    struct erase_at<0, C<Head, Ts...>>
+    {
+        using type = C<Ts...>;
+    };
+
+    template <std::size_t N, typename... Ts>
+    using erase_at_t = typename erase_at<N, Ts...>::type;
+
+    // insert_at
+    template <std::size_t N, typename T, typename... Ts>
+    struct insert_at {};
+
+    template <template<typename...> typename C, std::size_t N, typename T, typename Head, typename... Ts>
+    struct insert_at<N, T, C<Head, Ts...>>
+    {
+        using type = typename push_front<Head, typename insert_at<N - 1, T, C<Ts...>>::type>::type;
+    };
+
+    template <template<typename...> typename C, typename T, typename Head, typename... Ts>
+    struct insert_at<0, T, C<Head, Ts...>>
+    {
+        using type = typename push_front<T, C<Head, Ts...>>::type;
+    };
+
+    template <template<typename...> typename C, std::size_t N, typename T>
+    struct insert_at<N, T, C<>>
+    {
+        using type = C<T>;
+    };
+
+    template <std::size_t N, typename T, typename... Ts>
+    using insert_at_t = typename insert_at<N, T, Ts...>::type;
 }
