@@ -59,4 +59,36 @@ namespace spark::mpl::type_seq
 
     template <typename T, typename... Ts>
     inline static constexpr std::size_t index_of_v = index_of<T, Ts...>::value;
+
+    // front
+    template <typename... Ts>
+    struct front { };
+
+    template <typename Head, typename... Ts>
+    struct front<Head, Ts...>
+    {
+        using type = Head;
+    };
+
+    template <typename... Ts>
+    using front_t = typename front<Ts...>::type;
+
+    // back
+    template <typename... Ts>
+    struct back {};
+
+    template <typename Head, typename... Ts>
+    struct back<Head, Ts...>
+    {
+        using type = typename back<Ts...>::type;
+    };
+
+    template <typename Head>
+    struct back<Head>
+    {
+        using type = Head;
+    };
+
+    template <typename... Ts>
+    using back_t = typename back<Ts...>::type;
 }

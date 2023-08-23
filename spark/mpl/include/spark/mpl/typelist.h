@@ -43,5 +43,15 @@ namespace spark::mpl
          */
         template <typename T>
         inline static constexpr std::size_t index_of = type_seq::index_of_v<T, First, Ts...>;
+
+        /**
+         * \brief The first type of the typelist
+         */
+        using front = type_seq::front_t<First, Ts...>;
+
+        /**
+         * \brief The last type of the typelist
+         */
+        using back = type_seq::back_t<First, Ts...>;
     };
 }
