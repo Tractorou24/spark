@@ -149,4 +149,23 @@ namespace spark::mpl::type_seq
 
     template <typename... Ts>
     using pop_back_t = typename pop_back<Ts...>::type;
+
+    // at
+    template <std::size_t N, typename List>
+    struct at {};
+
+    template <template<typename...> typename C, std::size_t N, typename Head, typename... Ts>
+    struct at<N, C<Head, Ts...>>
+    {
+        using type = typename at<N - 1, C<Ts...>>::type;
+    };
+
+    template <template<typename...> typename C, typename Head, typename... Ts>
+    struct at<0, C<Head, Ts...>>
+    {
+        using type = Head;
+    };
+
+    template <std::size_t N, typename... Ts>
+    using at_t = typename at<N, Ts...>::type;
 }
