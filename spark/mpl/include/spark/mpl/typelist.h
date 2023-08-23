@@ -153,5 +153,33 @@ namespace spark::mpl
          */
         template <template <typename> typename F>
         using filter = type_seq::filter_t<F, typelist<First, Ts...>>;
+
+        /**
+         * \brief Convert the typelist with the function F
+         * \tparam T Type to convert to
+         */
+        template <template <typename...> typename T>
+        using convert = type_seq::convert_t<T, First, Ts...>;
+
+        /**
+         * \brief Apply the function F to each type of the typelist
+         * \tparam F A function taking a type as template parameter and having a type using as result
+         */
+        template <template <typename> typename F>
+        using transform = type_seq::transform_t<F, typelist<First, Ts...>>;
     };
+
+    /**
+     * \brief Concatenate given typelists to one
+     * \tparam Lists Typelists to concatenate
+     */
+    template<typename... Lists>
+    using typelist_concat = type_seq::concat_t<Lists...>;
+
+    /**
+     * \brief Flattens a multi level typelist to a single level typelist
+     * \tparam List T Typelist to flatten
+     */
+    template <typename List>
+    using typelist_flatten = type_seq::flatten_t<List>;
 }

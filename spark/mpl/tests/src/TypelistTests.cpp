@@ -163,4 +163,23 @@ namespace spark::mpl::testing
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::convert<std::tuple>, std::tuple<int, double, char>);
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<>::convert<std::tuple>, std::tuple<>);
     }
+
+    TEST(TypelistsShould, haveAWorkingTransformMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::transform<std::add_pointer>, spark::mpl::typelist<int*, double*, char*>);
+    }
+
+    TEST(TypelistsShould, beConcatenable)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist_concat<spark::mpl::typelist<int, float>, spark::mpl::typelist<>>, spark::mpl::typelist<int, float>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist_concat<spark::mpl::typelist<int, double>, spark::mpl::typelist<void>>, spark::mpl::typelist<int, double, void>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist_concat<spark::mpl::typelist<int>, spark::mpl::typelist<void, float>>, spark::mpl::typelist<int, void, float>);
+    }
+
+    TEST(TypelistsShould, beFlattenable)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist_concat<spark::mpl::typelist<int>, spark::mpl::typelist<>, spark::mpl::typelist<long>>, spark::mpl::typelist<int, long>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist_concat<spark::mpl::typelist<int>>, spark::mpl::typelist<int>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist_concat<spark::mpl::typelist<>>, spark::mpl::typelist<>);
+    }
 }
