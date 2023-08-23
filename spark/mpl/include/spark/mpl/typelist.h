@@ -41,6 +41,11 @@ namespace spark::mpl
          */
         template <typename T>
         using push_back = type_seq::push_back_t<T, typelist<Ts...>>;
+
+        /**
+         * \brief Removes all types from the typelist
+         */
+        using clear = typelist<>;
     };
 
     // Specialization for empty typelist
@@ -77,5 +82,12 @@ namespace spark::mpl
          * \brief Remove the last type of the typelist
          */
         using pop_back = type_seq::pop_back_t<typelist<First, Ts...>>;
+            
+        /**
+         * \brief Get the type at the index N
+         * \tparam N Index
+         */
+        template <std::size_t N>
+        using at = type_seq::at_t<N, typelist<First, Ts...>>;
     };
 }

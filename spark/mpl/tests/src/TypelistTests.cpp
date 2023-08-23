@@ -95,4 +95,17 @@ namespace spark::mpl::testing
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::pop_back, spark::mpl::typelist<int, double>);
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::pop_back, spark::mpl::typelist<>);
     }
+
+    TEST(TypelistsShould, haveAWorkingAtMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::at<0>, int);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float>::at<1>, float);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float, char>::at<1>, float);
+    }
+
+    TEST(TypelistsShould, haveAWorkingClearMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<>::clear, spark::mpl::typelist<>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::clear, spark::mpl::typelist<>);
+    }
 }
