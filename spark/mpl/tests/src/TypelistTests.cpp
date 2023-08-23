@@ -130,4 +130,19 @@ namespace spark::mpl::testing
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float>::insert_at<1, void>, spark::mpl::typelist<int, void, float>);
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, float>::insert_at<5, void>, spark::mpl::typelist<int, float, void>);
     }
+
+    TEST(TypelistsShould, haveAWorkingReplaceMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::replace<int, void>, spark::mpl::typelist<void, double, char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double>::replace<double, void>, spark::mpl::typelist<int, void>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::replace<int, void>, spark::mpl::typelist<void>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::replace<char, void>, spark::mpl::typelist<int>);
+    }
+
+    TEST(TypelistsShould, haveAWorkingReplaceAtMethod)
+    {
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double, char>::replace_at<0, void>, spark::mpl::typelist<void, double, char>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int, double>::replace_at<1, void>, spark::mpl::typelist<int, void>);
+        STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist<int>::replace_at<0, void>, spark::mpl::typelist<void>);
+    }
 }

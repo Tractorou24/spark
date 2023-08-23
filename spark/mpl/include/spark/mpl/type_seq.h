@@ -231,4 +231,60 @@ namespace spark::mpl::type_seq
 
     template <std::size_t N, typename T, typename... Ts>
     using insert_at_t = typename insert_at<N, T, Ts...>::type;
+
+    // replace
+    template <typename T, typename U, typename... Ts>
+    struct replace {};
+
+    template <template<typename...> typename C, typename T, typename U, typename Head, typename... Ts>
+    struct replace<T, U, C<Head, Ts...>>
+    {
+        using type = typename push_front<Head, typename replace<T, U, C<Ts...>>::type>::type;
+    };
+
+    template <template<typename...> typename C, typename T, typename U, typename Head, typename... Ts>
+    struct replace<T, U, C<T, Head, Ts...>>
+    {
+        using type = typename push_front<U, typename replace<T, U, C<Head, Ts...>>::type>::type;
+    };
+
+    template <template<typename...> typename C, typename T, typename U, typename... Ts>
+    struct replace<T, U, C<T, Ts...>>
+    {
+        using type = typename replace<T, U, C<U, Ts...>>::type;
+    };
+
+    template <template<typename...> typename C, typename T, typename U>
+    struct replace<T, U, C<>>
+    {
+        using type = C<>;
+    };
+
+    template <typename T, typename U, typename... Ts>
+    using replace_t = typename replace<T, U, Ts...>::type;
+
+    // replace_at
+    template <std::size_t N, typename T, typename... Ts>
+    struct replace_at {};
+
+    template <template<typename...> typename C, std::size_t N, typename T, typename Head, typename... Ts>
+    struct replace_at<N, T, C<Head, Ts...>>
+    {
+        using type = typename push_front<Head, typename replace_at<N - 1, T, C<Ts...>>::type>::type;
+    };
+
+    template <template<typename...> typename C, typename T, typename Head, typename... Ts>
+    struct replace_at<0, T, C<Head, Ts...>>
+    {
+        using type = typename push_front<T, C<Ts...>>::type;
+    };
+
+    template <template<typename...> typename C, std::size_t N, typename T>
+    struct replace_at<N, T, C<>>
+    {
+        using type = C<>;
+    };
+
+    template <std::size_t N, typename T, typename... Ts>
+    using replace_at_t = typename replace_at<N, T, Ts...>::type;
 }

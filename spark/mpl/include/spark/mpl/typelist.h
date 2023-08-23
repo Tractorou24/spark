@@ -111,5 +111,21 @@ namespace spark::mpl
          */
         template <std::size_t N, typename T>
         using insert_at = type_seq::insert_at_t<N, T, typelist<First, Ts...>>;
+
+        /**
+         * \brief Replace the type T by the type U in the typelist
+         * \tparam T Type to replace
+         * \tparam U Type to insert
+         */
+        template <typename T, typename U>
+        using replace = type_seq::replace_t<T, U, typelist<First, Ts...>>;
+
+        /**
+         * \brief Replace the type at index N by the type T in the typelist
+         * \tparam N Index
+         * \tparam T Type to insert
+         */
+        template <std::size_t N, typename T>
+        using replace_at = type_seq::replace_at_t<N, T, typelist<First, Ts...>>;
     };
 }
