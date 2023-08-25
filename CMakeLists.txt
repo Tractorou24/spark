@@ -20,6 +20,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Disable C++ compiler extension (like gnu) to ensure portable code
 set(CMAKE_CXX_EXTENSIONS OFF)
+# Enable warning as errors on all targets
+set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 
 # Enable CTest (and create variable BUILD_TESTING)
 include(CTest)
@@ -34,7 +36,6 @@ option(SPARK_EXAMPLES_IN_ALL "Build SPARK examples with ALL target" ON)
 option(SPARK_EXPERIMENTAL_ENABLED "Build SPARK experimental features" OFF)
 option(SPARK_EXPERIMENTAL_IN_ALL "Build SPARK experimental features with ALL target" OFF)
 
-set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 set(SPARK_OUTPUT_DIR ${CMAKE_BINARY_DIR}/_output)
 
 block()
