@@ -101,12 +101,6 @@ block()
             -march=native
         )        
 
-        if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-            target_compile_options(${_spark_compiler_linker_opt_target} INTERFACE
-                -D __cpp_consteval=1
-            )        
-        endif()
-
         # Define installation directories variables using GNU Standard.
         include(GNUInstallDirs)
         # Ensure correct rpath on binaries at build and install step
