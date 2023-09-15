@@ -24,7 +24,7 @@ jobs:
         # Build and test in Debug
       - uses: ilammy/msvc-dev-cmd@v1
         with:
-          toolset: 14.36
+          toolset: 14.37
       - name: Build & Test in Debug
         run: |
           cmake --preset dev_clang_ninja
@@ -51,7 +51,7 @@ jobs:
         # Build and test in Release
       - uses: ilammy/msvc-dev-cmd@v1
         with:
-          toolset: 14.36
+          toolset: 14.37
       - name: Build & Test in Release
         run: |
           cmake --preset dev_vc143_ninja
