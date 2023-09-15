@@ -169,17 +169,17 @@
       "configurePreset": "dev_gcc_ninja"
     },
     {
+      "name": "dev_clang_ninja_release",
+      "displayName": "Release",
+      "description": "Build in Release",
+      "configuration": "Release",
+      "configurePreset": "dev_clang_ninja"
+    },
+    {
       "name": "dev_clang_ninja_debug",
       "displayName": "Debug",
       "description": "Build in Debug",
       "configuration": "Debug",
-      "configurePreset": "dev_clang_ninja"
-    },
-    {
-      "name": "dev_clang_release",
-      "displayName": "Release",
-      "description": "Build in Release",
-      "configuration": "Release",
       "configurePreset": "dev_clang_ninja"
     }
   ]
