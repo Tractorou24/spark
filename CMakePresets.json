@@ -51,8 +51,6 @@
       "name": "ninja_multi",
       "hidden": true,
       "description": "Ninja Multi-Config generator base preset",
-      "binaryDir": "${sourceDir}/out/build-spark-ninja-multi",
-      "installDir": "${sourceDir}/out/install-spark-ninja-multi",
       "generator": "Ninja Multi-Config"
     },
     {
@@ -65,8 +63,8 @@
       "inherits": ["dev_base", "msvc143", "WinOnly"],
       "displayName": "Developer - MSVC - VS 17 2022",
       "description": "Developer build using MSVC and Visual Studio 17 2022 generator",
-      "binaryDir": "${sourceDir}/out/build-spark-vs22",
-      "installDir": "${sourceDir}/out/install-spark-vs22",
+      "binaryDir": "${sourceDir}/out/build-spark-msvc-vs22",
+      "installDir": "${sourceDir}/out/install-spark-msvc-vs22",
       "generator": "Visual Studio 17 2022",
       "architecture": {
         "value": "x64",
@@ -75,21 +73,27 @@
     },
     {
       "name": "dev_vc143_ninja",
-      "inherits": ["dev_base", "ninja_multi", "msvc143"],
+      "inherits": [ "dev_base", "ninja_multi", "msvc143" ],
       "displayName": "Developer - MSVC - Ninja Multi-Config - VS 2022",
-      "description": "Developer build using MSVC and Ninja Multi-Config generator"
+      "description": "Developer build using MSVC and Ninja Multi-Config generator",
+      "binaryDir": "${sourceDir}/out/build-spark-msvc-ninja-multi",
+      "installDir": "${sourceDir}/out/install-spark-msvc-ninja-multi"
     },
     {
       "name": "dev_gcc_ninja",
-      "inherits": ["dev_base", "ninja_multi", "gcc13"],
+      "inherits": [ "dev_base", "ninja_multi", "gcc13" ],
       "displayName": "Developer - GCC - Ninja Multi-Config",
-      "description": "Developer build using GCC and Ninja Multi-Config generator"
+      "description": "Developer build using GCC and Ninja Multi-Config generator",
+      "binaryDir": "${sourceDir}/out/build-spark-gcc-ninja-multi",
+      "installDir": "${sourceDir}/out/install-spark-gcc-ninja-multi"
     },
     {
       "name": "dev_clang_ninja",
-      "inherits": ["dev_base", "ninja_multi", "clang16"],
+      "inherits": [ "dev_base", "ninja_multi", "clang16" ],
       "displayName": "Developer - Clang - Ninja Multi-Config",
-      "description": "Developer build using Clang and Ninja Multi-Config generator"
+      "description": "Developer build using Clang and Ninja Multi-Config generator",
+      "binaryDir": "${sourceDir}/out/build-spark-clang-ninja-multi",
+      "installDir": "${sourceDir}/out/install-spark-clang-ninja-multi"
     }
   ],
   "buildPresets": [

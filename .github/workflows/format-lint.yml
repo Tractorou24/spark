@@ -26,7 +26,7 @@ jobs:
       - name: Generate project
         run: |
           cmake --preset dev_vc143
-          cp Folder.DotSettings out/build-spark-vs22/SPARK.sln.DotSettings
+          cp Folder.DotSettings out/build-spark-msvc-vs22/SPARK.sln.DotSettings
         
       - name: Cleanup Code
         uses: ArturWincenciak/ReSharper_CleanupCode@v2.0
