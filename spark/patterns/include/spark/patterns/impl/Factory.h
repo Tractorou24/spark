@@ -1,10 +1,10 @@
 #pragma once
 
-#include <memory>
-
 #include "spark/patterns/details/Creators.h"
 
 #include "spark/base/Exception.h"
+
+#include <memory>
 
 namespace spark::patterns
 {
