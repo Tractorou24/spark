@@ -34,6 +34,8 @@ namespace spark::patterns
          * \brief Registers a type the factory can create.
          * \tparam TypeToRegister The type of the derived class to register.
          * \param key The key used to reference the object.
+         *
+         * @throws spark::base::BadArgumentException when type is already registered.
          */
         template <typename TypeToRegister>
         void registerType(const Key& key);
@@ -43,6 +45,8 @@ namespace spark::patterns
          * \param key The key of type Key used to create the object.
          * \param args The arguments passed to the constructor of the derived class.
          * \return A std::unique_ptr to the created object.
+         *
+         * @throws spark::base::BadArgumentException when requested type is not registered.
          */
         [[nodiscard]] BasePtr create(const Key& key, Args&&... args) const;
 
