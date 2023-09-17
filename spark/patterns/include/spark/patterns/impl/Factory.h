@@ -18,19 +18,19 @@ namespace spark::patterns
     }
 
     template <typename Key, typename BaseType, typename... Args>
-    typename Factory<Key, BaseType, Args...>::BasePtr Factory<Key, BaseType, Args...>::create(const Key& key, const Args&... args) const
+    typename Factory<Key, BaseType, Args...>::BasePtr Factory<Key, BaseType, Args...>::create(const Key& key, Args&&... args) const
     {
         if (!m_creators.contains(key))
             throw spark::base::BadArgumentException("Type is not registered into the factory.");
-        return m_creators.at(key)->create(args...);
+        return m_creators.at(key)->create(std::forward<Args>(args)...);
     }
 
     template <typename Key, typename BaseType, typename... Args>
-    typename Factory<Key, BaseType, Args...>::BasePtr Factory<Key, BaseType, Args...>::createOrFail(const Key& key, const Args&... args) const noexcept
+    typename Factory<Key, BaseType, Args...>::BasePtr Factory<Key, BaseType, Args...>::createOrFail(const Key& key, Args&&... args) const noexcept
     {
         if (!m_creators.contains(key))
             return nullptr;
-        return m_creators.at(key)->create(args...);
+        return m_creators.at(key)->create(std::forward<Args>(args)...);
     }
 
     template <typename Key, typename BaseType, typename... Args>
