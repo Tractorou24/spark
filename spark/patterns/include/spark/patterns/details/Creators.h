@@ -17,7 +17,7 @@ namespace spark::patterns::details
 
     public:
         virtual ~BaseCreator() = default;
-        virtual BasePtr create(Args&&... args) const = 0;
+        [[nodiscard]] virtual BasePtr create(Args&&... args) const = 0;
     };
 
     /**
@@ -30,7 +30,7 @@ namespace spark::patterns::details
     class DerivedCreator final : public BaseCreator<BaseType, Args...>
     {
     public:
-        typename BaseCreator<BaseType, Args...>::BasePtr create(Args&&... args) const override
+        [[nodiscard]] typename BaseCreator<BaseType, Args...>::BasePtr create(Args&&... args) const override
         {
             return std::make_unique<DerivedType>(std::forward<Args>(args)...);
         }
