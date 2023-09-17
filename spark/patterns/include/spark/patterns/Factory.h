@@ -44,7 +44,7 @@ namespace spark::patterns
          * \param args The arguments passed to the constructor of the derived class.
          * \return A std::unique_ptr to the created object.
          */
-        BasePtr create(const Key& key, const Args&... args) const;
+        BasePtr create(const Key& key, Args&&... args) const;
 
         /**
          * \brief Creates an object of type BaseType.
@@ -52,7 +52,7 @@ namespace spark::patterns
          * \param args The arguments passed to the constructor of the derived class.
          * \return A std::unique_ptr to the created object if the type is registered, else a nullptr.
          */
-        BasePtr createOrFail(const Key& key, const Args&... args) const noexcept;
+        BasePtr createOrFail(const Key& key, Args&&... args) const noexcept;
 
         /**
          * \brief Gets a vector of all registered types in the factory.
