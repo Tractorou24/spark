@@ -25,3 +25,7 @@ target_link_libraries(${TARGET_NAME}
     INTERFACE
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_base
 )
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
