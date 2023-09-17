@@ -52,6 +52,8 @@ def check_commit(commit: str) -> List[str]:
         errors.append("Empty line between commit title and body is missing")
     if not re.fullmatch(r"^.+(?<![.\n])( \(#[0-9]+\))(\r?\n.*)*", commit) and not re.search(r"^.+[^.\n]+(\r?\n.*)*$", commit):
         errors.append("Commit message ends with a period")
+    if not commit[commit.index("] ") + 2].isupper():
+        errors.append("Commit title is not capitalized")
     if commit.find("Merge branch") != -1:
         errors.append("Commit is a git merge commit, use the rebase command instead")
     if commit.find("Conflicts:") != -1:
