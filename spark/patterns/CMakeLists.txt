@@ -8,7 +8,6 @@ spark_add_library(${TARGET_NAME} INTERFACE
         ${HEADER_DIR}/${SPARK_NAME}/patterns/Composite.h
         ${HEADER_DIR}/${SPARK_NAME}/patterns/Factory.h
         ${HEADER_DIR}/${SPARK_NAME}/patterns/Signal.h
-        ${HEADER_DIR}/${SPARK_NAME}/patterns/Singleton.h
         ${HEADER_DIR}/${SPARK_NAME}/patterns/Slot.h
 
         ${HEADER_DIR}/${SPARK_NAME}/patterns/details/Connection.h
@@ -17,7 +16,6 @@ spark_add_library(${TARGET_NAME} INTERFACE
         ${HEADER_DIR}/${SPARK_NAME}/patterns/impl/Composite.h
         ${HEADER_DIR}/${SPARK_NAME}/patterns/impl/Factory.h
         ${HEADER_DIR}/${SPARK_NAME}/patterns/impl/Signal.h
-        ${HEADER_DIR}/${SPARK_NAME}/patterns/impl/Singleton.h
         ${HEADER_DIR}/${SPARK_NAME}/patterns/impl/Slot.h
 )
 
