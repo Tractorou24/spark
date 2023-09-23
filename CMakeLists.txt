@@ -1,7 +1,7 @@
 ﻿cmake_minimum_required(VERSION 3.25)
 
 # Add our CMake modules files in the CMake path.
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules)
 
 # Enable folders for IDE projects generation (e.g Visual Studio)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
