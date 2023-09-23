@@ -7,7 +7,50 @@ include_guard(GLOBAL)
 # Include generic utilities
 #########
 include(GenerateExportHeader)
+include(GNUInstallDirs)
 include(SPARKCompilerFlags)
+
+#########
+# Internal helper function that setup runtime path following the target type
+# _spark_set_executable_rpath(
+#   target
+#   <LIBRARY | EXECUTABLE>
+# )
+#########
+function(_spark_set_executable_rpath target)
+    # Define the supported set of keywords
+    set(options EXECUTABLE LIBRARY)
+    set(one_value_keywords "")
+    set(multi_value_keywords "")
+
+    # Parse arguments
+    cmake_parse_arguments(RPATHOPT
+        "${options}"
+        "${one_value_keywords}"
+        "${multi_value_keywords}"
+        ${ARGN}
+    )
+
+    if (RPATHOPT_EXECUTABLE)
+        if (NOT DEFINED CACHE{SPARK_EXECUTABLE_RPATH})
+            file(RELATIVE_PATH bin_to_lib_rel_dir
+                ${CMAKE_INSTALL_FULL_BINDIR}
+                ${CMAKE_INSTALL_FULL_LIBDIR}
+            )
+            set(SPARK_EXECUTABLE_RPATH "$ORIGIN" "$ORIGIN/${bin_to_lib_rel_dir}" CACHE INTERNAL "RPATH for SPARK executable")
+        endif()
+        set(runtime_path "${SPARK_EXECUTABLE_RPATH}")
+    elseif(RPATHOPT_LIBRARY)
+        set(runtime_path "$ORIGIN")
+    else()
+        message(WARNING "Cannot set runtime path on ${target}, unkwown target type")
+    endif()
+
+    set_target_properties(${target} PROPERTIES
+        INSTALL_RPATH "${runtime_path}"
+        BUILD_WITH_INSTALL_RPATH TRUE
+    )
+endfunction()
 
 #########
 # Internal helper function that adds a new target
@@ -212,6 +255,9 @@ function(spark_add_library target)
         TYPE ${lib_type}
         ${LIB_UNPARSED_ARGUMENTS}
     )
+
+    # Handle RPATH
+    _SPARK_set_executable_rpath(${target} LIBRARY)
 endfunction()
 
 #########
@@ -249,6 +295,9 @@ function(spark_add_executable target)
         ${no_install}
         ${EXEC_UNPARSED_ARGUMENTS}
     )
+
+    # Handle RPATH
+    _spark_set_executable_rpath(${target} EXECUTABLE)
 endfunction()
 
 #########
@@ -276,8 +325,7 @@ function(spark_add_test_executable target)
         ${ARGN}
     )
 
-    _spark_add_target(${target}
-        EXECUTABLE
+    spark_add_executable(${target}
         NO_INSTALL
         ${TEST_UNPARSED_ARGUMENTS}
     )

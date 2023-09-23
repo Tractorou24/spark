@@ -99,17 +99,7 @@ block()
             # Enables all the warnings about constructions that some users consider questionable, and that are easy to avoid (or modify to prevent the warning), even in conjunction with macros.
             $<${_c_cxx_lang}:-Wall>
             -march=native
-        )        
-
-        # Define installation directories variables using GNU Standard.
-        include(GNUInstallDirs)
-        # Ensure correct rpath on binaries at build and install step
-        file(RELATIVE_PATH relDir
-            ${CMAKE_INSTALL_FULL_BINDIR}
-            ${CMAKE_INSTALL_FULL_LIBDIR}
         )
-        set(CMAKE_INSTALL_RPATH "$ORIGIN" "$ORIGIN/${relDir}" PARENT_SCOPE)
-        set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE PARENT_SCOPE)
     endif()
 
     # Setup alternative linker if possible
