@@ -1,0 +1,182 @@
+{
+  "version": 4,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "include": [
+    "platforms.json",
+    "common.json",
+    "compilers.json"
+  ],
+  "configurePresets": [
+    {
+      "name": "dev_vc143",
+      "inherits": ["dev_base", "msvc143"],
+      "displayName": "Developer - MSVC - VS 17 2022",
+      "description": "Developer build using MSVC and Visual Studio 17 2022 generator",
+      "binaryDir": "${sourceDir}/out/build-spark-msvc-vs22",
+      "installDir": "${sourceDir}/out/install-spark-msvc-vs22",
+      "generator": "Visual Studio 17 2022",
+      "architecture": {
+        "value": "x64",
+        "strategy": "set"
+      }
+    },
+    {
+      "name": "dev_vc143_ninja",
+      "inherits": ["dev_base", "ninja_multi", "msvc143"],
+      "displayName": "Developer - MSVC - Ninja Multi-Config - VS 2022",
+      "description": "Developer build using MSVC and Ninja Multi-Config generator",
+      "binaryDir": "${sourceDir}/out/build-spark-msvc-ninja-multi",
+      "installDir": "${sourceDir}/out/install-spark-msvc-ninja-multi"
+    },
+    {
+      "name": "dev_gcc_ninja",
+      "inherits": ["dev_base", "ninja_multi", "gcc13"],
+      "displayName": "Developer - GCC - Ninja Multi-Config",
+      "description": "Developer build using GCC and Ninja Multi-Config generator",
+      "binaryDir": "${sourceDir}/out/build-spark-gcc-ninja-multi",
+      "installDir": "${sourceDir}/out/install-spark-gcc-ninja-multi"
+    },
+    {
+      "name": "dev_clang_ninja",
+      "inherits": ["dev_base", "ninja_multi", "clang16"],
+      "displayName": "Developer - Clang - Ninja Multi-Config",
+      "description": "Developer build using Clang and Ninja Multi-Config generator",
+      "binaryDir": "${sourceDir}/out/build-spark-clang-ninja-multi",
+      "installDir": "${sourceDir}/out/install-spark-clang-ninja-multi"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev_vc143_release",
+      "inherits": ["msbuild", "WindowsOnly"],
+      "displayName": "Release",
+      "description": "Build in Release",
+      "configuration": "Release",
+      "configurePreset": "dev_vc143"
+    },
+    {
+      "name": "dev_vc143_debug",
+      "inherits": ["msbuild", "WindowsOnly"],
+      "displayName": "Debug",
+      "description": "Build in Debug",
+      "configuration": "Debug",
+      "configurePreset": "dev_vc143"
+    },
+    {
+      "name": "dev_vc143_ninja_release",
+      "inherits": ["WindowsOnly"],
+      "displayName": "Release",
+      "description": "Build in Release",
+      "configuration": "Release",
+      "configurePreset": "dev_vc143_ninja"
+    },
+    {
+      "name": "dev_vc143_ninja_debug",
+      "inherits": ["WindowsOnly"],
+      "displayName": "Debug",
+      "description": "Build in Debug",
+      "configuration": "Debug",
+      "configurePreset": "dev_vc143_ninja"
+    },
+    {
+      "name": "dev_gcc_ninja_release",
+      "inherits": ["LinuxOnly"],
+      "displayName": "Release",
+      "description": "Build in Release",
+      "configuration": "Release",
+      "configurePreset": "dev_gcc_ninja"
+    },
+    {
+      "name": "dev_gcc_ninja_debug",
+      "inherits": ["LinuxOnly"],
+      "displayName": "Debug",
+      "description": "Build in Debug",
+      "configuration": "Debug",
+      "configurePreset": "dev_gcc_ninja"
+    },
+    {
+      "name": "dev_clang_ninja_release",
+      "displayName": "Release",
+      "description": "Build in Release",
+      "configuration": "Release",
+      "configurePreset": "dev_clang_ninja"
+    },
+    {
+      "name": "dev_clang_ninja_debug",
+      "displayName": "Debug",
+      "description": "Build in Debug",
+      "configuration": "Debug",
+      "configurePreset": "dev_clang_ninja"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "dev_vc143_release",
+      "inherits": ["common", "WindowsOnly"],
+      "displayName": "All - Release",
+      "description": "Tests in Release",
+      "configuration": "Release",
+      "configurePreset": "dev_vc143"
+    },
+    {
+      "name": "dev_vc143_debug",
+      "inherits": ["common", "WindowsOnly"],
+      "displayName": "All - Debug",
+      "description": "Tests in Debug",
+      "configuration": "Debug",
+      "configurePreset": "dev_vc143"
+    },
+    {
+      "name": "dev_vc143_ninja_release",
+      "inherits": ["common", "WindowsOnly"],
+      "displayName": "All - Release",
+      "description": "Tests in Release",
+      "configuration": "Release",
+      "configurePreset": "dev_vc143_ninja"
+    },
+    {
+      "name": "dev_vc143_ninja_debug",
+      "inherits": ["common", "WindowsOnly"],
+      "displayName": "All - Debug",
+      "description": "Tests in Debug",
+      "configuration": "Debug",
+      "configurePreset": "dev_vc143_ninja"
+    },
+    {
+      "name": "dev_gcc_ninja_release",
+      "inherits": ["common", "LinuxOnly"],
+      "displayName": "All - Release",
+      "description": "Tests in Release",
+      "configuration": "Release",
+      "configurePreset": "dev_gcc_ninja"
+    },
+    {
+      "name": "dev_gcc_ninja_debug",
+      "inherits": ["common", "LinuxOnly"],
+      "displayName": "All - Debug",
+      "description": "Tests in Debug",
+      "configuration": "Debug",
+      "configurePreset": "dev_gcc_ninja"
+    },
+    {
+      "name": "dev_clang_ninja_release",
+      "inherits": ["common"],
+      "displayName": "All - Release",
+      "description": "Tests in Release",
+      "configuration": "Release",
+      "configurePreset": "dev_clang_ninja"
+    },
+    {
+      "name": "dev_clang_ninja_debug",
+      "inherits": ["common"],
+      "displayName": "All - Debug",
+      "description": "Tests in Debug",
+      "configuration": "Debug",
+      "configurePreset": "dev_clang_ninja"
+    }
+  ]
+}

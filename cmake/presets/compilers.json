@@ -1,0 +1,36 @@
+{
+  "version": 4,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "include": [
+    "platforms.json"
+  ],
+  "configurePresets": [
+    {
+      "name": "msvc143",
+      "hidden": true,
+      "inherits": ["WindowsOnly"],
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "cl"
+      }
+    },
+    {
+      "name": "gcc13",
+      "hidden": true,
+      "inherits": "LinuxOnly",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "clang16",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "clang++"
+      }
+    }
+  ]
+}

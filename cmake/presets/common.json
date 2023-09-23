@@ -1,0 +1,40 @@
+{
+  "version": 4,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "dev_base",
+      "hidden": true,
+      "description": "Developer base preset"
+    },
+    {
+      "name": "ninja_multi",
+      "hidden": true,
+      "description": "Ninja Multi-Config generator base preset",
+      "generator": "Ninja Multi-Config"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "msbuild",
+      "hidden": true,
+      "nativeToolOptions": ["-m"]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "common",
+      "hidden": true,
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "jobs": 8
+      }
+    }
+  ]
+}
