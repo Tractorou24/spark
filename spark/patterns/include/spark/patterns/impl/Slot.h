@@ -69,9 +69,15 @@ namespace spark::patterns
     }
 
     template <typename... Args>
+    bool Slot<Args...>::isConnected() const
+    {
+        return m_connection != nullptr;
+    }
+
+    template <typename... Args>
     void Slot<Args...>::disconnect()
     {
-        if (m_connection != nullptr)
+        if (isConnected())
             m_connection->m_signal->disconnect(this);
     }
 
@@ -81,7 +87,7 @@ namespace spark::patterns
         m_callback = std::move(slot->m_callback);
         m_connection = nullptr;
 
-        if (slot->m_connection != nullptr)
+        if (slot->isConnected())
         {
             m_connection = slot->m_connection;
             slot->m_connection->releaseSlot();

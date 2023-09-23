@@ -60,6 +60,12 @@ namespace spark::patterns
         Slot& operator=(Slot&& slot) noexcept;
 
         /**
+         * \brief Checks if this slot is connected to a signal.
+         * \return True if this slot is connected to a signal, false otherwise.
+         */
+        [[nodiscard]] bool isConnected() const;
+
+        /**
          * \brief Disconnects this slot from the signal.
          */
         void disconnect();

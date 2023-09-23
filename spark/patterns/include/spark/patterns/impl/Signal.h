@@ -79,7 +79,7 @@ namespace spark::patterns
     template <typename... Args>
     void Signal<Args...>::disconnect(Slot<Args...>* slot)
     {
-        if (slot && slot->m_connection && slot->m_connection->m_signal == this)
+        if (slot && slot->isConnected() && slot->m_connection->m_signal == this)
             disconnect(slot->m_connection->m_slotKey);
     }
 
