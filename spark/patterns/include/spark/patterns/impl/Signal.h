@@ -69,7 +69,8 @@ namespace spark::patterns
     template <typename... Args>
     void Signal<Args...>::disconnect(std::size_t key)
     {
-        if (auto it = m_connections.find(key); it != m_connections.end())
+        auto it = std::ranges::find_if(m_connections, [key](const auto& connection) { return connection.second.m_slotKey == key; });
+        if (it != m_connections.end())
         {
             it->second.releaseSlot();
             m_connections.erase(it);
