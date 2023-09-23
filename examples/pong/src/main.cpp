@@ -15,7 +15,7 @@ std::unique_ptr<spark::core::Application> spark_main(const spark::core::Applicat
     auto settings = default_settings;
     settings.name = "Pong";
 
-    auto app = std::make_unique<spark::core::Application>(settings);
+    auto app = spark::core::make_application(settings);
 
     // Create the main menu scene
     {

@@ -27,9 +27,6 @@ namespace spark::core
 
         m_window = Window::Create(window_settings);
         m_window->setEventCallback([this](events::Event& e) { onEvent(e); });
-
-        SPARK_CORE_ASSERT(!s_instance);
-        s_instance = this;
     }
 
     // ReSharper disable once CppMemberFunctionMayBeConst
@@ -150,5 +147,15 @@ namespace spark::core
 
         if (!result)
             SPARK_CORE_WARN("Failed to dispatch event {}", event.getRttiInstance().getClassName());
+    }
+
+    std::unique_ptr<Application> make_application(ApplicationSpecification settings)
+    {
+        if (Application::Instance())
+            throw spark::base::DuplicatedApplicationException("There is already an instance of Application");
+
+        auto app = std::unique_ptr<Application>(new Application(std::move(settings)));
+        app->s_instance = app.get();
+        return app;
     }
 }

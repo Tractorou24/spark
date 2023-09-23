@@ -84,6 +84,11 @@ namespace spark::base
      * \brief Exception thrown when trying to load a file with an unsupported format.
      */
     SPARK_BASE_DEFINE_EXCEPTION(UnsupportedFileFormatException)
+
+    /**
+     * \brief Exception thrown when trying to create multiple instances of an application, which is not allowed.
+     */
+    SPARK_BASE_DEFINE_EXCEPTION(DuplicatedApplicationException)
 }
 
 #undef SPARK_BASE_DEFINE_EXCEPTION
