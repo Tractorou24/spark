@@ -5,7 +5,6 @@
 #include "spark/core/Window.h"
 
 #include "spark/engine/Scene.h"
-#include "spark/patterns/Singleton.h"
 
 #include <filesystem>
 #include <string>
@@ -33,6 +32,8 @@ namespace spark::core
         friend class Renderer2D;
         friend class SceneManager;
 
+        friend SPARK_CORE_EXPORT std::unique_ptr<Application> make_application(ApplicationSpecification settings);
+
     public:
         /**
          * \brief Gets the instance of the application.
@@ -41,11 +42,6 @@ namespace spark::core
         static Application* Instance();
 
     public:
-        /**
-         * \brief Instantiates a new application with the given settings.
-         * \param settings The \link spark::core::ApplicationSpecification \endlink for the application.
-         */
-        explicit Application(ApplicationSpecification settings);
         ~Application() = default;
 
         Application(const Application& other) = delete;
@@ -89,6 +85,12 @@ namespace spark::core
 
     private:
         /**
+         * \brief Instantiates a new application with the given settings.
+         * \param settings The \link spark::core::ApplicationSpecification \endlink for the application.
+         */
+        explicit Application(ApplicationSpecification settings);
+
+        /**
          * \brief Dispatches an event to the application.
          * \param event A reference to the \link spark::events::Event \endlink to dispatch.
          */
@@ -103,4 +105,13 @@ namespace spark::core
         std::shared_ptr<engine::Scene> m_scene;
         bool m_isRunning = true;
     };
+
+    /**
+     * \brief Creates and configures a new application with the given settings.
+     * \param settings Settings for the application.
+     * \return A \ref std::unique_ptr to the application.
+     *
+     * \throws spark::core::DuplicatedApplicationException if the application was already created.
+     */
+    SPARK_CORE_EXPORT std::unique_ptr<Application> make_application(ApplicationSpecification settings);
 }
