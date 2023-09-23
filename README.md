@@ -31,21 +31,18 @@ To build the engine, you will need to install the following dependencies:
 
 You have the following CMake presets to build the engine:
 
-Configuration presets:
+<u>Configuration presets:</u>
 - `dev_vc143`, (Windows) using Visual Studio 2022 generator and MSVC compiler
 - `dev_vc143_ninja` (Windows) using Ninja generator and MSVC compiler
 - `dev_clang_ninja` (Windows & Linux) using Ninja generator and Clang compiler
 - `dev_gcc_ninja` (Linux) using Ninja generator and GCC compiler
 
-Build presets:
-- `dev_vc143_debug` (Windows) Debug VS MSVC build
-- `dev_vc143_release` (Windows) Release VS MSVC build
-- `dev_vc143_ninja_debug` (Windows) Debug Ninja MSVC build
-- `dev_vc143_ninja_release` (Windows) Release Ninja MSVC build
-- `dev_clang_ninja_debug` (Windows & Linux) Debug Ninja Clang build7
-- `dev_clang_ninja_release` (Windows & Linux) Release Ninja Clang build
-- `dev_gcc_ninja_debug` (Linux) Debug Ninja GCC build
-- `dev_gcc_ninja_release` (Linux) Release Ninja GCC build
+<u>Build presets:</u>  
+A build preset is composed of a configuration preset and a build type (`debug` or `release`) .  
+For example, `dev_vc143_debug` is a build configured from `dev_vc143` in debug mode.
+
+<u>Test presets:</u>  
+A test preset is of the same form as a build preset, but launched with CTest.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
