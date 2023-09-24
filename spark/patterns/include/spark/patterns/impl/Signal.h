@@ -98,6 +98,32 @@ namespace spark::patterns
         m_connections.clear();
     }
 
+    template<typename... Args>
+    bool Signal<Args...>::isConnected(const std::size_t key) const
+    {
+        const auto keys = getConnectedKeys();
+        return std::ranges::find(keys, key) != keys.end();
+    }
+
+    template <typename... Args>
+    std::vector<std::size_t> Signal<Args...>::getConnectedKeys() const
+    {
+        std::vector<std::size_t> keys;
+        keys.reserve(m_connections.size());
+        for (const auto& connection : m_connections | std::views::values)
+            keys.push_back(connection.m_slotKey);
+        return keys;
+    }
+
+    template <typename... Args>
+    std::vector<const Slot<Args...>*> Signal<Args...>::getConnectedSlots() const
+    {
+        std::vector<const Slot<Args...>*> slots;
+        for (const auto& connection : m_connections | std::views::values)
+            slots.push_back(connection.m_slot);
+        return slots;
+    }
+
     template <typename... Args>
     void Signal<Args...>::emit(Args&&... args) const
     {

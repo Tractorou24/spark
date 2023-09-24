@@ -84,6 +84,25 @@ namespace spark::patterns
         void clear();
 
         /**
+         * \brief Finds if a slot is connected to the signal.
+         * \param key The key of the slot to find.
+         * \return True if the slot is connected, false otherwise.
+         */
+        [[nodiscard]] bool isConnected(std::size_t key) const;
+
+        /**
+         * \brief Gets all the keys of the connected slots.
+         * \return A \ref std::vector containing the keys of the connected slots.
+         */
+        [[nodiscard]] std::vector<std::size_t> getConnectedKeys() const;
+
+        /**
+         * \brief Gets all the connected slots.
+         * \return A \ref std::vector containing pointers to the connected slots.
+         */
+         [[nodiscard]] std::vector<const Slot<Args...>*> getConnectedSlots() const;
+
+        /**
          * \brief Emits the signal to all connected slots.
          * \param args The arguments for the slots.
          */
