@@ -7,6 +7,7 @@ spark_add_test_executable(${TARGET_NAME}
     GTEST_DISCOVER
     CXX_SOURCES
         ${SOURCE_DIR}/FactoryTests.cpp
+        ${SOURCE_DIR}/SignalTests.cpp
         ${SOURCE_DIR}/SlotTests.cpp
 )
 
