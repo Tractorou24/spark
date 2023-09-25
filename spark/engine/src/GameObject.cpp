@@ -16,7 +16,6 @@ namespace spark::engine
             Destroy(obj);
         });
         object->onDestroyed();
-        object->getParent()->remove(object);
         delete object;
     }
 
@@ -70,8 +69,6 @@ namespace spark::engine
             // Ensure we don't destroy the object we're currently destroying, results in an infinite loop otherwise
             if (obj == this)
                 return;
-
-            obj->getParent()->remove(obj);
             delete obj;
         });
     }

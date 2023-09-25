@@ -11,24 +11,10 @@ namespace spark::patterns
     }
 
     template <typename DerivedType>
-    void Composite<DerivedType>::setParent(DerivedType* new_parent)
+    Composite<DerivedType>::~Composite()
     {
-        // Remove from old parent if it not nullptr
         if (m_parent)
             m_parent->remove(static_cast<DerivedType*>(this));
-
-        // Set new parent
-        m_parent = new_parent;
-
-        // Add this child to the new parent il it is not nullptr
-        if (m_parent)
-            m_parent->add(static_cast<DerivedType*>(this));
-    }
-
-    template <typename DerivedType>
-    void Composite<DerivedType>::addChild(DerivedType* child)
-    {
-        child->setParent(static_cast<DerivedType*>(this));
     }
 
     template <typename DerivedType>
@@ -123,5 +109,20 @@ namespace spark::patterns
         if (it == m_children.end())
             throw spark::base::BadArgumentException("Child could not be found in the children list!");
         m_children.erase(it);
+    }
+
+    template <typename DerivedType>
+    void Composite<DerivedType>::setParent(DerivedType* parent)
+    {
+        // Remove from old parent if it not nullptr
+        if (m_parent)
+            m_parent->remove(static_cast<DerivedType*>(this));
+
+        // Set new parent
+        m_parent = parent;
+
+        // Add this child to the new parent il it is not nullptr
+        if (m_parent)
+            m_parent->add(static_cast<DerivedType*>(this));
     }
 }
