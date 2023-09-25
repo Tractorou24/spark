@@ -31,9 +31,9 @@ namespace pong
         {
             GameObject::onSpawn();
 
-            m_leftPaddle = FindByName(&getRoot(), "Left Paddle");
-            m_rightPaddle = FindByName(&getRoot(), "Right Paddle");
-            m_ball = dynamic_cast<Ball*>(FindByName(&getRoot(), "Ball"));
+            m_leftPaddle = FindByName(getRoot(), "Left Paddle");
+            m_rightPaddle = FindByName(getRoot(), "Right Paddle");
+            m_ball = dynamic_cast<Ball*>(FindByName(getRoot(), "Ball"));
 
             SPARK_ASSERT(m_leftPaddle != nullptr)
             SPARK_ASSERT(m_rightPaddle != nullptr)
@@ -111,7 +111,7 @@ namespace pong
             m_ball->getTransform()->position = {window_size.x / 2 - 25, window_size.y / 2 - 25};
             m_ball->velocity = 250.0f;
 
-            std::ranges::for_each(FindByName(&getRoot(), "Background")->getComponentsInChildren<ui::Score>(), [](ui::Score* score) { score->reset(); });
+            std::ranges::for_each(FindByName(getRoot(), "Background")->getComponentsInChildren<ui::Score>(), [](ui::Score* score) { score->reset(); });
         }
 
     private:
@@ -139,7 +139,7 @@ namespace pong
          */
         [[nodiscard]] float getScore()
         {
-            const auto scores = FindByName(&getRoot(), "Background")->getComponentsInChildren<ui::Score>();
+            const auto scores = FindByName(getRoot(), "Background")->getComponentsInChildren<ui::Score>();
             return std::accumulate(scores.begin(),
                                    scores.end(),
                                    0.0f,
