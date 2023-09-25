@@ -10,15 +10,13 @@ namespace spark::patterns
     {
     public:
         explicit Composite(DerivedType* parent);
-        virtual ~Composite() = default;
+        virtual ~Composite();
 
         Composite(const Composite& other) = delete;
         Composite(Composite&& other) noexcept = default;
         Composite& operator=(const Composite& other) = delete;
         Composite& operator=(Composite&& other) noexcept = default;
 
-        void setParent(DerivedType* new_parent);
-        void addChild(DerivedType* child);
         [[nodiscard]] std::vector<DerivedType*> getChildren() const;
 
         [[nodiscard]] DerivedType* getParent();
@@ -33,9 +31,10 @@ namespace spark::patterns
         void traverseUp(std::function<void(DerivedType*)> fn);
         void traverseUp(std::function<void(const DerivedType*)> fn) const;
 
-    protected:
+    private:
         void add(DerivedType* child);
         void remove(DerivedType* child);
+        void setParent(DerivedType* parent);
 
     private:
         DerivedType* m_parent = nullptr;
