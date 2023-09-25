@@ -22,8 +22,8 @@ namespace spark::patterns
         [[nodiscard]] DerivedType* getParent();
         [[nodiscard]] const DerivedType* getParent() const;
 
-        [[nodiscard]] DerivedType& getRoot();
-        [[nodiscard]] const DerivedType& getRoot() const;
+        [[nodiscard]] DerivedType* getRoot();
+        [[nodiscard]] const DerivedType* getRoot() const;
 
         void traverse(std::function<void(DerivedType*)> fn);
         void traverse(std::function<void(const DerivedType*)> fn) const;

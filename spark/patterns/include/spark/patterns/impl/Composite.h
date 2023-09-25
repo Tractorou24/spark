@@ -30,21 +30,21 @@ namespace spark::patterns
     }
 
     template <typename DerivedType>
-    DerivedType& Composite<DerivedType>::getRoot()
+    DerivedType* Composite<DerivedType>::getRoot()
     {
         auto* ptr = static_cast<DerivedType*>(this);
         while (ptr->getParent() != nullptr)
             ptr = ptr->getParent();
-        return *ptr;
+        return ptr;
     }
 
     template <typename DerivedType>
-    const DerivedType& Composite<DerivedType>::getRoot() const
+    const DerivedType* Composite<DerivedType>::getRoot() const
     {
         const auto* ptr = static_cast<const DerivedType*>(this);
         while (ptr->getParent() != nullptr)
             ptr = ptr->getParent();
-        return *ptr;
+        return ptr;
     }
 
     template <typename DerivedType>
