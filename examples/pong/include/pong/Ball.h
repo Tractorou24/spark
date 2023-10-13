@@ -35,8 +35,6 @@ namespace pong
 
         void onSpawn() override
         {
-            GameObject::onSpawn();
-
             // Find the paddles.
             m_leftPaddle = FindByName(getRoot(), "Left Paddle");
             SPARK_ASSERT(m_leftPaddle != nullptr)
@@ -59,8 +57,6 @@ namespace pong
 
         void onUpdate(const float dt) override
         {
-            GameObject::onUpdate(dt);
-
             const auto [next_position, next_direction] = calculateNextFrame(getTransform()->position + direction * velocity * dt);
             if (checkLoose(next_position))
                 onLoose.emit();
