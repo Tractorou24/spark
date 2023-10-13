@@ -2,9 +2,9 @@
 
 #include "spark/engine/Component.h"
 #include "spark/engine/Export.h"
+#include "spark/engine/details/AbstractGameObject.h"
 
 #include "spark/base/Macros.h"
-#include "spark/patterns/Composite.h"
 #include "spark/rtti/HasRtti.h"
 
 namespace spark::engine::components
@@ -19,7 +19,7 @@ namespace spark::engine
      *
      * GameObjects can be parented to other GameObjects. When a GameObject is destroyed, all its children are destroyed as well with their components.
      */
-    class SPARK_ENGINE_EXPORT GameObject : public rtti::HasRtti, public patterns::Composite<GameObject>
+    class SPARK_ENGINE_EXPORT GameObject : public rtti::HasRtti, public details::AbstractGameObject<GameObject>
     {
         DECLARE_SPARK_RTTI(GameObject)
 
@@ -165,18 +165,18 @@ namespace spark::engine
         /**
          * \brief Method called when the GameObject is spawned in the scene.
          */
-        virtual void onSpawn();
+        virtual void onSpawn() {}
 
         /**
          * \brief Method called on every frame.
          * \param dt The time in seconds since the last frame.
          */
-        virtual void onUpdate(float dt);
+        virtual void onUpdate(float dt) { SPARK_UNUSED(dt); }
 
         /**
          * \brief Method called when the GameObject is destroyed.
          */
-        virtual void onDestroyed();
+        virtual void onDestroyed() {}
 
     public:
         /**
@@ -197,8 +197,6 @@ namespace spark::engine
     private:
         lib::Uuid m_uuid;
         std::string m_name;
-        bool m_initialized = false;
-        std::unordered_map<rtti::RttiBase*, std::pair<Component*, bool>> m_components;
     };
 }
 

@@ -29,7 +29,7 @@ namespace spark::engine
             return;
 
         SPARK_CORE_INFO("Loading scene {}", getUuid().str());
-        getRoot()->traverse([](GameObject* object)
+        getRoot()->traverse([](details::AbstractGameObject<GameObject>* object)
         {
             object->onSpawn();
         });
@@ -38,7 +38,7 @@ namespace spark::engine
 
     void Scene::onUpdate(float dt)
     {
-        getRoot()->traverse([&dt](GameObject* object)
+        getRoot()->traverse([&dt](details::AbstractGameObject<GameObject>* object)
         {
             object->onUpdate(dt);
         });
@@ -50,7 +50,7 @@ namespace spark::engine
             return;
 
         SPARK_CORE_INFO("Unloading scene {}", getUuid().str());
-        getRoot()->traverse([](GameObject* object)
+        getRoot()->traverse([](details::AbstractGameObject<GameObject>* object)
         {
             object->onDestroyed();
         });
