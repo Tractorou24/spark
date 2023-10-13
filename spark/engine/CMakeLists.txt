@@ -20,7 +20,10 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/engine/components/Text.h
         ${HEADER_DIR}/${SPARK_NAME}/engine/components/Transform.h
 
-        ${HEADER_DIR}/${SPARK_NAME}/engine/impl/GameObject.h)
+        ${HEADER_DIR}/${SPARK_NAME}/engine/details/AbstractGameObject.h
+        ${HEADER_DIR}/${SPARK_NAME}/engine/impl/AbstractGameObject.h
+        ${HEADER_DIR}/${SPARK_NAME}/engine/impl/GameObject.h
+)
 
 target_link_libraries(${TARGET_NAME}
 	PUBLIC
