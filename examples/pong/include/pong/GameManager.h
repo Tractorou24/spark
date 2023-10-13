@@ -29,8 +29,6 @@ namespace pong
 
         void onSpawn() override
         {
-            GameObject::onSpawn();
-
             m_leftPaddle = FindByName(getRoot(), "Left Paddle");
             m_rightPaddle = FindByName(getRoot(), "Right Paddle");
             m_ball = dynamic_cast<Ball*>(FindByName(getRoot(), "Ball"));
@@ -53,8 +51,6 @@ namespace pong
 
         void onUpdate(const float dt) override
         {
-            GameObject::onUpdate(dt);
-
             // Left paddle
             if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::Z))
             {
@@ -90,8 +86,6 @@ namespace pong
 
         void onDestroyed() override
         {
-            GameObject::onDestroyed();
-
             m_ball->onLoose.disconnect(m_looseSlotKey);
             m_menuSound.stop();
         }

@@ -25,8 +25,6 @@ namespace pong::ui
 
         void render() const override
         {
-            Component::render();
-
             const auto window_size = spark::core::Application::Instance()->getWindow().getSize().castTo<std::size_t>();
 
             for (std::size_t i = 0; i < window_size.y / (lineLength + verticalOffset); i++)
@@ -56,8 +54,6 @@ namespace pong::ui
 
         void render() const override
         {
-            Component::render();
-
             const auto score = std::to_string(m_currentScore);
             spark::core::Renderer2D::DrawText(score, m_position, 100, spark::path::assets_path() / "font.ttf");
         }

@@ -37,8 +37,6 @@ namespace pong::ui
 
         void onSpawn() override
         {
-            GameObject::onSpawn();
-
             m_playButtonSlotId = m_playButton->onClicked.connect([]
             {
                 spark::core::SceneManager::LoadScene("Game");
@@ -51,8 +49,6 @@ namespace pong::ui
 
         void onDestroyed() override
         {
-            GameObject::onDestroyed();
-
             m_playButton->onClicked.disconnect(m_playButtonSlotId);
             m_quitButton->onClicked.disconnect(m_quitButtonSlotId);
         }
