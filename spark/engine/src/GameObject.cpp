@@ -50,20 +50,13 @@ namespace spark::engine
     }
 
     GameObject::GameObject(std::string name, GameObject* parent)
-        : Composite<GameObject>(parent), m_name(std::move(name))
+        : AbstractGameObject(parent), m_name(std::move(name))
     {
         addComponent<components::Transform>();
     }
 
     GameObject::~GameObject()
     {
-        // Ensure onDestroyed() was called
-        SPARK_CORE_ASSERT(!m_initialized)
-
-        for (const auto& [component, managed] : m_components | std::views::values)
-            if (managed)
-                delete component;
-
         traverse([this](GameObject* obj)
         {
             // Ensure we don't destroy the object we're currently destroying, results in an infinite loop otherwise
@@ -113,36 +106,5 @@ namespace spark::engine
         for (const auto& component : m_components | std::views::values | std::views::keys)
             components.push_back(component);
         return components;
-    }
-
-    void GameObject::onSpawn()
-    {
-        SPARK_CORE_ASSERT(!m_initialized)
-        std::ranges::for_each(m_components | std::views::values | std::views::keys,
-                              [](Component* component)
-                              {
-                                  component->onAttach();
-                              });
-        m_initialized = true;
-    }
-
-    void GameObject::onUpdate(float dt)
-    {
-        std::ranges::for_each(m_components | std::views::values | std::views::keys,
-                              [&dt](Component* component)
-                              {
-                                  component->onUpdate(dt);
-                              });
-    }
-
-    void GameObject::onDestroyed()
-    {
-        SPARK_CORE_ASSERT(m_initialized)
-        std::ranges::for_each(m_components | std::views::values | std::views::keys,
-                              [](Component* component)
-                              {
-                                  component->onDetach();
-                              });
-        m_initialized = false;
     }
 }
