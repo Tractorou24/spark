@@ -54,46 +54,6 @@ namespace spark::patterns
     }
 
     template <typename DerivedType>
-    void Composite<DerivedType>::traverse(std::function<void(DerivedType*)> fn)
-    {
-        for (std::size_t i = 0; i < m_children.size(); ++i)
-        {
-            auto* child = m_children[i];
-            child->traverse(fn);
-        }
-        std::invoke(fn, static_cast<DerivedType*>(this));
-    }
-
-    template <typename DerivedType>
-    void Composite<DerivedType>::traverse(std::function<void(const DerivedType*)> fn) const
-    {
-        for (std::size_t i = 0; i < m_children.size(); ++i)
-        {
-            const auto* child = m_children[i];
-            child->traverse(fn);
-        }
-        std::invoke(fn, static_cast<const DerivedType*>(this));
-    }
-
-    template <typename DerivedType>
-    void Composite<DerivedType>::traverseUp(std::function<void(DerivedType*)> fn)
-    {
-        // Copying the pointer to avoids an overload error with the const version
-        if (auto* parent = m_parent)
-            parent->traverseUp(fn);
-        std::invoke(fn, static_cast<DerivedType*>(this));
-    }
-
-    template <typename DerivedType>
-    void Composite<DerivedType>::traverseUp(std::function<void(const DerivedType*)> fn) const
-    {
-        // Copying the pointer to a const one avoids an overload error with the non-const version
-        if (const auto* parent = m_parent)
-            parent->traverseUp(fn);
-        std::invoke(fn, static_cast<const DerivedType*>(this));
-    }
-
-    template <typename DerivedType>
     void Composite<DerivedType>::add(DerivedType* child)
     {
         auto it = std::ranges::find(m_children, child);
