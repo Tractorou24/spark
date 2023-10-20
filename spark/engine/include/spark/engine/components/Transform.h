@@ -22,10 +22,13 @@ namespace spark::engine::components
         static math::Vector2<float> LocalToWorld(const Transform* object)
         {
             math::Vector2<float> position = {};
-            object->getGameObject()->traverseUp([&position](const GameObject* parent)
+
+            auto* game_object = object->getGameObject();
+            while (game_object->getParent() != nullptr)
             {
-                position += parent->getTransform()->position;
-            });
+                position += game_object->getTransform()->position;
+                game_object = game_object->getParent();
+            }
             return position;
         }
 
