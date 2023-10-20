@@ -9,9 +9,11 @@ spark_add_library(${TARGET_NAME} INTERFACE
         ${HEADER_DIR}/${SPARK_NAME}/patterns/Factory.h
         ${HEADER_DIR}/${SPARK_NAME}/patterns/Signal.h
         ${HEADER_DIR}/${SPARK_NAME}/patterns/Slot.h
+        ${HEADER_DIR}/${SPARK_NAME}/patterns/Traverser.h
 
         ${HEADER_DIR}/${SPARK_NAME}/patterns/details/Connection.h
         ${HEADER_DIR}/${SPARK_NAME}/patterns/details/Creators.h
+        ${HEADER_DIR}/${SPARK_NAME}/patterns/details/Traverser.h
 
         ${HEADER_DIR}/${SPARK_NAME}/patterns/impl/Composite.h
         ${HEADER_DIR}/${SPARK_NAME}/patterns/impl/Factory.h
