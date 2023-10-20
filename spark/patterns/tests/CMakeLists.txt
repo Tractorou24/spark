@@ -10,6 +10,7 @@ spark_add_test_executable(${TARGET_NAME}
         ${SOURCE_DIR}/FactoryTests.cpp
         ${SOURCE_DIR}/SignalTests.cpp
         ${SOURCE_DIR}/SlotTests.cpp
+        ${SOURCE_DIR}/TraverserTests.cpp
 )
 
 target_link_libraries(${TARGET_NAME}
