@@ -1,6 +1,7 @@
 #include "spark/engine/Scene.h"
 
 #include "spark/log/Logger.h"
+#include "spark/patterns/Traverser.h"
 
 namespace spark::engine
 {
@@ -29,19 +30,23 @@ namespace spark::engine
             return;
 
         SPARK_CORE_INFO("Loading scene {}", getUuid().str());
-        getRoot()->traverse([](details::AbstractGameObject<GameObject>* object)
+
+        auto traverser = spark::patterns::make_traverser<GameObject>([](auto* object)
         {
-            object->onSpawn();
+            static_cast<details::AbstractGameObject<GameObject>*>(object)->onSpawn();
         });
+        spark::patterns::traverse_tree(m_root, traverser);
+
         m_isLoaded = true;
     }
 
     void Scene::onUpdate(float dt)
     {
-        getRoot()->traverse([&dt](details::AbstractGameObject<GameObject>* object)
+        auto traverser = spark::patterns::make_traverser<GameObject>([&dt](auto* object)
         {
-            object->onUpdate(dt);
+            static_cast<details::AbstractGameObject<GameObject>*>(object)->onUpdate(dt);
         });
+        spark::patterns::traverse_tree(m_root, traverser);
     }
 
     void Scene::onUnload()
@@ -50,10 +55,13 @@ namespace spark::engine
             return;
 
         SPARK_CORE_INFO("Unloading scene {}", getUuid().str());
-        getRoot()->traverse([](details::AbstractGameObject<GameObject>* object)
+
+        auto traverser = spark::patterns::make_traverser<GameObject>([](auto* object)
         {
-            object->onDestroyed();
+            static_cast<details::AbstractGameObject<GameObject>*>(object)->onDestroyed();
         });
+        spark::patterns::traverse_tree(m_root, traverser);
+
         m_isLoaded = false;
         SPARK_CORE_INFO("Scene {} unloaded", getUuid().str());
     }

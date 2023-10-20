@@ -1,13 +1,15 @@
 #include "spark/engine/GameObject.h"
 #include "spark/engine/components/Transform.h"
 
+#include "spark/patterns/Traverser.h"
+
 #include <ranges>
 
 namespace spark::engine
 {
     void GameObject::Destroy(GameObject* object)
     {
-        object->traverse([&object](GameObject* obj)
+        auto traverser = patterns::make_traverser<GameObject>([&object](GameObject* obj)
         {
             // Ensure we don't destroy the object we're currently destroying, results in an infinite loop otherwise
             if (obj == object)
@@ -15,6 +17,7 @@ namespace spark::engine
 
             Destroy(obj);
         });
+        patterns::traverse_tree(object, traverser);
         object->onDestroyed();
         delete object;
     }
@@ -22,7 +25,7 @@ namespace spark::engine
     GameObject* GameObject::FindById(GameObject* root, const lib::Uuid& uuid)
     {
         GameObject* found = nullptr;
-        root->traverse([&uuid, &found](GameObject* obj)
+        auto traverser = patterns::make_traverser<GameObject>([&uuid, &found](GameObject* obj)
         {
             if (obj->getUuid() == uuid)
             {
@@ -31,13 +34,14 @@ namespace spark::engine
                 found = obj;
             }
         });
+        patterns::traverse_tree(root, traverser);
         return found;
     }
 
     GameObject* GameObject::FindByName(GameObject* root, const std::string& name)
     {
         GameObject* found = nullptr;
-        root->traverse([&name, &found](GameObject* obj)
+        auto traverser = patterns::make_traverser<GameObject>([&name, &found](GameObject* obj)
         {
             if (obj->getName() == name)
             {
@@ -46,6 +50,7 @@ namespace spark::engine
                 found = obj;
             }
         });
+        patterns::traverse_tree(root, traverser);
         return found;
     }
 
@@ -57,13 +62,14 @@ namespace spark::engine
 
     GameObject::~GameObject()
     {
-        traverse([this](GameObject* obj)
+        auto traverser = patterns::make_traverser<GameObject>([this](const GameObject* obj)
         {
             // Ensure we don't destroy the object we're currently destroying, results in an infinite loop otherwise
             if (obj == this)
                 return;
             delete obj;
         });
+        patterns::traverse_tree(this, traverser);
     }
 
     const lib::Uuid& GameObject::getUuid() const
