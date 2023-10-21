@@ -1,4 +1,4 @@
-# SPARK: Simulation and Physics Animation Rendering Kernel
+# SPARK
 
 ![](https://i.imgur.com/IgNGQ3o.png)
 

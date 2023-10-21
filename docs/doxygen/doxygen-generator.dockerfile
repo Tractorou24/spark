@@ -4,6 +4,7 @@ FROM tracto/spark-doxygen-build-tools:latest
 # Add code and custom documentation
 # --------------------------------------------
 WORKDIR /sources
+ADD ./README.md ./README.md
 ADD ./docs ./docs
 ADD ./experimental ./experimental
 ADD ./spark ./spark
