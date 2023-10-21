@@ -16,3 +16,5 @@ WORKDIR /docs
 RUN mv $DOXYGEN_AWESOME_CSS/* .
 RUN mv /sources/docs/doxygen/* .
 RUN doxygen Doxyfile
+RUN mkdir -p ./html/docs
+RUN mv /sources/docs/img ./html/docs/img
