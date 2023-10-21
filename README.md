@@ -1,6 +1,6 @@
 # SPARK
 
-![](https://i.imgur.com/IgNGQ3o.png)
+![](docs/img/logo.png)
 
 SPARK is a general purpose game engine written in C++.
 
@@ -45,4 +45,4 @@ For example, `dev_vc143_debug` is a build configured from `dev_vc143` in debug m
 A test preset is of the same form as a build preset, but launched with CTest.
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Tractorou24/spark/blob/main/LICENSE) file for details.
