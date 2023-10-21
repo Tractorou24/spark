@@ -1,5 +1,11 @@
 # SPARK
 
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Tractorou24/spark/build-tests.yml)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/Tractorou24/spark)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/Tractorou24/spark/main)
+![GitHub issues](https://img.shields.io/github/issues/Tractorou24/spark)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/Tractorou24/spark)
+
 ![](docs/img/logo.png)
 
 SPARK is a general purpose game engine written in C++.
