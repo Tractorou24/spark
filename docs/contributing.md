@@ -3,6 +3,7 @@
 Feel free to contribute to this project by forking it and submitting a pull request. You can also open an issue if you find a bug or have a suggestion.
 
 Please follow the templates whe opening an issue or submitting a pull request.
+For code contributions, please follow the [style guidelines](style-guidelines.md).
 
 ## Requirements
 To build the engine, you will need to install the following dependencies:
