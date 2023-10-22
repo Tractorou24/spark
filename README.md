@@ -8,7 +8,7 @@
 
 ![](docs/img/logo.png)
 
-SPARK is a general purpose game engine written in C++.
+`SPARK` is a general purpose game engine written in C++.
 
 It is designed to be used during my 3 yers of studies at Ynov Bordeaux.
 
@@ -22,4 +22,4 @@ This engine will evolve during the next years. The following features are planne
 - Editor
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/Tractorou24/spark/blob/main/LICENSE) file for details.
+This project is licensed under the ![](docs/img/mit.png) MIT License - see the [LICENSE](https://github.com/Tractorou24/spark/blob/main/LICENSE) file for details.
