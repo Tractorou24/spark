@@ -8,6 +8,7 @@ spark_add_library(${TARGET_NAME}
     CXX_SOURCES
         ${SOURCE_DIR}/Logger.cpp
     PUBLIC_HEADERS
+        ${HEADER_DIR}/${SPARK_NAME}/log/Level.h
         ${HEADER_DIR}/${SPARK_NAME}/log/Logger.h
 )
 
