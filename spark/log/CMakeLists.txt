@@ -12,6 +12,6 @@ spark_add_library(${TARGET_NAME}
 )
 
 target_link_libraries(${TARGET_NAME}
-	PUBLIC
+	PRIVATE
         spdlog::spdlog
 )
