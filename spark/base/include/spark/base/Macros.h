@@ -98,13 +98,13 @@
 #define SPARK_CORE_ASSERT(cond)                                 \
     if (!(cond))                                                \
     {                                                           \
-        SPARK_CORE_CRITICAL("Assertion Failed: {0}", #cond);    \
+        spark::log::critical("Assertion Failed: {0}", #cond);   \
         SPARK_DEBUG_BREAK;                                      \
     }
 
-#define SPARK_ASSERT(cond)                              \
-    if (!(cond))                                        \
-    {                                                   \
-        SPARK_CRITICAL("Assertion Failed: {0}", #cond); \
-        SPARK_DEBUG_BREAK;                              \
+#define SPARK_ASSERT(cond)                                      \
+    if (!(cond))                                                \
+    {                                                           \
+        spark::log::critical("Assertion Failed: {0}", #cond);   \
+        SPARK_DEBUG_BREAK;                                      \
     }

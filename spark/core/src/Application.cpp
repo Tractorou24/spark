@@ -53,7 +53,7 @@ namespace spark::core
     void Application::close()
     {
         m_isRunning = false;
-        SPARK_CORE_INFO("Closing application");
+        log::info("Closing application");
     }
 
     ApplicationSpecification Application::getSettings() const
@@ -104,7 +104,7 @@ namespace spark::core
                 return true;
             } catch (const std::out_of_range&)
             {
-                SPARK_CORE_ERROR("Key {} is not registered in the keyPressedEvents map", e.getKeyCode());
+                log::error("Key {} is not registered in the keyPressedEvents map", e.getKeyCode());
                 return false;
             }
         });
@@ -116,7 +116,7 @@ namespace spark::core
                 return true;
             } catch (const std::out_of_range&)
             {
-                SPARK_CORE_ERROR("Key {} is not registered in the keyReleasedEvents map", e.getKeyCode());
+                log::error("Key {} is not registered in the keyReleasedEvents map", e.getKeyCode());
                 return false;
             }
         });
@@ -128,7 +128,7 @@ namespace spark::core
                 return true;
             } catch (const std::out_of_range&)
             {
-                SPARK_CORE_ERROR("Mouse button {} is not registered", e.getMouseButton());
+                log::error("Mouse button {} is not registered", e.getMouseButton());
                 return false;
             }
         });
@@ -140,13 +140,13 @@ namespace spark::core
                 return true;
             } catch (const std::out_of_range&)
             {
-                SPARK_CORE_ERROR("Mouse button {} is not registered", e.getMouseButton());
+                log::error("Mouse button {} is not registered", e.getMouseButton());
                 return false;
             }
         });
 
         if (!result)
-            SPARK_CORE_WARN("Failed to dispatch event {}", event.getRttiInstance().getClassName());
+            log::warning("Failed to dispatch event {}", event.getRttiInstance().getClassName());
     }
 
     std::unique_ptr<Application> make_application(ApplicationSpecification settings)

@@ -72,7 +72,7 @@ namespace spark::core
         // TODO: This is temporary, use real resource management when switching the renderer, we should not reload the image every frame !
         sf::Texture texture;
         if (!texture.loadFromFile(path.generic_string()))
-            SPARK_CORE_ERROR("Failed to load texture from file: {}", path.generic_string());
+            log::error("Failed to load texture from file: {}", path.generic_string());
 
         sf::Sprite sprite(texture);
         sprite.setPosition({position.x, position.y});
