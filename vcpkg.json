@@ -1,5 +1,5 @@
 {
   "name": "spark",
   "description": "Simulation and Physics Animation Rendering Kernel",
-  "dependencies": ["sfml", "spdlog", "boost-preprocessor", "gtest"]
+  "dependencies": ["sfml", "spdlog", "boost-config", "boost-preprocessor", "gtest"]
 }
