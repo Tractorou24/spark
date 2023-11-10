@@ -16,3 +16,7 @@ target_link_libraries(${TARGET_NAME}
 	PRIVATE
         spdlog::spdlog
 )
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
