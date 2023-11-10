@@ -4,6 +4,8 @@
 
 #include "spark/base/Endianness.h"
 
+#include <ostream>
+
 // ReSharper disable CppClangTidyCppCoreGuidelinesProTypeMemberInit
 
 namespace spark::lib
