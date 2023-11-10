@@ -19,13 +19,13 @@ namespace spark::core
     SfmlWindow::SfmlWindow(const WindowSpecification& settings)
         : m_data {settings.title, settings.width, settings.height, nullptr}
     {
-        SPARK_CORE_INFO(R"(Creating window "{}" ({}px * {}px))", m_data.title, m_data.width, m_data.height);
+        log::info(R"(Creating window "{}" ({}px * {}px))", m_data.title, m_data.width, m_data.height);
         m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(m_data.width, m_data.height), m_data.title);
     }
 
     void SfmlWindow::close()
     {
-        SPARK_CORE_INFO("Closing window");
+        log::info("Closing window");
         m_window->clear();
         m_window->close();
     }
@@ -94,7 +94,7 @@ namespace spark::core
                 }
             default:
                 {
-                    SPARK_CORE_WARN("Unhandled event type: {}", static_cast<int>(event.type));
+                    log::warning("Unhandled event type: {}", static_cast<int>(event.type));
                     break;
                 }
             }

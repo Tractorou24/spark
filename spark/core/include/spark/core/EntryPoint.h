@@ -10,8 +10,7 @@ extern std::unique_ptr<spark::core::Application> spark_main(const spark::core::A
 int main(const int argc, char* argv[])
 {
     // Initialize spark features
-    spark::log::Logger::Init();
-    SPARK_CORE_INFO("Initialized Logger");
+    spark::log::info("Initialized Logger");
 
     // Get command line arguments
     std::vector<std::string> args;
