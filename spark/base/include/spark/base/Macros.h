@@ -4,67 +4,88 @@
 
 #include "spark/log/Logger.h"
 
-/*
- *  Define macros to disable warnings on compilers
- */
-#ifdef SPARK_COMPILER_MSVC
-#	define DO_PRAGMA(pragma) __pragma(pragma)
-
-#	define SPARK_WARNING_PUSH DO_PRAGMA(warning(push))
-#	define SPARK_WARNING_POP  DO_PRAGMA(warning(pop))
-
-#	define SPARK_DISABLE_MSVC_WARNING(warningNumber) DO_PRAGMA(warning(disable: warningNumber))
-#	define SPARK_SUPPRESS_MSVC_WARNING(warningNumber) DO_PRAGMA(warning(suppress: warningNumber))
-#	define SPARK_DISABLE_GCC_WARNING(warningName)
-#	define SPARK_DISABLE_CLANG_WARNING(warningName)
-
-#	define SPARK_DEBUG_BREAK __debugbreak()
-#elif SPARK_COMPILER_GCC
-#   define DO_PRAGMA(pragma) _Pragma(#pragma)
-
-#   define SPARK_WARNING_PUSH DO_PRAGMA(GCC diagnostic push)
-#   define SPARK_WARNING_POP  DO_PRAGMA(GCC diagnostic pop)
-
-#   define SPARK_DISABLE_MSVC_WARNING(warningNumber)
-#   define SPARK_SUPPRESS_MSVC_WARNING(warningNumber)
-#   define SPARK_DISABLE_GCC_WARNING(warningName) DO_PRAGMA(GCC diagnostic ignored #warningName)
-#   define SPARK_DISABLE_CLANG_WARNING(warningName)
-
-#   define SPARK_DEBUG_BREAK __builtin_trap()
-#elif SPARK_COMPILER_CLANG
-#   define DO_PRAGMA(pragma) _Pragma(#pragma)
-
-#   define SPARK_WARNING_PUSH DO_PRAGMA(clang diagnostic push)
-#   define SPARK_WARNING_POP  DO_PRAGMA(clang diagnostic pop)
-
-#   define SPARK_DISABLE_MSVC_WARNING(warningNumber)
-#   define SPARK_SUPPRESS_MSVC_WARNING(warningNumber)
-#   define SPARK_DISABLE_GCC_WARNING(warningName)
-#   define SPARK_DISABLE_CLANG_WARNING(warningName) DO_PRAGMA(clang diagnostic ignored #warningName)
-
-#   define SPARK_DEBUG_BREAK __builtin_trap()
-#else
-#   define DO_PRAGMA(pragma) 
-
-#   define SPARK_WARNING_PUSH
-#   define SPARK_WARNING_POP
-
-#   define SPARK_DISABLE_MSVC_WARNING(warningNumber)
-#   define SPARK_SUPPRESS_MSVC_WARNING(warningNumber)
-#   define SPARK_DISABLE_GCC_WARNING(warningName)
-#   define SPARK_DISABLE_CLANG_WARNING(warningName)
-
-#   define SPARK_DEBUG_BREAK 
-
-#endif
-
-/*
- * Define macro to disable unused variable warning
+/**
+ * \brief Macro to silence unused variables warnings.
+ * \param x The name of the variable to silence the warning for.
  */
 #define SPARK_UNUSED(x) (void)(x)
 
-/*
- * Define macro to offset bits. Used in enums definitions.
+/**
+ * \brief Macro to crash the compilation if the compiler instantiates a template function but should not.
+ * \param TplParam A compile-time parameter to the template function used to crash the compilation.
+ */
+#define SPARK_STATIC_UNREACHABLE(TplParam, Message) \
+    static_assert(!std::is_same_v<TplParam, TplParam>, Message)
+
+/**
+ * \brief Macro to execute a compiler-specific pragma.
+ * \param pragma The pragma to execute.
+ */
+#if defined(SPARK_COMPILER_MSVC)
+    #define SPARK_DO_PRAGMA(pragma) __pragma(pragma)
+#elif defined(SPARK_COMPILER_GCC) || defined(SPARK_COMPILER_CLANG) || defined(SPARK_COMPILER_CLANG_ANALYSER)
+    #define SPARK_DO_PRAGMA(pragma) _Pragma(#pragma)
+#else
+    #define SPARK_DO_PRAGMA(pragma)
+#endif
+
+/**
+ * \brief Macro to push/pop warning settings.
+ */
+#if defined(SPARK_COMPILER_MSVC)
+    #define SPARK_WARNING_PUSH SPARK_DO_PRAGMA(warning(push))
+    #define SPARK_WARNING_POP  SPARK_DO_PRAGMA(warning(pop))
+#elif defined(SPARK_COMPILER_GCC)
+    #define SPARK_WARNING_PUSH SPARK_DO_PRAGMA(GCC diagnostic push)
+    #define SPARK_WARNING_POP  SPARK_DO_PRAGMA(GCC diagnostic pop)
+#elif defined(SPARK_COMPILER_CLANG) || defined(SPARK_COMPILER_CLANG_ANALYSER)
+    #define SPARK_WARNING_PUSH SPARK_DO_PRAGMA(clang diagnostic push)
+    #define SPARK_WARNING_POP  SPARK_DO_PRAGMA(clang diagnostic pop)
+#else
+    #define SPARK_WARNING_PUSH
+    #define SPARK_WARNING_POP
+#endif
+
+/**
+ * \brief Macro to disable/suppress compiler warnings.
+ * \param warningValue The warning number or name to disable/suppress.
+ */
+#ifdef SPARK_COMPILER_MSVC
+    #define SPARK_DISABLE_MSVC_WARNING(warningValue) SPARK_DO_PRAGMA(warning(disable: warningValue))
+    #define SPARK_SUPPRESS_MSVC_WARNING(warningValue) SPARK_DO_PRAGMA(warning(suppress: warningValue))
+    #define SPARK_DISABLE_GCC_WARNING(warningValue)
+    #define SPARK_DISABLE_CLANG_WARNING(warningValue)
+#elif defined(SPARK_COMPILER_GCC)
+    #define SPARK_DISABLE_MSVC_WARNING(warningValue)
+    #define SPARK_SUPPRESS_MSVC_WARNING(warningValue)
+    #define SPARK_DISABLE_GCC_WARNING(warningValue) SPARK_DO_PRAGMA(GCC diagnostic ignored #warningValue)
+    #define SPARK_DISABLE_CLANG_WARNING(warningValue)
+#elif defined(SPARK_COMPILER_CLANG)
+    #define SPARK_DISABLE_MSVC_WARNING(warningValue)
+    #define SPARK_SUPPRESS_MSVC_WARNING(warningValue)
+    #define SPARK_DISABLE_GCC_WARNING(warningValue)
+    #define SPARK_DISABLE_CLANG_WARNING(warningValue) SPARK_DO_PRAGMA(clang diagnostic ignored #warningValue)
+#else
+    #define SPARK_DISABLE_MSVC_WARNING(warningValue)
+    #define SPARK_SUPPRESS_MSVC_WARNING(warningValue)
+    #define SPARK_DISABLE_GCC_WARNING(warningValue)
+    #define SPARK_DISABLE_CLANG_WARNING(warningValue)
+#endif
+
+/**
+ * * \brief Macro to make a debugger break.
+ */
+#ifdef SPARK_COMPILER_MSVC
+    #define SPARK_DEBUG_BREAK __debugbreak()
+#elif defined(SPARK_COMPILER_GCC) || defined(SPARK_COMPILER_CLANG)
+    #define SPARK_DEBUG_BREAK __builtin_trap()
+#else
+    #define SPARK_DEBUG_BREAK
+#endif
+
+/**
+ * \brief Macro to offset bits. Used in enums definitions.
+ * \param X The number of bits to offset.
  */
 #define BIT(X) (1 << X)
 
