@@ -1,4 +1,4 @@
-find_package(SFML COMPONENTS system window graphics REQUIRED)
+find_package(SFML COMPONENTS system window graphics QUIET REQUIRED)
 
 set (TARGET_NAME ${SPARK_NAME}_core)
 set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
