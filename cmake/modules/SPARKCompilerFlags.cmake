@@ -104,8 +104,17 @@ block()
         target_compile_options(${_spark_compiler_linker_opt_target} INTERFACE
             # Enables all the warnings about constructions that some users consider questionable, and that are easy to avoid (or modify to prevent the warning), even in conjunction with macros.
             $<${_c_cxx_lang}:-Wall>
+            # Enables native instruction set for the current machine (SSE, AVX, etc...)
             -march=native
         )
+
+        if(LINUX)
+            # Linker options
+            target_link_options(${_spark_compiler_linker_opt_target} INTERFACE
+			    # undefined reference to `__atomic_is_lock_free'
+                -latomic
+		    )
+        endif()
     endif()
 
     # Setup alternative linker if possible
