@@ -52,7 +52,7 @@ namespace spark::core
 
     math::Vector2<float> Input::GetMousePosition()
     {
-        const auto position = sf::Mouse::getPosition(*static_cast<sf::Window*>(Application::Instance()->getWindow().getNativeWindow()));
+        const auto position = sf::Mouse::getPosition(*static_cast<sf::WindowBase*>(Application::Instance()->getWindow().getNativeWindow()));
         return {static_cast<float>(position.x), static_cast<float>(position.y)};
     }
 }
