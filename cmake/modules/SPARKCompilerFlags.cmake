@@ -93,6 +93,12 @@ block()
             # Add support of addresses >= 2GB
             /LARGEADDRESSAWARE
         )
+
+        # Disable some specific warnings
+        target_compile_options(${_spark_compiler_linker_opt_target} INTERFACE
+            # C4251: 'type' : class 'type1' needs to have dll-interface to be used by clients of class 'type2'
+            $<${_c_cxx_lang}:/wd4251>
+        )
     else() # GCC or Clang
         # Compiler options
         target_compile_options(${_spark_compiler_linker_opt_target} INTERFACE
