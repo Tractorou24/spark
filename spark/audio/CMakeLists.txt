@@ -1,4 +1,4 @@
-find_package(SFML COMPONENTS audio REQUIRED)
+find_package(SFML COMPONENTS audio QUIET REQUIRED)
 
 set (TARGET_NAME ${SPARK_NAME}_audio)
 set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
