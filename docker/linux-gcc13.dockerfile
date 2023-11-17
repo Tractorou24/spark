@@ -90,7 +90,7 @@ RUN update-alternatives --install /usr/bin/lld lld /usr/bin/lld-16 10 &&        
 RUN pip3 install --no-cache --break-system-packages cmake
 
 # Install Vcpkg
-RUN git clone https://github.com/microsoft/vcpkg.git --branch 2023.04.15 --depth 1
+RUN git clone https://github.com/microsoft/vcpkg.git && cd vcpkg && git reset --hard 8eb57355a4ffb410a2e94c07b4dca2dffbee8e50 && cd ..
 RUN cd vcpkg && ./bootstrap-vcpkg.sh && ./vcpkg integrate install && cd ..
 
 # Setup Vcpkg
