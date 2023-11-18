@@ -59,11 +59,6 @@ namespace spark::engine
         static GameObject* FindByName(GameObject* root, const std::string& name);
 
     public:
-        /**
-         * \brief Destructor, detaches all the components and deletes them if managed by the GameObject
-         */
-        ~GameObject() override;
-
         GameObject(const GameObject& other) = delete;
         GameObject(GameObject&& other) noexcept = default;
         GameObject& operator=(const GameObject& other) = delete;

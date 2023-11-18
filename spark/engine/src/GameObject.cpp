@@ -9,17 +9,7 @@ namespace spark::engine
 {
     void GameObject::Destroy(GameObject* object)
     {
-        auto traverser = patterns::make_traverser<GameObject>([&object](GameObject* obj)
-        {
-            // Ensure we don't destroy the object we're currently destroying, results in an infinite loop otherwise
-            if (obj == object)
-                return;
-
-            Destroy(obj);
-        });
-        patterns::traverse_tree(object, traverser);
-        object->onDestroyed();
-        delete object;
+        details::GameObjectDeleter<GameObject>()(object);
     }
 
     GameObject* GameObject::FindById(GameObject* root, const lib::Uuid& uuid)
@@ -58,18 +48,6 @@ namespace spark::engine
         : AbstractGameObject(parent), m_name(std::move(name))
     {
         addComponent<components::Transform>();
-    }
-
-    GameObject::~GameObject()
-    {
-        auto traverser = patterns::make_traverser<GameObject>([this](const GameObject* obj)
-        {
-            // Ensure we don't destroy the object we're currently destroying, results in an infinite loop otherwise
-            if (obj == this)
-                return;
-            delete obj;
-        });
-        patterns::traverse_tree(this, traverser);
     }
 
     const lib::Uuid& GameObject::getUuid() const
