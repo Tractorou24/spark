@@ -4,33 +4,37 @@
 
 namespace spark::patterns
 {
-    template <typename DerivedType>
-    Composite<DerivedType>::Composite(DerivedType* parent)
+    template <typename DerivedType, template <typename> class Deleter>
+    Composite<DerivedType, Deleter>::Composite(DerivedType* parent)
     {
         setParent(parent);
     }
 
-    template <typename DerivedType>
-    Composite<DerivedType>::~Composite()
+    template <typename DerivedType, template<typename> typename Deleter>
+    Composite<DerivedType, Deleter>::~Composite()
     {
         if (m_parent)
             m_parent->remove(static_cast<DerivedType*>(this));
+        m_parent = nullptr;
+
+        for (std::size_t i = 0; i < m_children.size(); ++i)
+            Deleter<DerivedType>()(m_children[i]);
     }
 
-    template <typename DerivedType>
-    DerivedType* Composite<DerivedType>::getParent()
+    template <typename DerivedType, template<typename> typename Deleter>
+    DerivedType* Composite<DerivedType, Deleter>::getParent()
     {
         return m_parent;
     }
 
-    template <typename DerivedType>
-    const DerivedType* Composite<DerivedType>::getParent() const
+    template <typename DerivedType, template<typename> typename Deleter>
+    const DerivedType* Composite<DerivedType, Deleter>::getParent() const
     {
         return m_parent;
     }
 
-    template <typename DerivedType>
-    DerivedType* Composite<DerivedType>::getRoot()
+    template <typename DerivedType, template<typename> typename Deleter>
+    DerivedType* Composite<DerivedType, Deleter>::getRoot()
     {
         auto* ptr = static_cast<DerivedType*>(this);
         while (ptr->getParent() != nullptr)
@@ -38,8 +42,8 @@ namespace spark::patterns
         return ptr;
     }
 
-    template <typename DerivedType>
-    const DerivedType* Composite<DerivedType>::getRoot() const
+    template <typename DerivedType, template<typename> typename Deleter>
+    const DerivedType* Composite<DerivedType, Deleter>::getRoot() const
     {
         const auto* ptr = static_cast<const DerivedType*>(this);
         while (ptr->getParent() != nullptr)
@@ -47,14 +51,14 @@ namespace spark::patterns
         return ptr;
     }
 
-    template <typename DerivedType>
-    std::vector<DerivedType*> Composite<DerivedType>::getChildren() const
+    template <typename DerivedType, template<typename> typename Deleter>
+    std::vector<DerivedType*> Composite<DerivedType, Deleter>::getChildren() const
     {
         return m_children;
     }
 
-    template <typename DerivedType>
-    void Composite<DerivedType>::add(DerivedType* child)
+    template <typename DerivedType, template<typename> typename Deleter>
+    void Composite<DerivedType, Deleter>::add(DerivedType* child)
     {
         auto it = std::ranges::find(m_children, child);
         if (it != m_children.end())
@@ -62,8 +66,8 @@ namespace spark::patterns
         m_children.push_back(child);
     }
 
-    template <typename DerivedType>
-    void Composite<DerivedType>::remove(DerivedType* child)
+    template <typename DerivedType, template<typename> typename Deleter>
+    void Composite<DerivedType, Deleter>::remove(DerivedType* child)
     {
         const auto it = std::ranges::find(m_children, child);
         if (it == m_children.end())
@@ -71,8 +75,8 @@ namespace spark::patterns
         m_children.erase(it);
     }
 
-    template <typename DerivedType>
-    void Composite<DerivedType>::setParent(DerivedType* parent)
+    template <typename DerivedType, template<typename> typename Deleter>
+    void Composite<DerivedType, Deleter>::setParent(DerivedType* parent)
     {
         // Remove from old parent if it not nullptr
         if (m_parent)
