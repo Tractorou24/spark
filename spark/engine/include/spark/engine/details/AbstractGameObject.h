@@ -9,12 +9,15 @@ namespace spark::engine
 
 namespace spark::engine::details
 {
+    template <typename Impl>
+    struct GameObjectDeleter;
+
     /**
      * \brief A CRTP class to implement a GameObject. It is used to wrap the onSpawn, onUpdate and onDestroyed methods to include custom code around user implementation.
      * \tparam Impl The implementation of the GameObject.
      */
     template <typename Impl>
-    class AbstractGameObject : public patterns::Composite<GameObject>
+    class AbstractGameObject : public patterns::Composite<GameObject, GameObjectDeleter>
     {
         friend class spark::engine::GameObject;
 
@@ -46,6 +49,20 @@ namespace spark::engine::details
     private:
         bool m_initialized = false;
         std::unordered_map<rtti::RttiBase*, std::pair<Component*, bool>> m_components;
+    };
+
+    /**
+     * \brief Deleter used to call the onDestroyed method on the implementation of a GameObject.
+     * \tparam Impl The implementation of the GameObject.
+     */
+    template <typename Impl>
+    struct GameObjectDeleter
+    {
+        void operator()(Impl* ptr) const
+        {
+            static_cast<AbstractGameObject<GameObject>*>(ptr)->onDestroyed();
+            delete ptr;
+        }
     };
 }
 
