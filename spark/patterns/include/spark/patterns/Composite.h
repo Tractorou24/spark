@@ -1,11 +1,11 @@
 #pragma once
 
-#include <functional>
+#include <memory>
 #include <vector>
 
 namespace spark::patterns
 {
-    template <typename DerivedType>
+    template <typename DerivedType, template<typename> typename Deleter = std::default_delete>
     class Composite
     {
     public:
