@@ -25,7 +25,9 @@ namespace spark::engine::details
     template <typename Impl>
     void AbstractGameObject<Impl>::onSpawn()
     {
-        SPARK_CORE_ASSERT(!m_initialized)
+        if (m_initialized)
+            return;
+
         static_cast<Impl*>(this)->onSpawn();
         std::ranges::for_each(m_components | std::views::values | std::views::keys,
                               [](Component* component)
@@ -49,7 +51,9 @@ namespace spark::engine::details
     template <typename Impl>
     void AbstractGameObject<Impl>::onDestroyed()
     {
-        SPARK_CORE_ASSERT(m_initialized)
+        if(!m_initialized)
+            return;
+
         std::ranges::for_each(m_components | std::views::values | std::views::keys,
                               [](Component* component)
                               {
