@@ -8,7 +8,7 @@ namespace spark::ser
     template <typename SerializableType>
     SerializerType& AbstractSerializer<SerializerType>::operator<<(const SerializableType& obj)
     {
-        auto& serializer = getType();
+        auto& serializer = type();
         SerializerScheme<SerializerType, SerializableType>::serialize(serializer, obj);
         return serializer;
     }
@@ -17,13 +17,13 @@ namespace spark::ser
     template <typename SerializableType>
     SerializerType& AbstractSerializer<SerializerType>::operator>>(SerializableType& obj)
     {
-        auto& serializer = getType();
+        auto& serializer = type();
         SerializerScheme<SerializerType, SerializableType>::deserialize(serializer, obj);
         return serializer;
     }
 
     template <typename SerializerType>
-    SerializerType& AbstractSerializer<SerializerType>::getType()
+    SerializerType& AbstractSerializer<SerializerType>::type()
     {
         return *static_cast<SerializerType*>(this);
     }
