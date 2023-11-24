@@ -54,19 +54,19 @@ namespace spark::audio
          * \brief Gets whether the sound is currently playing.
          * \return A boolean indicating whether the sound is currently playing.
          */
-        [[nodiscard]] bool getLoop() const;
+        [[nodiscard]] bool loop() const;
 
         /**
          * \brief Gets the volume of the sound.
          * \return A float between 0 and 100 indicating the volume of the sound.
          */
-        [[nodiscard]] float getVolume() const;
+        [[nodiscard]] float volume() const;
 
         /**
          * \brief Gets the pitch of the sound.
          * \return A float indicating the pitch of the sound.
          */
-        [[nodiscard]] float getPitch() const;
+        [[nodiscard]] float pitch() const;
 
         /**
          * \brief Sets the sound to loop or not.
