@@ -58,17 +58,17 @@ namespace spark::audio
         m_sound.play();
     }
 
-    bool Sound::getLoop() const
+    bool Sound::loop() const
     {
         return m_sound.getLoop();
     }
 
-    float Sound::getVolume() const
+    float Sound::volume() const
     {
         return m_sound.getVolume();
     }
 
-    float Sound::getPitch() const
+    float Sound::pitch() const
     {
         return m_sound.getPitch();
     }
