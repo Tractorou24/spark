@@ -26,9 +26,9 @@ namespace spark::patterns::details
         template <typename Traverser>
         static void exec(NodeType* container, Traverser& traverser, FnArgsTypes&&... args)
         {
-            for (auto* child : container->getChildren())
+            for (auto* child : container->children())
             {
-                if (!child->getChildren().empty())
+                if (!child->children().empty())
                 {
                     auto* sub_container = static_cast<std::conditional_t<std::is_const_v<NodeType>, const NodeType, NodeType>*>(child);
                     traverser.pre(child, std::forward<FnArgsTypes>(args)...);

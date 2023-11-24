@@ -34,7 +34,7 @@ namespace spark::patterns
     }
 
     template <typename Key, typename BaseType, typename... Args>
-    std::vector<Key> Factory<Key, BaseType, Args...>::getRegisteredTypes() const noexcept
+    std::vector<Key> Factory<Key, BaseType, Args...>::registeredTypes() const noexcept
     {
         std::vector<Key> keys;
         keys.reserve(m_creators.size());

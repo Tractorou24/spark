@@ -29,9 +29,9 @@ namespace pong
 
         void onSpawn() override
         {
-            m_leftPaddle = FindByName(getRoot(), "Left Paddle");
-            m_rightPaddle = FindByName(getRoot(), "Right Paddle");
-            m_ball = dynamic_cast<Ball*>(FindByName(getRoot(), "Ball"));
+            m_leftPaddle = FindByName(root(), "Left Paddle");
+            m_rightPaddle = FindByName(root(), "Right Paddle");
+            m_ball = dynamic_cast<Ball*>(FindByName(root(), "Ball"));
 
             SPARK_ASSERT(m_leftPaddle != nullptr)
             SPARK_ASSERT(m_rightPaddle != nullptr)
@@ -102,7 +102,7 @@ namespace pong
             m_ball->transform()->position = {window_size.x / 2 - 25, window_size.y / 2 - 25};
             m_ball->velocity = 250.0f;
 
-            std::ranges::for_each(FindByName(getRoot(), "Background")->componentsInChildren<ui::Score>(), [](ui::Score* score) { score->reset(); });
+            std::ranges::for_each(FindByName(root(), "Background")->componentsInChildren<ui::Score>(), [](ui::Score* score) { score->reset(); });
         }
 
     private:
@@ -130,7 +130,7 @@ namespace pong
          */
         [[nodiscard]] float getScore()
         {
-            const auto scores = FindByName(getRoot(), "Background")->componentsInChildren<ui::Score>();
+            const auto scores = FindByName(root(), "Background")->componentsInChildren<ui::Score>();
             return std::accumulate(scores.begin(),
                                    scores.end(),
                                    0.0f,

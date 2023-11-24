@@ -216,7 +216,7 @@ namespace spark::core
 
             for (const auto* component : game_object.components())
                 component->render();
-            for (const auto* child : game_object.getChildren())
+            for (const auto* child : game_object.children())
                 exec(*child);
         }
     };

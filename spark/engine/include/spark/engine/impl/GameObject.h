@@ -36,7 +36,7 @@ namespace spark::engine
     std::vector<T*> GameObject::componentsInChildren() const
     {
         std::vector<T*> components;
-        for (const auto* child : getChildren())
+        for (const auto* child : children())
         {
             // On the object
             auto* component = child->component<T>();
@@ -62,8 +62,7 @@ namespace spark::engine
     template <typename T> requires std::is_base_of_v<Component, T>
     T* GameObject::componentInChildren() const
     {
-        const auto& children = getChildren();
-        for (const auto* child : children)
+        for (const auto* child : children())
         {
             auto* component = child->component<T>();
             if (component != nullptr)
@@ -75,6 +74,6 @@ namespace spark::engine
     template <typename T> requires std::is_base_of_v<Component, T>
     T* GameObject::componentInParent() const
     {
-        return getParent()->component<T>();
+        return parent()->component<T>();
     }
 }

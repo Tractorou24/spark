@@ -101,12 +101,12 @@ namespace spark::patterns
     template<typename... Args>
     bool Signal<Args...>::isConnected(const std::size_t key) const
     {
-        const auto keys = getConnectedKeys();
+        const auto keys = connectedKeys();
         return std::ranges::find(keys, key) != keys.end();
     }
 
     template <typename... Args>
-    std::vector<std::size_t> Signal<Args...>::getConnectedKeys() const
+    std::vector<std::size_t> Signal<Args...>::connectedKeys() const
     {
         std::vector<std::size_t> keys;
         keys.reserve(m_connections.size());
@@ -116,7 +116,7 @@ namespace spark::patterns
     }
 
     template <typename... Args>
-    std::vector<const Slot<Args...>*> Signal<Args...>::getConnectedSlots() const
+    std::vector<const Slot<Args...>*> Signal<Args...>::connectedSlots() const
     {
         std::vector<const Slot<Args...>*> slots;
         for (const auto& connection : m_connections | std::views::values)

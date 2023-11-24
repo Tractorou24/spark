@@ -36,10 +36,10 @@ namespace pong
         void onSpawn() override
         {
             // Find the paddles.
-            m_leftPaddle = FindByName(getRoot(), "Left Paddle");
+            m_leftPaddle = FindByName(root(), "Left Paddle");
             SPARK_ASSERT(m_leftPaddle != nullptr)
 
-            m_rightPaddle = FindByName(getRoot(), "Right Paddle");
+            m_rightPaddle = FindByName(root(), "Right Paddle");
             SPARK_ASSERT(m_rightPaddle != nullptr)
 
             // Set the paddle size (used to calculate the bounce).
@@ -95,7 +95,7 @@ namespace pong
             if (next_position.x < m_leftPaddle->transform()->position.x + m_paddleSize.x &&
                 next_position.y > m_leftPaddle->transform()->position.y - radius && next_position.y < m_leftPaddle->transform()->position.y + m_paddleSize.y)
             {
-                FindByName(getRoot(), "Left Score")->component<ui::Score>()->incrementScore.emit(1);
+                FindByName(root(), "Left Score")->component<ui::Score>()->incrementScore.emit(1);
                 return {{adjusted_position.x + radius, adjusted_position.y}, {-direction.x, direction.y}};
             }
 
@@ -103,7 +103,7 @@ namespace pong
             if (next_position.x > m_rightPaddle->transform()->position.x - radius * 2 &&
                 next_position.y > m_rightPaddle->transform()->position.y - radius && next_position.y < m_rightPaddle->transform()->position.y + m_paddleSize.y)
             {
-                FindByName(getRoot(), "Right Score")->component<ui::Score>()->incrementScore.emit(1);
+                FindByName(root(), "Right Score")->component<ui::Score>()->incrementScore.emit(1);
                 return {{adjusted_position.x - radius, adjusted_position.y}, {-direction.x, direction.y}};
             }
 

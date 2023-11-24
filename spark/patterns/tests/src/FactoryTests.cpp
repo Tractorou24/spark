@@ -106,7 +106,7 @@ namespace spark::patterns::testing
         factory.registerType<B>("B");
 
         // When retrieving the registered types
-        const auto registered_types = factory.getRegisteredTypes();
+        const auto registered_types = factory.registeredTypes();
 
         // Then, all registered types are in the vector
         EXPECT_EQ(registered_types.size(), 2);

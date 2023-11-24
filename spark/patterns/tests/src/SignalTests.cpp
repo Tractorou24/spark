@@ -146,7 +146,7 @@ namespace spark::patterns::testing
         const std::size_t key2 = signal.connect(slot2);
 
         // When getting the connected slot keys
-        const auto keys = signal.getConnectedKeys();
+        const auto keys = signal.connectedKeys();
 
         // Then, the keys should be returned
         EXPECT_TRUE(std::ranges::find(keys, key1) != keys.end());
@@ -162,7 +162,7 @@ namespace spark::patterns::testing
         signal.connect(slot2);
 
         // When getting the connected slots
-        const auto slots = signal.getConnectedSlots();
+        const auto slots = signal.connectedSlots();
 
         // Then, the slots should be returned
         EXPECT_TRUE(std::ranges::find(slots, &slot) != slots.end());
