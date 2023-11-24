@@ -55,32 +55,32 @@ namespace pong
             if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::Z))
             {
                 const float next_height = m_leftPaddle->transform()->position.y - 200.0f * dt;
-                m_leftPaddle->transform()->position.y = getNewPaddleHeight(m_leftPaddle, next_height);
+                m_leftPaddle->transform()->position.y = newPaddleHeight(m_leftPaddle, next_height);
             }
             if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::S))
             {
                 const float requested_height = m_leftPaddle->transform()->position.y + 200.0f * dt;
-                m_leftPaddle->transform()->position.y = getNewPaddleHeight(m_leftPaddle, requested_height);
+                m_leftPaddle->transform()->position.y = newPaddleHeight(m_leftPaddle, requested_height);
             }
 
             // Right paddle
             if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::Up))
             {
                 const float next_height = m_rightPaddle->transform()->position.y - 200.0f * dt;
-                m_rightPaddle->transform()->position.y = getNewPaddleHeight(m_rightPaddle, next_height);
+                m_rightPaddle->transform()->position.y = newPaddleHeight(m_rightPaddle, next_height);
             }
             if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::Down))
             {
                 const float requested_height = m_rightPaddle->transform()->position.y + 200.0f * dt;
-                m_rightPaddle->transform()->position.y = getNewPaddleHeight(m_rightPaddle, requested_height);
+                m_rightPaddle->transform()->position.y = newPaddleHeight(m_rightPaddle, requested_height);
             }
 
             // Update paddle speed from score
-            if (const float score = getScore(); m_lastScore != score)
+            if (const float current_score = score(); m_lastScore != current_score)
             {
                 m_hitSound.play();
-                m_ball->velocity += (score - m_lastScore) * 5;
-                m_lastScore = score;
+                m_ball->velocity += (current_score - m_lastScore) * 5;
+                m_lastScore = current_score;
             }
         }
 
@@ -112,7 +112,7 @@ namespace pong
          * \param next_height The desired height of the paddle.
          * \return The new height of the top of the paddle.
          */
-        [[nodiscard]] static float getNewPaddleHeight(const GameObject* paddle, const float next_height)
+        [[nodiscard]] static float newPaddleHeight(const GameObject* paddle, const float next_height)
         {
             const auto paddle_rect = paddle->component<spark::engine::components::Rectangle>();
             const auto screen_height = static_cast<float>(spark::core::Application::Instance()->window().height());
@@ -128,7 +128,7 @@ namespace pong
          * \brief Calculates the total score of the game (sum of the scores of the players).
          * \return The total score of the game.
          */
-        [[nodiscard]] float getScore()
+        [[nodiscard]] float score()
         {
             const auto scores = FindByName(root(), "Background")->componentsInChildren<ui::Score>();
             return std::accumulate(scores.begin(),
@@ -136,7 +136,7 @@ namespace pong
                                    0.0f,
                                    [](const float acc, const class ui::Score* score)
                                    {
-                                       return acc + static_cast<float>(score->getScore());
+                                       return acc + static_cast<float>(score->value());
                                    });
         }
 
