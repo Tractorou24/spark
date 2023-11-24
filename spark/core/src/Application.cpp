@@ -100,11 +100,11 @@ namespace spark::core
         {
             try
             {
-                Input::keyPressedEvents.at(e.getKeyCode()).emit();
+                Input::keyPressedEvents.at(e.keyCode()).emit();
                 return true;
             } catch (const std::out_of_range&)
             {
-                log::error("Key {} is not registered in the keyPressedEvents map", e.getKeyCode());
+                log::error("Key {} is not registered in the keyPressedEvents map", e.keyCode());
                 return false;
             }
         });
@@ -112,11 +112,11 @@ namespace spark::core
         {
             try
             {
-                Input::keyReleasedEvents.at(e.getKeyCode()).emit();
+                Input::keyReleasedEvents.at(e.keyCode()).emit();
                 return true;
             } catch (const std::out_of_range&)
             {
-                log::error("Key {} is not registered in the keyReleasedEvents map", e.getKeyCode());
+                log::error("Key {} is not registered in the keyReleasedEvents map", e.keyCode());
                 return false;
             }
         });
@@ -124,11 +124,11 @@ namespace spark::core
         {
             try
             {
-                Input::mousePressedEvents.at(e.getMouseButton()).emit();
+                Input::mousePressedEvents.at(e.button()).emit();
                 return true;
             } catch (const std::out_of_range&)
             {
-                log::error("Mouse button {} is not registered", e.getMouseButton());
+                log::error("Mouse button {} is not registered", e.button());
                 return false;
             }
         });
@@ -136,11 +136,11 @@ namespace spark::core
         {
             try
             {
-                Input::mouseReleasedEvents.at(e.getMouseButton()).emit();
+                Input::mouseReleasedEvents.at(e.button()).emit();
                 return true;
             } catch (const std::out_of_range&)
             {
-                log::error("Mouse button {} is not registered", e.getMouseButton());
+                log::error("Mouse button {} is not registered", e.button());
                 return false;
             }
         });

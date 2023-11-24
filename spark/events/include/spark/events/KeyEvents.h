@@ -20,7 +20,7 @@ namespace spark::events
          * \brief Gets the key code of the key that triggered this event.
          * \return The key code of the key that triggered this event.
          */
-        [[nodiscard]] base::KeyCode getKeyCode() const noexcept;
+        [[nodiscard]] base::KeyCode keyCode() const noexcept;
 
     protected:
         explicit KeyEvent(base::KeyCode key) noexcept;

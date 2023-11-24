@@ -2,7 +2,7 @@
 
 namespace spark::events
 {
-    base::KeyCode KeyEvent::getKeyCode() const noexcept
+    base::KeyCode KeyEvent::keyCode() const noexcept
     {
         return key;
     }

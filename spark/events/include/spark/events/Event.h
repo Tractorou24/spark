@@ -37,10 +37,14 @@ namespace spark::events
         EventCategoryMouseButton = BIT(4)
     };
 
-#define DEFINE_EVENT_TYPE(type) public:  static EventType GetStaticType() { return type; } \
-                                     virtual EventType getEventType() const override { return GetStaticType(); } private:
+#define DEFINE_EVENT_TYPE(type) public:                                                                   \
+                                    static EventType StaticType() { return type; }                        \
+                                    virtual EventType eventType() const override { return StaticType(); } \
+                                private:
 
-#define DEFINE_EVENT_CATEGORY(category) public: virtual int getEventCategoryFlags() const override { return category; } private:
+#define DEFINE_EVENT_CATEGORY(category) public:                                                                  \
+                                            virtual int eventCategoryFlags() const override { return category; } \
+                                        private:
 
     /**
      * \brief A base class for all events in SPARK.
@@ -62,13 +66,13 @@ namespace spark::events
          * \brief Gets the type of the event.
          * \return An EventType enum value corresponding to the type of the event.
          */
-        [[nodiscard]] virtual EventType getEventType() const = 0;
+        [[nodiscard]] virtual EventType eventType() const = 0;
 
         /**
          * \brief Gets the category flags of the event.
          * \return An int combining the enum values of the corresponding categories of the event.
          */
-        [[nodiscard]] virtual int getEventCategoryFlags() const = 0;
+        [[nodiscard]] virtual int eventCategoryFlags() const = 0;
 
         /**
          * \brief Checks if the event is in the specified category.

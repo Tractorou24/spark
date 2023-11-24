@@ -25,13 +25,13 @@ namespace spark::events
          * \brief Gets the new width of the window.
          * \return The width of the window.
          */
-        [[nodiscard]] unsigned int getWidth() const;
+        [[nodiscard]] unsigned int width() const;
 
         /**
          * \brief Gets the new height of the window.
          * \return The height of the window.
          */
-        [[nodiscard]] unsigned int getHeight() const;
+        [[nodiscard]] unsigned int height() const;
 
     private:
         unsigned int m_width, m_height;
