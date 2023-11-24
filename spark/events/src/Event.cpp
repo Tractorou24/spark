@@ -4,6 +4,6 @@ namespace spark::events
 {
     bool Event::isInCategory(const EventCategory& category) const
     {
-        return getEventCategoryFlags() & category;
+        return eventCategoryFlags() & category;
     }
 }

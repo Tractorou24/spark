@@ -28,13 +28,13 @@ namespace spark::events
          * \brief Gets the x position of the mouse.
          * \return An int representing the x position of the mouse.
          */
-        [[nodiscard]] int getX() const;
+        [[nodiscard]] int x() const;
 
         /**
          * \brief Gets the y position of the mouse.
          * \return An int representing the y position of the mouse.
          */
-        [[nodiscard]] int getY() const;
+        [[nodiscard]] int y() const;
 
     private:
         int m_mouseX, m_mouseY;
@@ -60,7 +60,7 @@ namespace spark::events
          * \brief Gets the scroll offset.
          * \return A float representing the scroll offset from the previous position.
          */
-        [[nodiscard]] float getOffset() const;
+        [[nodiscard]] float offset() const;
 
     private:
         float m_offset;
@@ -79,7 +79,7 @@ namespace spark::events
          * \brief Gets the mouse button that triggered this event.
          * \return A spark::base::MouseCode representing the mouse button that triggered this event.
          */
-        [[nodiscard]] base::MouseCode getMouseButton() const;
+        [[nodiscard]] base::MouseCode button() const;
 
     protected:
         explicit MouseButtonEvent(base::MouseCode button);

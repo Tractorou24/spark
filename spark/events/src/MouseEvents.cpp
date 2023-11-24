@@ -5,12 +5,12 @@ namespace spark::events
     MouseMovedEvent::MouseMovedEvent(const int x, const int y)
         : m_mouseX(x), m_mouseY(y) { }
 
-    int MouseMovedEvent::getX() const
+    int MouseMovedEvent::x() const
     {
         return m_mouseX;
     }
 
-    int MouseMovedEvent::getY() const
+    int MouseMovedEvent::y() const
     {
         return m_mouseY;
     }
@@ -18,12 +18,12 @@ namespace spark::events
     MouseScrolledEvent::MouseScrolledEvent(const float offset)
         : m_offset(offset) { }
 
-    float MouseScrolledEvent::getOffset() const
+    float MouseScrolledEvent::offset() const
     {
         return m_offset;
     }
 
-    base::MouseCode MouseButtonEvent::getMouseButton() const
+    base::MouseCode MouseButtonEvent::button() const
     {
         return m_button;
     }

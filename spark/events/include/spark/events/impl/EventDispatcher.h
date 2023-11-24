@@ -8,7 +8,7 @@ namespace spark::events
     template <typename T, typename F>
     bool EventDispatcher::dispatch(const F& func)
     {
-        if (m_event.getEventType() == T::GetStaticType())
+        if (m_event.eventType() == T::StaticType())
         {
             m_event.handled = func(static_cast<T&>(m_event));
             return true;
