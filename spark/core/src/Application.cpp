@@ -56,19 +56,19 @@ namespace spark::core
         log::info("Closing application");
     }
 
-    ApplicationSpecification Application::getSettings() const
+    ApplicationSpecification Application::settings() const
     {
         return m_specification;
     }
 
     // ReSharper disable once CppMemberFunctionMayBeConst
-    Window& Application::getWindow()
+    Window& Application::window()
     {
         return *m_window;
     }
 
     // ReSharper disable once CppMemberFunctionMayBeConst
-    engine::Scene& Application::getScene()
+    engine::Scene& Application::scene()
     {
         return *m_scene;
     }

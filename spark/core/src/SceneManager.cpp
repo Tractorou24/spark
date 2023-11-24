@@ -29,7 +29,7 @@ namespace spark::core
         Application::Instance()->setScene(s_scenes.at(name));
     }
 
-    std::shared_ptr<engine::Scene> SceneManager::GetScene(const std::string& name, const bool fail)
+    std::shared_ptr<engine::Scene> SceneManager::Scene(const std::string& name, const bool fail)
     {
         if (!s_scenes.contains(name))
         {

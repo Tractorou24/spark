@@ -23,7 +23,7 @@ namespace pong::ui
         {
             spark::core::Input::mousePressedEvents[spark::base::MouseCodes::Left].connect([this]
             {
-                const auto mouse_pos = spark::core::Input::GetMousePosition();
+                const auto mouse_pos = spark::core::Input::MousePosition();
                 const auto position = getTransform()->position;
                 if (mouse_pos.x >= position.x && mouse_pos.x <= position.x + m_size.x && mouse_pos.y >= position.y && mouse_pos.y <= position.y + m_size.y)
                     onClicked.emit();

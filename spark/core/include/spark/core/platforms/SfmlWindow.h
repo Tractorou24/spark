@@ -24,11 +24,11 @@ namespace spark::core
         void onUpdate() override;
         void onRender() override;
 
-        [[nodiscard]] uint32_t getWidth() const override;
-        [[nodiscard]] uint32_t getHeight() const override;
-        [[nodiscard]] math::Vector2<uint32_t> getSize() const override;
+        [[nodiscard]] uint32_t width() const override;
+        [[nodiscard]] uint32_t height() const override;
+        [[nodiscard]] math::Vector2<uint32_t> size() const override;
 
-        [[nodiscard]] void* getNativeWindow() const override;
+        [[nodiscard]] void* nativeWindow() const override;
         void setEventCallback(const std::function<void(events::Event&)>& callback) override;
 
     private:

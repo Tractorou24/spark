@@ -20,7 +20,7 @@ namespace pong::ui
         explicit Menu(std::string name, GameObject* parent)
             : GameObject(std::move(name), parent)
         {
-            const auto& window_size = spark::core::Application::Instance()->getWindow().getSize().castTo<float>();
+            const auto& window_size = spark::core::Application::Instance()->window().size().castTo<float>();
 
             addComponent<spark::engine::components::Image>(spark::path::assets_path() / "menu_background.jpg");
 

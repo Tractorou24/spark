@@ -19,7 +19,7 @@ namespace spark::engine::components
 
         void render() const override
         {
-            core::Renderer2D::DrawImage(m_path, getGameObject()->getTransform()->position, core::Application::Instance()->getWindow().getSize().castTo<float>());
+            core::Renderer2D::DrawImage(m_path, getGameObject()->getTransform()->position, core::Application::Instance()->window().size().castTo<float>());
         }
 
     private:

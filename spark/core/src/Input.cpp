@@ -50,9 +50,9 @@ namespace spark::core
         return sf::Mouse::isButtonPressed(sfml_button);
     }
 
-    math::Vector2<float> Input::GetMousePosition()
+    math::Vector2<float> Input::MousePosition()
     {
-        const auto position = sf::Mouse::getPosition(*static_cast<sf::WindowBase*>(Application::Instance()->getWindow().getNativeWindow()));
+        const auto position = sf::Mouse::getPosition(*static_cast<sf::WindowBase*>(Application::Instance()->window().nativeWindow()));
         return {static_cast<float>(position.x), static_cast<float>(position.y)};
     }
 }

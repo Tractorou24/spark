@@ -104,26 +104,26 @@ namespace spark::core
     void SfmlWindow::onRender()
     {
         m_window->clear();
-        Render2D<engine::Scene>::exec(Application::Instance()->getScene());
+        Render2D<engine::Scene>::exec(Application::Instance()->scene());
         m_window->display();
     }
 
-    uint32_t SfmlWindow::getWidth() const
+    uint32_t SfmlWindow::width() const
     {
         return m_data.width;
     }
 
-    uint32_t SfmlWindow::getHeight() const
+    uint32_t SfmlWindow::height() const
     {
         return m_data.height;
     }
 
-    math::Vector2<uint32_t> SfmlWindow::getSize() const
+    math::Vector2<uint32_t> SfmlWindow::size() const
     {
         return {m_data.width, m_data.height};
     }
 
-    void* SfmlWindow::getNativeWindow() const
+    void* SfmlWindow::nativeWindow() const
     {
         return m_window.get();
     }

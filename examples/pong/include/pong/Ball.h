@@ -73,10 +73,7 @@ namespace pong
          */
         [[nodiscard]] std::pair<spark::math::Vector2<float>, spark::math::Vector2<float>> calculateNextFrame(const spark::math::Vector2<float>& next_position)
         {
-            const spark::math::Vector2 window_size = {
-                static_cast<float>(spark::core::Application::Instance()->getWindow().getWidth()),
-                static_cast<float>(spark::core::Application::Instance()->getWindow().getHeight())
-            };
+            const spark::math::Vector2 window_size = spark::core::Application::Instance()->window().size().castTo<float>();
             const float radius = getComponent<spark::engine::components::Circle>()->radius;
 
             // Check if the ball is going to be outside the screen (top, down) boundaries.
@@ -120,7 +117,7 @@ namespace pong
          */
         [[nodiscard]] bool checkLoose(const spark::math::Vector2<float> next_position) const
         {
-            const auto window_width = static_cast<float>(spark::core::Application::Instance()->getWindow().getWidth());
+            const auto window_width = static_cast<float>(spark::core::Application::Instance()->window().width());
 
             const bool left_wall_hit = next_position.x < 0;
             const bool right_wall_hit = next_position.x > window_width - getComponent<spark::engine::components::Circle>()->radius * 2;

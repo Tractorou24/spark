@@ -25,7 +25,7 @@ namespace pong::ui
 
         void render() const override
         {
-            const auto window_size = spark::core::Application::Instance()->getWindow().getSize().castTo<std::size_t>();
+            const auto window_size = spark::core::Application::Instance()->window().size().castTo<std::size_t>();
 
             for (std::size_t i = 0; i < window_size.y / (lineLength + verticalOffset); i++)
                 spark::core::Renderer2D::DrawQuad({static_cast<float>(m_xOffset), static_cast<float>(i * lineLength + i * verticalOffset)}, {5, lineLength}, {255, 255, 255});
@@ -85,7 +85,7 @@ namespace pong::ui
         explicit Background(std::string name, GameObject* parent)
             : GameObject(std::move(name), parent)
         {
-            const auto window_size = spark::core::Application::Instance()->getWindow().getSize().castTo<std::size_t>();
+            const auto window_size = spark::core::Application::Instance()->window().size().castTo<std::size_t>();
             addComponent<DashedLine>(window_size.x / 2);
 
             m_leftScore = Instantiate("Left Score", this);
