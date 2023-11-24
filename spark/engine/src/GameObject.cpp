@@ -67,20 +67,20 @@ namespace spark::engine
 
     void GameObject::addComponent(Component* component, bool managed)
     {
-        if (m_components.contains(&component->getRttiInstance()))
+        if (m_components.contains(&component->rttiInstance()))
             throw base::BadArgumentException("Unable to add the same component twice!");
 
-        m_components.insert({&component->getRttiInstance(), {component, managed}});
+        m_components.insert({&component->rttiInstance(), {component, managed}});
         if (m_initialized)
             component->onAttach();
     }
 
     void GameObject::removeComponent(Component* component)
     {
-        if (!m_components.contains(&component->getRttiInstance()))
+        if (!m_components.contains(&component->rttiInstance()))
             throw base::BadArgumentException("Unable to remove a non-existing component!");
 
-        m_components.erase(&component->getRttiInstance());
+        m_components.erase(&component->rttiInstance());
         component->onDetach();
     }
 

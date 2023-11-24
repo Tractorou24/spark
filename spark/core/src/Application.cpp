@@ -146,7 +146,7 @@ namespace spark::core
         });
 
         if (!result)
-            log::warning("Failed to dispatch event {}", event.getRttiInstance().getClassName());
+            log::warning("Failed to dispatch event {}", event.rttiInstance().className());
     }
 
     std::unique_ptr<Application> make_application(ApplicationSpecification settings)

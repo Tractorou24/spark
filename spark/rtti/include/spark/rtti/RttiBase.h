@@ -26,12 +26,12 @@ namespace spark::rtti
         /**
          * \return The current class name as a string
          */
-        [[nodiscard]] std::string getClassName() const;
+        [[nodiscard]] std::string className() const;
 
         /**
          * \return The RTTI information of all the parents for the current type
          */
-        [[nodiscard]] virtual std::vector<RttiBase*> getParents() = 0;
+        [[nodiscard]] virtual std::vector<RttiBase*> parents() = 0;
 
         /**
          * \brief Checks if the current RTTI inherits from a specific parent

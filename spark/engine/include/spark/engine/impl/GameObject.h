@@ -53,7 +53,7 @@ namespace spark::engine
     template <typename T> requires std::is_base_of_v<Component, T>
     T* GameObject::component() const
     {
-        const auto it = m_components.find(&T::getClassRtti());
+        const auto it = m_components.find(&T::classRtti());
         if (it == m_components.cend())
             return nullptr;
         return static_cast<T*>(it->second.first);

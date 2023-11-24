@@ -26,7 +26,7 @@ namespace spark::rtti
         /**
          * \return The RTTI object of the current class
          */
-        [[nodiscard]] virtual RttiBase& getRttiInstance() const = 0;
+        [[nodiscard]] virtual RttiBase& rttiInstance() const = 0;
     };
 }
 
