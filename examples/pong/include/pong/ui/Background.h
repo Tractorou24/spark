@@ -62,7 +62,7 @@ namespace pong::ui
          * \brief Gets the current score.
          * \return A std::size_t representing the current score.
          */
-        [[nodiscard]] std::size_t getScore() const noexcept { return m_currentScore; }
+        [[nodiscard]] std::size_t value() const noexcept { return m_currentScore; }
 
         /**
          * \brief Resets the score to 0.
