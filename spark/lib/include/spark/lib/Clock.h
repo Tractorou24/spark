@@ -39,7 +39,7 @@ namespace spark::lib
          * \return The time since the clock has started for the specified unit
          */
         template <typename T> requires IsDuration<T>
-        [[nodiscard]] float getElapsedTime() const;
+        [[nodiscard]] float elapsedTime() const;
 
         /**
          * \brief Restarts the clock
