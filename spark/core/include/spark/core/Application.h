@@ -63,13 +63,13 @@ namespace spark::core
          * \brief Gets the settings for the application.
          * \return A \link spark::core::ApplicationSpecification \endlink struct containing the settings for the application.
          */
-        [[nodiscard]] ApplicationSpecification getSettings() const;
+        [[nodiscard]] ApplicationSpecification settings() const;
 
         /**
          * \brief Gets the window for the application.
          * \return A reference to the \link spark::core::Window \endlink for the application.
          */
-        [[nodiscard]] Window& getWindow();
+        [[nodiscard]] Window& window();
 
         /**
          * \brief Sets the scene to render.
@@ -81,7 +81,7 @@ namespace spark::core
          * \brief Gets the scene to render.
          * \return A \link spark::engine::Scene \endlink to render.
          */
-        [[nodiscard]] engine::Scene& getScene();
+        [[nodiscard]] engine::Scene& scene();
 
     private:
         /**

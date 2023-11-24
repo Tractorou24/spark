@@ -61,25 +61,25 @@ namespace spark::core
          * \brief Gets the width of the window.
          * \return A uint32_t representing the width of the window.
          */
-        [[nodiscard]] virtual uint32_t getWidth() const = 0;
+        [[nodiscard]] virtual uint32_t width() const = 0;
 
         /**
          * \brief Gets the height of the window.
          * \return A uint32_t representing the height of the window.
          */
-        [[nodiscard]] virtual uint32_t getHeight() const = 0;
+        [[nodiscard]] virtual uint32_t height() const = 0;
 
         /**
          * \brief Gets the size of the window.
          * \return A 2D vector representing the width and height of the window.
          */
-        [[nodiscard]] virtual math::Vector2<uint32_t> getSize() const = 0;
+        [[nodiscard]] virtual math::Vector2<uint32_t> size() const = 0;
 
         /**
          * \brief Gets a handle to the native platform window.
          * \return A void* pointer to the native window which can be casted to the platform's window type.
          */
-        [[nodiscard]] virtual void* getNativeWindow() const = 0;
+        [[nodiscard]] virtual void* nativeWindow() const = 0;
 
         /**
          * \brief Sets the event callback for the window.

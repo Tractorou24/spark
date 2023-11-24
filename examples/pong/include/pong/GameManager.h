@@ -95,10 +95,7 @@ namespace pong
          */
         void reset()
         {
-            const spark::math::Vector2 window_size = {
-                static_cast<float>(spark::core::Application::Instance()->getWindow().getWidth()),
-                static_cast<float>(spark::core::Application::Instance()->getWindow().getHeight())
-            };
+            const spark::math::Vector2 window_size = spark::core::Application::Instance()->window().size().castTo<float>();
 
             m_leftPaddle->getTransform()->position = {10, window_size.y / 2 - 50};
             m_rightPaddle->getTransform()->position = {window_size.x - 25 - 10, window_size.y / 2 - 50};
@@ -118,7 +115,7 @@ namespace pong
         [[nodiscard]] static float getNewPaddleHeight(const GameObject* paddle, const float next_height)
         {
             const auto paddle_rect = paddle->getComponent<spark::engine::components::Rectangle>();
-            const auto screen_height = static_cast<float>(spark::core::Application::Instance()->getWindow().getHeight());
+            const auto screen_height = static_cast<float>(spark::core::Application::Instance()->window().height());
 
             if (next_height < 0)
                 return 0;

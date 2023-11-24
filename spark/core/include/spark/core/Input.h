@@ -35,7 +35,7 @@ namespace spark::core
          * \brief Gets the position of the mouse relative to the window.
          * \return A vector containing the x and y coordinates of the mouse.
          */
-        static math::Vector2<float> GetMousePosition();
+        static math::Vector2<float> MousePosition();
 
         /**
          * \brief A map of signals that are triggered when a key is pressed.

@@ -41,7 +41,7 @@ namespace spark::core
          * \param fail A boolean indicating if an exception should be thrown if the scene is not registered.
          * \return A unique pointer to the scene.
          */
-        static std::shared_ptr<engine::Scene> GetScene(const std::string& name, bool fail = true);
+        static std::shared_ptr<engine::Scene> Scene(const std::string& name, bool fail = true);
 
         /**
          * \brief Unregister all scenes.
