@@ -65,7 +65,7 @@ namespace spark::rtti::details
     {
         static std::vector<RttiBase*> exec()
         {
-            return {&ParentTypes::getClassRtti()...};
+            return {&ParentTypes::classRtti()...};
         }
     };
 
@@ -85,14 +85,14 @@ namespace spark::rtti::details
 #define DETAILS_DECLARE_SPARK_RTTI(...)                                                     \
 public:                                                                                     \
     using ThisRttiType = spark::rtti::Rtti<__VA_ARGS__>;                                    \
-    static ThisRttiType& getClassRtti()                                                     \
+    static ThisRttiType& classRtti()                                                        \
     {                                                                                       \
         return ThisRttiType::instance();                                                    \
     }                                                                                       \
-    spark::rtti::RttiBase& getRttiInstance() const override                                 \
+    spark::rtti::RttiBase& rttiInstance() const override                                    \
     {                                                                                       \
         /* Returns the instance of the first type in the variadic arguments */              \
-        return BOOST_PP_SEQ_ELEM(0, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))::getClassRtti(); \
+        return BOOST_PP_SEQ_ELEM(0, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))::classRtti();    \
     }
 
 /**

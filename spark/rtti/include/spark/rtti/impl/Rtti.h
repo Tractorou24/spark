@@ -17,7 +17,7 @@ namespace spark::rtti
     }
 
     template <typename Type, typename... BaseTypes>
-    std::vector<RttiBase*> Rtti<Type, BaseTypes...>::getParents()
+    std::vector<RttiBase*> Rtti<Type, BaseTypes...>::parents()
     {
         return details::GetParentRtti<BaseTypes...>::exec();
     }
@@ -29,7 +29,7 @@ namespace spark::rtti
             return true;
 
         for (std::size_t i = 0; i < sizeof...(BaseTypes); ++i)
-            if (getParents()[i]->isSubTypeOf(potential_parent_type))
+            if (parents()[i]->isSubTypeOf(potential_parent_type))
                 return true;
         return false;
     }

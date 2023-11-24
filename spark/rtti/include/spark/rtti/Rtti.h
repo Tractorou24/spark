@@ -25,7 +25,7 @@ namespace spark::rtti
          */
         static Rtti& instance();
 
-        [[nodiscard]] std::vector<RttiBase*> getParents() override;
+        [[nodiscard]] std::vector<RttiBase*> parents() override;
 
         [[nodiscard]] bool isSubTypeOf(const RttiBase* potential_parent_type) override;
     };
