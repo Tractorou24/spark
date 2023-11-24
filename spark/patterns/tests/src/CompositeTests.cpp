@@ -47,8 +47,8 @@ namespace spark::patterns::testing
         Node b1(&a1);
 
         // Then, the nodes are added in the tree
-        const auto& root_children = root.getChildren();
-        const auto& a1_children = a1.getChildren();
+        const auto& root_children = root.children();
+        const auto& a1_children = a1.children();
         EXPECT_TRUE(std::ranges::find(root_children, &a1) != root_children.end());
         EXPECT_TRUE(std::ranges::find(a1_children, &b1) != a1_children.end());
     }
@@ -91,8 +91,8 @@ namespace spark::patterns::testing
         Node root, a1(&root);
 
         // When getting the parent of a node
-        const auto* root_parent = root.getParent();
-        const auto* a1_parent = a1.getParent();
+        const auto* root_parent = root.parent();
+        const auto* a1_parent = a1.parent();
 
         // Then, they are correct
         EXPECT_EQ(root_parent, nullptr);
@@ -105,9 +105,9 @@ namespace spark::patterns::testing
         Node root, a1(&root), b1(&root);
 
         // When getting the root of the tree
-        const auto& root_root = root.getRoot();
-        const auto& a1_root = a1.getRoot();
-        const auto& b1_root = b1.getRoot();
+        const auto& root_root = root.root();
+        const auto& a1_root = a1.root();
+        const auto& b1_root = b1.root();
 
         // Then, they are correct
         EXPECT_EQ(root_root, &root);

@@ -62,7 +62,7 @@ namespace spark::patterns
          * \brief Gets a vector of all registered types in the factory.
          * \return The std::vector containing the keys of all registered types.
          */
-        [[nodiscard]] std::vector<Key> getRegisteredTypes() const noexcept;
+        [[nodiscard]] std::vector<Key> registeredTypes() const noexcept;
 
     private:
         std::unordered_map<Key, CreatorPtr> m_creators;

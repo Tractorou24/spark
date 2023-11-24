@@ -94,13 +94,13 @@ namespace spark::patterns
          * \brief Gets all the keys of the connected slots.
          * \return A \ref std::vector containing the keys of the connected slots.
          */
-        [[nodiscard]] std::vector<std::size_t> getConnectedKeys() const;
+        [[nodiscard]] std::vector<std::size_t> connectedKeys() const;
 
         /**
          * \brief Gets all the connected slots.
          * \return A \ref std::vector containing pointers to the connected slots.
          */
-         [[nodiscard]] std::vector<const Slot<Args...>*> getConnectedSlots() const;
+        [[nodiscard]] std::vector<const Slot<Args...>*> connectedSlots() const;
 
         /**
          * \brief Emits the signal to all connected slots.

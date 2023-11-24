@@ -17,13 +17,13 @@ namespace spark::patterns
         Composite& operator=(const Composite& other) = delete;
         Composite& operator=(Composite&& other) noexcept = default;
 
-        [[nodiscard]] std::vector<DerivedType*> getChildren() const;
+        [[nodiscard]] std::vector<DerivedType*> children() const;
 
-        [[nodiscard]] DerivedType* getParent();
-        [[nodiscard]] const DerivedType* getParent() const;
+        [[nodiscard]] DerivedType* parent();
+        [[nodiscard]] const DerivedType* parent() const;
 
-        [[nodiscard]] DerivedType* getRoot();
-        [[nodiscard]] const DerivedType* getRoot() const;
+        [[nodiscard]] DerivedType* root();
+        [[nodiscard]] const DerivedType* root() const;
 
     private:
         void add(DerivedType* child);
