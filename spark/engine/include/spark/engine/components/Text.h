@@ -18,7 +18,7 @@ namespace spark::engine::components
 
         void render() const override
         {
-            core::Renderer2D::DrawText(m_content, Transform::LocalToWorld(getGameObject()->getTransform()) + m_offset, 72, m_fontPath);
+            core::Renderer2D::DrawText(m_content, Transform::LocalToWorld(gameObject()->transform()) + m_offset, 72, m_fontPath);
         }
 
     private:

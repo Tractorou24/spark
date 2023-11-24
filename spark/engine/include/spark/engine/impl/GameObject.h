@@ -23,35 +23,35 @@ namespace spark::engine
     template <typename T> requires std::is_base_of_v<Component, T>
     void GameObject::removeComponent()
     {
-        removeComponent(getComponent<T>());
+        removeComponent(component<T>());
     }
 
     template <typename T> requires std::is_base_of_v<Component, T>
     bool GameObject::hasComponent() const
     {
-        return getComponent<T>() != nullptr;
+        return component<T>() != nullptr;
     }
 
     template <typename T> requires std::is_base_of_v<Component, T>
-    std::vector<T*> GameObject::getComponentsInChildren() const
+    std::vector<T*> GameObject::componentsInChildren() const
     {
         std::vector<T*> components;
         for (const auto* child : getChildren())
         {
             // On the object
-            auto* component = child->getComponent<T>();
+            auto* component = child->component<T>();
             if (component != nullptr)
                 components.push_back(component);
 
             // On the children
-            auto child_components = child->getComponentsInChildren<T>();
+            auto child_components = child->componentsInChildren<T>();
             std::copy(child_components.begin(), child_components.end(), std::back_inserter(components));
         }
         return components;
     }
 
     template <typename T> requires std::is_base_of_v<Component, T>
-    T* GameObject::getComponent() const
+    T* GameObject::component() const
     {
         const auto it = m_components.find(&T::getClassRtti());
         if (it == m_components.cend())
@@ -60,12 +60,12 @@ namespace spark::engine
     }
 
     template <typename T> requires std::is_base_of_v<Component, T>
-    T* GameObject::getComponentInChildren() const
+    T* GameObject::componentInChildren() const
     {
         const auto& children = getChildren();
         for (const auto* child : children)
         {
-            auto* component = child->getComponent<T>();
+            auto* component = child->component<T>();
             if (component != nullptr)
                 return component;
         }
@@ -73,8 +73,8 @@ namespace spark::engine
     }
 
     template <typename T> requires std::is_base_of_v<Component, T>
-    T* GameObject::getComponentInParent() const
+    T* GameObject::componentInParent() const
     {
-        return getParent()->getComponent<T>();
+        return getParent()->component<T>();
     }
 }

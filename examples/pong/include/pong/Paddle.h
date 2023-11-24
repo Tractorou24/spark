@@ -20,7 +20,7 @@ namespace pong
             : GameObject(std::move(name), parent)
         {
             addComponent<spark::engine::components::Rectangle>();
-            getComponent<spark::engine::components::Rectangle>()->size = {25, 100};
+            component<spark::engine::components::Rectangle>()->size = {25, 100};
         }
     };
 }
