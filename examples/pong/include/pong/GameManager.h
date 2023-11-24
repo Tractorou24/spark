@@ -54,25 +54,25 @@ namespace pong
             // Left paddle
             if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::Z))
             {
-                const float next_height = m_leftPaddle->getTransform()->position.y - 200.0f * dt;
-                m_leftPaddle->getTransform()->position.y = getNewPaddleHeight(m_leftPaddle, next_height);
+                const float next_height = m_leftPaddle->transform()->position.y - 200.0f * dt;
+                m_leftPaddle->transform()->position.y = getNewPaddleHeight(m_leftPaddle, next_height);
             }
             if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::S))
             {
-                const float requested_height = m_leftPaddle->getTransform()->position.y + 200.0f * dt;
-                m_leftPaddle->getTransform()->position.y = getNewPaddleHeight(m_leftPaddle, requested_height);
+                const float requested_height = m_leftPaddle->transform()->position.y + 200.0f * dt;
+                m_leftPaddle->transform()->position.y = getNewPaddleHeight(m_leftPaddle, requested_height);
             }
 
             // Right paddle
             if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::Up))
             {
-                const float next_height = m_rightPaddle->getTransform()->position.y - 200.0f * dt;
-                m_rightPaddle->getTransform()->position.y = getNewPaddleHeight(m_rightPaddle, next_height);
+                const float next_height = m_rightPaddle->transform()->position.y - 200.0f * dt;
+                m_rightPaddle->transform()->position.y = getNewPaddleHeight(m_rightPaddle, next_height);
             }
             if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::Down))
             {
-                const float requested_height = m_rightPaddle->getTransform()->position.y + 200.0f * dt;
-                m_rightPaddle->getTransform()->position.y = getNewPaddleHeight(m_rightPaddle, requested_height);
+                const float requested_height = m_rightPaddle->transform()->position.y + 200.0f * dt;
+                m_rightPaddle->transform()->position.y = getNewPaddleHeight(m_rightPaddle, requested_height);
             }
 
             // Update paddle speed from score
@@ -97,12 +97,12 @@ namespace pong
         {
             const spark::math::Vector2 window_size = spark::core::Application::Instance()->window().size().castTo<float>();
 
-            m_leftPaddle->getTransform()->position = {10, window_size.y / 2 - 50};
-            m_rightPaddle->getTransform()->position = {window_size.x - 25 - 10, window_size.y / 2 - 50};
-            m_ball->getTransform()->position = {window_size.x / 2 - 25, window_size.y / 2 - 25};
+            m_leftPaddle->transform()->position = {10, window_size.y / 2 - 50};
+            m_rightPaddle->transform()->position = {window_size.x - 25 - 10, window_size.y / 2 - 50};
+            m_ball->transform()->position = {window_size.x / 2 - 25, window_size.y / 2 - 25};
             m_ball->velocity = 250.0f;
 
-            std::ranges::for_each(FindByName(getRoot(), "Background")->getComponentsInChildren<ui::Score>(), [](ui::Score* score) { score->reset(); });
+            std::ranges::for_each(FindByName(getRoot(), "Background")->componentsInChildren<ui::Score>(), [](ui::Score* score) { score->reset(); });
         }
 
     private:
@@ -114,7 +114,7 @@ namespace pong
          */
         [[nodiscard]] static float getNewPaddleHeight(const GameObject* paddle, const float next_height)
         {
-            const auto paddle_rect = paddle->getComponent<spark::engine::components::Rectangle>();
+            const auto paddle_rect = paddle->component<spark::engine::components::Rectangle>();
             const auto screen_height = static_cast<float>(spark::core::Application::Instance()->window().height());
 
             if (next_height < 0)
@@ -130,7 +130,7 @@ namespace pong
          */
         [[nodiscard]] float getScore()
         {
-            const auto scores = FindByName(getRoot(), "Background")->getComponentsInChildren<ui::Score>();
+            const auto scores = FindByName(getRoot(), "Background")->componentsInChildren<ui::Score>();
             return std::accumulate(scores.begin(),
                                    scores.end(),
                                    0.0f,

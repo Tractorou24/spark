@@ -7,6 +7,8 @@
 #include "spark/base/Macros.h"
 #include "spark/rtti/HasRtti.h"
 
+#include <vector>
+
 namespace spark::engine::components
 {
     class Transform;
@@ -68,19 +70,19 @@ namespace spark::engine
          * \brief Gets the UUID of the GameObject.
          * \return A const reference to the UUID of this GameObject.
          */
-        [[nodiscard]] const lib::Uuid& getUuid() const;
+        [[nodiscard]] const lib::Uuid& uuid() const;
 
         /**
          * \brief Gets the name of the GameObject.
          * \return A const reference to the name of this GameObject.
          */
-        [[nodiscard]] const std::string& getName() const;
+        [[nodiscard]] const std::string& name() const;
 
         /**
          * \brief Gets the transform component of the GameObject.
          * \return A pointer to the transform component of the GameObject.
          */
-        [[nodiscard]] components::Transform* getTransform() const;
+        [[nodiscard]] components::Transform* transform() const;
 
         /**
          * \brief Adds a component to the GameObject.
@@ -123,7 +125,7 @@ namespace spark::engine
          * \brief Gets all the components for this GameObject.
          * \return A vector of pointers to the components.
          */
-        [[nodiscard]] std::vector<Component*> getComponents() const;
+        [[nodiscard]] std::vector<Component*> components() const;
 
         /**
          * \brief Gets a list of components of type T in any direct child of the GameObject.
@@ -131,7 +133,7 @@ namespace spark::engine
          * \return A vector of pointers to the component of type T, or an empty vector if no component was found.
          */
         template <typename T> requires std::is_base_of_v<Component, T>
-        [[nodiscard]] std::vector<T*> getComponentsInChildren() const;
+        [[nodiscard]] std::vector<T*> componentsInChildren() const;
 
         /**
          * \brief Gets a component of type T.
@@ -139,7 +141,7 @@ namespace spark::engine
          * \return A pointer to the component of type T, or nullptr if no component is not found.
          */
         template <typename T> requires std::is_base_of_v<Component, T>
-        [[nodiscard]] T* getComponent() const;
+        [[nodiscard]] T* component() const;
 
         /**
          * \brief Gets a component of type T in any direct child of the GameObject.
@@ -147,7 +149,7 @@ namespace spark::engine
          * \return A pointer to the component of type T, or nullptr if no component is not found.
          */
         template <typename T> requires std::is_base_of_v<Component, T>
-        [[nodiscard]] T* getComponentInChildren() const;
+        [[nodiscard]] T* componentInChildren() const;
 
         /**
          * \brief Gets a component of type T in any direct parent of the GameObject.
@@ -155,7 +157,7 @@ namespace spark::engine
          * \return A pointer to the component of type T, or nullptr if no component is not found.
          */
         template <typename T> requires std::is_base_of_v<Component, T>
-        [[nodiscard]] T* getComponentInParent() const;
+        [[nodiscard]] T* componentInParent() const;
 
         /**
          * \brief Method called when the GameObject is spawned in the scene.
@@ -212,7 +214,7 @@ namespace spark::core
             if (!game_object.isShown)
                 return;
 
-            for (const auto* component : game_object.getComponents())
+            for (const auto* component : game_object.components())
                 component->render();
             for (const auto* child : game_object.getChildren())
                 exec(*child);

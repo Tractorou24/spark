@@ -31,19 +31,19 @@ namespace spark::engine
          * \brief Gets the UUID of the component.
          * \return A const reference to the UUID of the component.
          */
-        [[nodiscard]] const lib::Uuid& getUuid() const;
+        [[nodiscard]] const lib::Uuid& uuid() const;
 
         /**
          * \brief Gets the GameObject that the component is attached to.
          * \return A pointer to the GameObject that the component is attached to.
          */
-        [[nodiscard]] GameObject* getGameObject();
+        [[nodiscard]] GameObject* gameObject();
 
         /**
          * \brief Gets the GameObject that the component is attached to.
          * \return A const pointer to the GameObject that the component is attached to.
          */
-        [[nodiscard]] const GameObject* getGameObject() const;
+        [[nodiscard]] const GameObject* gameObject() const;
 
         /**
          * \brief Renders the component.

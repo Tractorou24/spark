@@ -10,17 +10,17 @@ namespace spark::engine
             throw base::BadArgumentException("Cannot create a component with a null parent GameObject");
     }
 
-    const lib::Uuid& Component::getUuid() const
+    const lib::Uuid& Component::uuid() const
     {
         return m_uuid;
     }
 
-    GameObject* Component::getGameObject()
+    GameObject* Component::gameObject()
     {
         return m_gameObject;
     }
 
-    const GameObject* Component::getGameObject() const
+    const GameObject* Component::gameObject() const
     {
         return m_gameObject;
     }

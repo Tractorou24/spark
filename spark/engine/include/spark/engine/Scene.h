@@ -26,13 +26,13 @@ namespace spark::engine
          * \brief Gets the UUID of the Scene.
          * \return A const reference to the UUID of this Scene.
          */
-        [[nodiscard]] const lib::Uuid& getUuid() const;
+        [[nodiscard]] const lib::Uuid& uuid() const;
 
         /**
          * \brief Gets the root GameObject of the Scene.
          * \return A reference to the root GameObject.
          */
-        [[nodiscard]] GameObject* getRoot();
+        [[nodiscard]] GameObject* root();
 
         /**
          * \brief Method called when the Scene is loaded.
@@ -68,7 +68,7 @@ namespace spark::core
     {
         static void exec(engine::Scene& scene)
         {
-            Render2D<engine::GameObject>::exec(*scene.getRoot());
+            Render2D<engine::GameObject>::exec(*scene.root());
         }
     };
 }

@@ -23,10 +23,10 @@ namespace spark::engine::components
         {
             math::Vector2<float> position = {};
 
-            auto* game_object = object->getGameObject();
+            auto* game_object = object->gameObject();
             while (game_object->getParent() != nullptr)
             {
-                position += game_object->getTransform()->position;
+                position += game_object->transform()->position;
                 game_object = game_object->getParent();
             }
             return position;

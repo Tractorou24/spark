@@ -26,7 +26,7 @@ namespace spark::engine::components
         {
             Component::render();
 
-            const auto position = Transform::LocalToWorld(getGameObject()->getTransform());
+            const auto position = Transform::LocalToWorld(gameObject()->transform());
             core::Renderer2D::DrawQuad(position, size, {255, 255, 255});
         }
     };

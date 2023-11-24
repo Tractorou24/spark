@@ -17,7 +17,7 @@ namespace spark::engine
         GameObject* found = nullptr;
         auto traverser = patterns::make_traverser<GameObject>([&uuid, &found](GameObject* obj)
         {
-            if (obj->getUuid() == uuid)
+            if (obj->uuid() == uuid)
             {
                 if (found != nullptr)
                     throw base::UnknownException("Found multiple GameObjects with the same UUID!");
@@ -33,7 +33,7 @@ namespace spark::engine
         GameObject* found = nullptr;
         auto traverser = patterns::make_traverser<GameObject>([&name, &found](GameObject* obj)
         {
-            if (obj->getName() == name)
+            if (obj->name() == name)
             {
                 if (found != nullptr)
                     throw base::UnknownException("Found multiple GameObjects with the same name!");
@@ -50,19 +50,19 @@ namespace spark::engine
         addComponent<components::Transform>();
     }
 
-    const lib::Uuid& GameObject::getUuid() const
+    const lib::Uuid& GameObject::uuid() const
     {
         return m_uuid;
     }
 
-    const std::string& GameObject::getName() const
+    const std::string& GameObject::name() const
     {
         return m_name;
     }
 
-    components::Transform* GameObject::getTransform() const
+    components::Transform* GameObject::transform() const
     {
-        return getComponent<components::Transform>();
+        return component<components::Transform>();
     }
 
     void GameObject::addComponent(Component* component, bool managed)
@@ -84,7 +84,7 @@ namespace spark::engine
         component->onDetach();
     }
 
-    std::vector<Component*> GameObject::getComponents() const
+    std::vector<Component*> GameObject::components() const
     {
         std::vector<Component*> components;
         for (const auto& component : m_components | std::views::values | std::views::keys)

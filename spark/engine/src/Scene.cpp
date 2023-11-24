@@ -14,12 +14,12 @@ namespace spark::engine
         GameObject::Destroy(m_root);
     }
 
-    const lib::Uuid& Scene::getUuid() const
+    const lib::Uuid& Scene::uuid() const
     {
         return m_uuid;
     }
 
-    GameObject* Scene::getRoot()
+    GameObject* Scene::root()
     {
         return m_root;
     }
@@ -29,7 +29,7 @@ namespace spark::engine
         if (m_isLoaded)
             return;
 
-        log::info("Loading scene {}", getUuid().str());
+        log::info("Loading scene {}", uuid().str());
 
         auto traverser = spark::patterns::make_traverser<GameObject>([](auto* object)
         {
@@ -54,7 +54,7 @@ namespace spark::engine
         if (!m_isLoaded)
             return;
 
-        log::info("Unloading scene {}", getUuid().str());
+        log::info("Unloading scene {}", uuid().str());
 
         auto traverser = spark::patterns::make_traverser<GameObject>([](auto* object)
         {
@@ -63,6 +63,6 @@ namespace spark::engine
         spark::patterns::traverse_tree(m_root, traverser);
 
         m_isLoaded = false;
-        log::info("Scene {} unloaded", getUuid().str());
+        log::info("Scene {} unloaded", uuid().str());
     }
 }

@@ -43,7 +43,7 @@ namespace pong
             SPARK_ASSERT(m_rightPaddle != nullptr)
 
             // Set the paddle size (used to calculate the bounce).
-            m_paddleSize = m_leftPaddle->getComponent<spark::engine::components::Rectangle>()->size;
+            m_paddleSize = m_leftPaddle->component<spark::engine::components::Rectangle>()->size;
 
             // Randomize the direction of the ball.
             float angle = spark::lib::Random::Number(spark::math::PI / 6, spark::math::PI / 4);
@@ -57,11 +57,11 @@ namespace pong
 
         void onUpdate(const float dt) override
         {
-            const auto [next_position, next_direction] = calculateNextFrame(getTransform()->position + direction * velocity * dt);
+            const auto [next_position, next_direction] = calculateNextFrame(transform()->position + direction * velocity * dt);
             if (checkLoose(next_position))
                 onLoose.emit();
 
-            getTransform()->position = next_position;
+            transform()->position = next_position;
             direction = next_direction;
         }
 
@@ -74,7 +74,7 @@ namespace pong
         [[nodiscard]] std::pair<spark::math::Vector2<float>, spark::math::Vector2<float>> calculateNextFrame(const spark::math::Vector2<float>& next_position)
         {
             const spark::math::Vector2 window_size = spark::core::Application::Instance()->window().size().castTo<float>();
-            const float radius = getComponent<spark::engine::components::Circle>()->radius;
+            const float radius = component<spark::engine::components::Circle>()->radius;
 
             // Check if the ball is going to be outside the screen (top, down) boundaries.
             const bool hit_top_wall = next_position.y < 0;
@@ -89,21 +89,21 @@ namespace pong
 
             // Check if the ball is hitting the top or bottom wall.
             if (hit_top_wall || hit_bottom_wall)
-                return {getTransform()->position, {direction.x, -direction.y}};
+                return {transform()->position, {direction.x, -direction.y}};
 
             // Check if the ball is hitting the left paddle.
-            if (next_position.x < m_leftPaddle->getTransform()->position.x + m_paddleSize.x &&
-                next_position.y > m_leftPaddle->getTransform()->position.y - radius && next_position.y < m_leftPaddle->getTransform()->position.y + m_paddleSize.y)
+            if (next_position.x < m_leftPaddle->transform()->position.x + m_paddleSize.x &&
+                next_position.y > m_leftPaddle->transform()->position.y - radius && next_position.y < m_leftPaddle->transform()->position.y + m_paddleSize.y)
             {
-                FindByName(getRoot(), "Left Score")->getComponent<ui::Score>()->incrementScore.emit(1);
+                FindByName(getRoot(), "Left Score")->component<ui::Score>()->incrementScore.emit(1);
                 return {{adjusted_position.x + radius, adjusted_position.y}, {-direction.x, direction.y}};
             }
 
             // Check if the ball is hitting the right paddle.
-            if (next_position.x > m_rightPaddle->getTransform()->position.x - radius * 2 &&
-                next_position.y > m_rightPaddle->getTransform()->position.y - radius && next_position.y < m_rightPaddle->getTransform()->position.y + m_paddleSize.y)
+            if (next_position.x > m_rightPaddle->transform()->position.x - radius * 2 &&
+                next_position.y > m_rightPaddle->transform()->position.y - radius && next_position.y < m_rightPaddle->transform()->position.y + m_paddleSize.y)
             {
-                FindByName(getRoot(), "Right Score")->getComponent<ui::Score>()->incrementScore.emit(1);
+                FindByName(getRoot(), "Right Score")->component<ui::Score>()->incrementScore.emit(1);
                 return {{adjusted_position.x - radius, adjusted_position.y}, {-direction.x, direction.y}};
             }
 
@@ -120,7 +120,7 @@ namespace pong
             const auto window_width = static_cast<float>(spark::core::Application::Instance()->window().width());
 
             const bool left_wall_hit = next_position.x < 0;
-            const bool right_wall_hit = next_position.x > window_width - getComponent<spark::engine::components::Circle>()->radius * 2;
+            const bool right_wall_hit = next_position.x > window_width - component<spark::engine::components::Circle>()->radius * 2;
 
             if (left_wall_hit || right_wall_hit)
                 return true;

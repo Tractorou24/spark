@@ -26,13 +26,13 @@ namespace pong::ui
 
             auto* text = Instantiate("Title", this);
             text->addComponent<spark::engine::components::Text>("THE PONG GAME", spark::math::Vector2<float>(0, 0), spark::path::assets_path() / "font.ttf");
-            text->getTransform()->position = {window_size.x / 2 - 250, 50};
+            text->transform()->position = {window_size.x / 2 - 250, 50};
 
             m_playButton = Instantiate<Button>("Play", this, "Play", spark::math::Vector2<float>(150, 75));
-            m_playButton->getTransform()->position = {window_size.x / 3 - 100, window_size.y / 2 - 50};
+            m_playButton->transform()->position = {window_size.x / 3 - 100, window_size.y / 2 - 50};
 
             m_quitButton = Instantiate<Button>("Quit", this, "Quit", spark::math::Vector2<float>(150, 75));
-            m_quitButton->getTransform()->position = {window_size.x / 1.5f, window_size.y / 2 - 50};
+            m_quitButton->transform()->position = {window_size.x / 1.5f, window_size.y / 2 - 50};
         }
 
         void onSpawn() override
