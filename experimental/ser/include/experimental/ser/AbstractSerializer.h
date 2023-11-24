@@ -33,7 +33,7 @@ namespace spark::ser
          * \brief Gets the concrete type of the serializer.
          * \return The concrete serializer type.
          */
-        SerializerType& getType();
+        SerializerType& type();
     };
 }
 
