@@ -115,7 +115,7 @@ namespace pong
         [[nodiscard]] static float newPaddleHeight(const GameObject* paddle, const float next_height)
         {
             const auto paddle_rect = paddle->component<spark::engine::components::Rectangle>();
-            const auto screen_height = static_cast<float>(spark::core::Application::Instance()->window().height());
+            const auto screen_height = spark::core::Application::Instance()->window().size().castTo<float>().y;
 
             if (next_height < 0)
                 return 0;

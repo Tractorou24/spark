@@ -109,17 +109,7 @@ namespace spark::core
         m_window->display();
     }
 
-    uint32_t SfmlWindow::width() const
-    {
-        return m_settings.size.x;
-    }
-
-    uint32_t SfmlWindow::height() const
-    {
-        return m_settings.size.y;
-    }
-
-    math::Vector2<uint32_t> SfmlWindow::size() const
+    math::Vector2<unsigned int> SfmlWindow::size() const
     {
         return m_settings.size;
     }
