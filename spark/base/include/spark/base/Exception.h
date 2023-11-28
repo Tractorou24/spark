@@ -104,7 +104,7 @@ namespace spark::base
      * \brief Exception thrown when calling a function which requires a render pass to be ended while it is not.
      */
     SPARK_BASE_DEFINE_EXCEPTION(RenderPassAlreadyStartedException)
-    
+
     /**
      * \brief Exception thrown when calling a function which requires a render pass to be started while it is not.
      */
@@ -119,6 +119,11 @@ namespace spark::base
      * \brief Exception thrown when failing to create a shader.
      */
     SPARK_BASE_DEFINE_EXCEPTION(CouldNotCreateShaderException)
+
+    /**
+     * \brief Exception thrown when failing to initialize a window.
+     */
+    SPARK_BASE_DEFINE_EXCEPTION(BadWindowInitializationException)
 }
 
 #undef SPARK_BASE_DEFINE_EXCEPTION
