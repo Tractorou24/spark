@@ -117,7 +117,7 @@ namespace pong
          */
         [[nodiscard]] bool checkLoose(const spark::math::Vector2<float> next_position) const
         {
-            const auto window_width = static_cast<float>(spark::core::Application::Instance()->window().width());
+            const auto window_width = spark::core::Application::Instance()->window().size().castTo<float>().x;
 
             const bool left_wall_hit = next_position.x < 0;
             const bool right_wall_hit = next_position.x > window_width - component<spark::engine::components::Circle>()->radius * 2;

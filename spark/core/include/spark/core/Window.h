@@ -57,18 +57,6 @@ namespace spark::core
         virtual void onRender() = 0;
 
         /**
-         * \brief Gets the width of the window.
-         * \return A uint32_t representing the width of the window.
-         */
-        [[nodiscard]] virtual uint32_t width() const = 0;
-
-        /**
-         * \brief Gets the height of the window.
-         * \return A uint32_t representing the height of the window.
-         */
-        [[nodiscard]] virtual uint32_t height() const = 0;
-
-        /**
          * \brief Gets the size of the window.
          * \return A 2D vector representing the width and height of the window.
          */
