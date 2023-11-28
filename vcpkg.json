@@ -1,5 +1,21 @@
 {
   "name": "spark",
   "description": "Simulation and Physics Animation Rendering Kernel",
-  "dependencies": ["sfml", "spdlog", "boost-config", "boost-preprocessor", "gtest"]
+  "version-string": "0.1.0",
+  "maintainers": [
+    "Fabian INGREMEAU <60473022+Tractorou24@users.noreply.github.com>"
+  ],
+  "documentation": "https://tractorou24.github.io/spark/",
+  "license": "MIT",
+  "supports": "windows & linux",
+  "dependencies": [
+    "sfml",
+    "spdlog",
+    "boost-config",
+    "boost-preprocessor",
+    "gtest",
+    "vulkan",
+    "vulkan-memory-allocator",
+    "spirv-reflect"
+  ]
 }
