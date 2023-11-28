@@ -2,7 +2,7 @@
 
 #include "boost/preprocessor/seq/enum.hpp"
 
-#define SPARK_BASE_MOUSECODES_VALUES (Left)(Right)(Middle)(XButton1)(XButton2)
+#define SPARK_BASE_MOUSECODES_VALUES (Left)(Right)(Middle)(XButton1)(XButton2)(Unknown)
 
 namespace spark::base
 {
