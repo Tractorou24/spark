@@ -1,4 +1,5 @@
 find_package(Vulkan QUIET REQUIRED)
+find_package(VulkanMemoryAllocator QUIET REQUIRED)
 
 set (TARGET_NAME ${SPARK_NAME}_render_vk)
 set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -9,8 +10,10 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/Conversions.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/Helpers.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanGraphicsAdapter.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanSurface.h
     CXX_SOURCES
         ${SOURCE_DIR}/VulkanGraphcisAdapter.cpp
+        ${SOURCE_DIR}/VulkanSurface.cpp
 )
 
 target_link_libraries(${TARGET_NAME}
@@ -19,4 +22,5 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_render
     PRIVATE
         Vulkan::Vulkan
+        GPUOpen::VulkanMemoryAllocator
 )
