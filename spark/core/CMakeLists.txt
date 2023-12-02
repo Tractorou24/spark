@@ -1,4 +1,6 @@
 find_package(SFML COMPONENTS system window graphics QUIET REQUIRED)
+find_package(Vulkan QUIET REQUIRED)
+find_package(glfw3 QUIET REQUIRED)
 
 set (TARGET_NAME ${SPARK_NAME}_core)
 set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -11,6 +13,7 @@ spark_add_library(${TARGET_NAME}
         ${SOURCE_DIR}/Renderer2D.cpp
         ${SOURCE_DIR}/SceneManager.cpp
         ${SOURCE_DIR}/platforms/SfmlWindow.cpp
+        ${SOURCE_DIR}/platforms/GlfwWindow.cpp
     PUBLIC_HEADERS
         ${HEADER_DIR}/${SPARK_NAME}/core/Application.h
         ${HEADER_DIR}/${SPARK_NAME}/core/ApplicationBuilder.h
@@ -21,6 +24,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/core/Window.h
         ${HEADER_DIR}/${SPARK_NAME}/core/impl/ApplicationBuilder.h
         ${HEADER_DIR}/${SPARK_NAME}/core/platforms/SfmlWindow.h
+        ${HEADER_DIR}/${SPARK_NAME}/core/platforms/GlfwWindow.h
 )
 
 target_link_libraries(${TARGET_NAME}
@@ -33,7 +37,9 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_math
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_patterns
     PRIVATE
+        glfw
         sfml-system
-    sfml-window
-    sfml-graphics
+        sfml-window
+        sfml-graphics
+        Vulkan::Vulkan
 )
