@@ -3,6 +3,7 @@ set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 spark_add_library(${TARGET_NAME}
     PUBLIC_HEADERS
+        ${HEADER_DIR}/${SPARK_NAME}/render/Format.h
         ${HEADER_DIR}/${SPARK_NAME}/render/GraphicsAdapter.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Resource.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Surface.h
