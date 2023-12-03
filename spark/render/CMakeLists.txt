@@ -8,6 +8,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/DeviceMemory.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Format.h
         ${HEADER_DIR}/${SPARK_NAME}/render/GraphicsAdapter.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/Image.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Mappable.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Resource.h
         ${HEADER_DIR}/${SPARK_NAME}/render/StateResource.h
@@ -23,4 +24,5 @@ spark_add_library(${TARGET_NAME}
 target_link_libraries(${TARGET_NAME}
     PUBLIC
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_lib
+        ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_math
 )
