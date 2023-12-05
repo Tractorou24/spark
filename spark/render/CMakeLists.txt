@@ -4,6 +4,7 @@ set (SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 spark_add_library(${TARGET_NAME}
     PUBLIC_HEADERS
+        ${HEADER_DIR}/${SPARK_NAME}/render/Buffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/DeviceMemory.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Format.h
         ${HEADER_DIR}/${SPARK_NAME}/render/GraphicsAdapter.h
