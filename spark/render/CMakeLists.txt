@@ -17,6 +17,7 @@ spark_add_library(${TARGET_NAME}
 
         ${HEADER_DIR}/${SPARK_NAME}/render/impl/Resource.h
     CXX_SOURCES
+        ${SOURCE_DIR}/Buffer.cpp
         ${SOURCE_DIR}/ExportSymbols.cpp
         ${SOURCE_DIR}/StateResource.cpp
 )

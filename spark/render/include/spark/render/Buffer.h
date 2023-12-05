@@ -106,6 +106,45 @@ namespace spark::render
     };
 
     /**
+     * \brief Describes the semantic of a buffer attribute.
+     */
+    enum class AttributeSemantic
+    {
+        /// \brief The attribute contains a bi-normal vector.
+        Binormal = 0x00000001,
+
+        /// \brief The attribute contains blend indices.
+        BlendIndices = 0x00000002,
+
+        /// \brief The attribute contains blend weights.
+        BlendWeight = 0x00000003,
+
+        /// \brief The attribute contains a color value.
+        Color = 0x00000004,
+
+        /// \brief The attribute contains a normal vector.
+        Normal = 0x00000005,
+
+        /// \brief The attribute contains a position vector.
+        Position = 0x00000006,
+
+        /// \brief The attribute contains a pre-transformed position vector.
+        TransformedPosition = 0x00000007,
+
+        /// \brief The attribute contains a point size.
+        PointSize = 0x00000008,
+
+        /// \brief The attribute contains a tangent vector.
+        Tangent = 0x00000009,
+
+        /// \brief The attribute contains a texture coordinate.
+        TextureCoordinate = 0x0000000A,
+
+        /// \brief The attribute is a generic, unknown semantic.
+        Unknown = 0x7FFFFFFF
+    };
+
+    /**
      * \brief Base interface for all buffers.
      */
     class SPARK_RENDER_EXPORT IBuffer : public IDeviceMemory, public IMappable, public virtual IStateResource
@@ -145,6 +184,74 @@ namespace spark::render
          * \return A \ref BufferType representing the type of the buffer.
          */
         [[nodiscard]] virtual BufferType type() const noexcept = 0;
+    };
+
+    /**
+     * \brief Stores metadata about a buffer attribute, member or field of a descriptor or buffer.
+     */
+    class SPARK_RENDER_EXPORT BufferAttribute final
+    {
+    public:
+        /**
+         * \brief Initializes an empty buffer attribute.
+         */
+        BufferAttribute() noexcept;
+
+        /**
+         * \brief Initializes a new buffer attribute with the specified parameters.
+         * \param location The location the buffer attribute is bound to.
+         * \param offset The offset of the buffer attribute relative to the start of the buffer.
+         * \param format The format of the buffer attribute.
+         * \param semantic The semantic of the buffer attribute.
+         * \param semantic_index The semantic index of the buffer attribute.
+         */
+        BufferAttribute(unsigned int location, unsigned int offset, BufferFormat format, AttributeSemantic semantic, unsigned int semantic_index) noexcept;
+        ~BufferAttribute() noexcept;
+
+        BufferAttribute(const BufferAttribute& other) = delete;
+        BufferAttribute(BufferAttribute&& other) noexcept;
+        BufferAttribute& operator=(const BufferAttribute& other) = delete;
+        BufferAttribute& operator=(BufferAttribute&& other) noexcept;
+
+        /**
+         * \brief Gets the location the buffer attribute is bound to.
+         * \return The location the buffer attribute is bound to.
+         *
+         * \note Locations can only be specified with Vulkan, any other backend will ignore this value and use their implicitly generated locations.
+         */
+        [[nodiscard]] unsigned int location() const noexcept;
+
+        /**
+         * \brief Gets the format of the buffer attribute.
+         * \return A \ref BufferFormat representing the format of the buffer attribute.
+         */
+        [[nodiscard]] BufferFormat format() const noexcept;
+
+        /**
+         * \brief Gets the offset of the buffer attribute relative to the start of the buffer.
+         * \return The offset of the buffer attribute relative to the start of the buffer.
+         */
+        [[nodiscard]] unsigned int offset() const noexcept;
+
+        /**
+         * \brief Gets the semantic of the buffer attribute.
+         * \return A \ref AttributeSemantic representing the semantic of the buffer attribute.
+         *
+         * \note Semantics are only used in DirectX and HLSL.
+         */
+        [[nodiscard]] AttributeSemantic semantic() const noexcept;
+
+        /**
+         * \brief Gets the semantic index of the buffer attribute.
+         * \return The semantic index of the buffer attribute.
+         *
+         * \note Semantic indices are only used in DirectX and HLSL.
+         */
+        [[nodiscard]] unsigned int semanticIndex() const noexcept;
+
+    private:
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
     };
 }
 
