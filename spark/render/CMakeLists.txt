@@ -12,6 +12,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/Resource.h
         ${HEADER_DIR}/${SPARK_NAME}/render/StateResource.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Surface.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/SwapChain.h
 
         ${HEADER_DIR}/${SPARK_NAME}/render/impl/Resource.h
     CXX_SOURCES
