@@ -9,6 +9,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/Format.h
         ${HEADER_DIR}/${SPARK_NAME}/render/GraphicsAdapter.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Image.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/IndexBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Mappable.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Resource.h
         ${HEADER_DIR}/${SPARK_NAME}/render/StateResource.h
