@@ -18,6 +18,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/PushConstantsRange.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Resource.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Sampler.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/Scissor.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Shader.h
         ${HEADER_DIR}/${SPARK_NAME}/render/ShaderStages.h
         ${HEADER_DIR}/${SPARK_NAME}/render/StateResource.h
@@ -31,6 +32,7 @@ spark_add_library(${TARGET_NAME}
         ${SOURCE_DIR}/Buffer.cpp
         ${SOURCE_DIR}/ExportSymbols.cpp
         ${SOURCE_DIR}/StateResource.cpp
+        ${SOURCE_DIR}/Scissor.cpp
         ${SOURCE_DIR}/Viewport.cpp
 )
 
