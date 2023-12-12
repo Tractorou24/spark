@@ -18,6 +18,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/PushConstantsRange.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Resource.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Sampler.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/Shader.h
         ${HEADER_DIR}/${SPARK_NAME}/render/ShaderStages.h
         ${HEADER_DIR}/${SPARK_NAME}/render/StateResource.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Surface.h
