@@ -112,7 +112,10 @@ namespace spark::render
          * \param elements The number of elements to write to the \ref IDescriptorSet, or `0` to write all elements starting from \p buffer_element.
          * \param first_descriptor The index of the first descriptor in the descriptor array to update.
          */
-        void update(unsigned int binding, const IBuffer& buffer, unsigned int buffer_element = 0, unsigned int elements = 0, unsigned int first_descriptor = 0) const { genericUpdate(binding, buffer, buffer_element, elements, first_descriptor); }
+        void update(unsigned int binding, const IBuffer& buffer, unsigned int buffer_element = 0, unsigned int elements = 0, unsigned int first_descriptor = 0) const
+        {
+            genericUpdate(binding, buffer, buffer_element, elements, first_descriptor);
+        }
 
         /**
          * \brief Updates a texture within the current descriptor set.
@@ -124,7 +127,13 @@ namespace spark::render
          * \param first_layer The index of the first layer to bind.
          * \param layers The number of layers to bind. A value of `0` binds all available layers, starting at \p firstLayer.
          */
-        void update(unsigned int binding, const IImage& texture, unsigned int descriptor = 0, unsigned int first_level = 0, unsigned int levels = 0, unsigned int first_layer = 0, unsigned int layers = 0) const { genericUpdate(binding, texture, descriptor, first_level, levels, first_layer, layers); }
+        void update(unsigned int binding,
+                    const IImage& texture,
+                    unsigned int descriptor = 0,
+                    unsigned int first_level = 0,
+                    unsigned int levels = 0,
+                    unsigned int first_layer = 0,
+                    unsigned int layers = 0) const { genericUpdate(binding, texture, descriptor, first_level, levels, first_layer, layers); }
 
         /**
          * \brief Updates a sampler within the current descriptor set.
@@ -145,7 +154,13 @@ namespace spark::render
         /// @{
         /// \brief Private method used to allow the replacement of the generic methods by a custom \ref IBuffer type.
         virtual void genericUpdate(unsigned int binding, const IBuffer& buffer, unsigned int buffer_element, unsigned int elements, unsigned int first_descriptor) const = 0;
-        virtual void genericUpdate(unsigned int binding, const IImage& texture, unsigned int descriptor, unsigned int first_level, unsigned int levels, unsigned int first_layer, unsigned int layers) const = 0;
+        virtual void genericUpdate(unsigned int binding,
+                                   const IImage& texture,
+                                   unsigned int descriptor,
+                                   unsigned int first_level,
+                                   unsigned int levels,
+                                   unsigned int first_layer,
+                                   unsigned int layers) const = 0;
         virtual void genericUpdate(unsigned int binding, const ISampler& sampler, unsigned int descriptor) const = 0;
         virtual void genericAttach(unsigned int binding, const IImage& image) const = 0;
         /// @}
@@ -201,10 +216,20 @@ namespace spark::render
 
     public:
         /// \copydoc IDescriptorSet::update()
-        virtual void update(unsigned int binding, const buffer_type& buffer, unsigned int buffer_element = 0, unsigned int elements = 0, unsigned int first_descriptor = 0) const = 0;
+        virtual void update(unsigned int binding,
+                            const buffer_type& buffer,
+                            unsigned int buffer_element = 0,
+                            unsigned int elements = 0,
+                            unsigned int first_descriptor = 0) const = 0;
 
         /// \copydoc IDescriptorSet::update()
-        virtual void update(unsigned int binding, const image_type& texture, unsigned int descriptor = 0, unsigned int first_level = 0, unsigned int levels = 0, unsigned int first_layer = 0, unsigned int layers = 0) const = 0;
+        virtual void update(unsigned int binding,
+                            const image_type& texture,
+                            unsigned int descriptor = 0,
+                            unsigned int first_level = 0,
+                            unsigned int levels = 0,
+                            unsigned int first_layer = 0,
+                            unsigned int layers = 0) const = 0;
 
         /// \copydoc IDescriptorSet::update()
         virtual void update(unsigned int binding, const sampler_type& sampler, unsigned int descriptor = 0) const = 0;
@@ -213,10 +238,207 @@ namespace spark::render
         virtual void attach(unsigned int binding, const image_type& image) const = 0;
 
     private:
-        void genericUpdate(unsigned binding, const IBuffer& buffer, unsigned buffer_element, unsigned elements, unsigned first_descriptor) const final { update(binding, dynamic_cast<const buffer_type&>(buffer), buffer_element, elements, first_descriptor); }
-        void genericUpdate(unsigned binding, const IImage& texture, unsigned descriptor, unsigned first_level, unsigned levels, unsigned first_layer, unsigned layers) const override { update(binding, dynamic_cast<const image_type&>(texture), descriptor, first_level, levels, first_layer, layers); }
+        void genericUpdate(unsigned binding, const IBuffer& buffer, unsigned buffer_element, unsigned elements, unsigned first_descriptor) const final
+        {
+            update(binding, dynamic_cast<const buffer_type&>(buffer), buffer_element, elements, first_descriptor);
+        }
+
+        void genericUpdate(unsigned binding,
+                           const IImage& texture,
+                           unsigned descriptor,
+                           unsigned first_level,
+                           unsigned levels,
+                           unsigned first_layer,
+                           unsigned layers) const override { update(binding, dynamic_cast<const image_type&>(texture), descriptor, first_level, levels, first_layer, layers); }
+
         void genericUpdate(unsigned binding, const ISampler& sampler, unsigned descriptor) const final { update(binding, dynamic_cast<const sampler_type&>(sampler), descriptor); }
         void genericAttach(unsigned binding, const IImage& image) const final { attach(binding, dynamic_cast<const image_type&>(image)); }
+    };
+
+    /**
+     * \brief Interface for a descriptor set layout.
+     */
+    class SPARK_RENDER_EXPORT IDescriptorSetLayout
+    {
+    public:
+        virtual ~IDescriptorSetLayout() noexcept = default;
+
+        /**
+         * \brief Gets the layouts of all descriptors in the \ref IDescriptorSet.
+         * \return A \ref std::vector containing pointers to \ref IDescriptorLayout of all descriptors in the \ref IDescriptorSet.
+         */
+        [[nodiscard]] std::vector<const IDescriptorLayout*> descriptors() const noexcept { return genericDescriptors(); }
+
+        /**
+         * \brief Gets the layout of a descriptor in the \ref IDescriptorSet bound to a specific binding point.
+         * \param binding The binding point of the requested descriptor layout.
+         * \return A pointer to the \ref IDescriptorLayout describing the layout of the descriptor bound to \p binding.
+         */
+        [[nodiscard]] virtual const IDescriptorLayout* descriptor(unsigned int binding) const = 0;
+
+        /**
+         * \brief Gets the space index of the \ref IDescriptorSet.
+         * \return The space index of the \ref IDescriptorSet.
+         *
+         * \note This maps the space index in HLSL.
+         */
+        [[nodiscard]] virtual unsigned int space() const noexcept = 0;
+
+        /**
+         * \brief Gets the shader stage the \ref IDescriptorSet is used in.
+         * \return A \ref ShaderStage representing the shader stage the \ref IDescriptorSet is used in.
+         */
+        [[nodiscard]] virtual ShaderStage shaderStage() const noexcept = 0;
+
+        /**
+         * \brief Gets the number of uniform/constant buffers in the \ref IDescriptorSet.
+         * \return The number of uniform/constant buffers in the \ref IDescriptorSet.
+         */
+        [[nodiscard]] virtual unsigned int uniforms() const noexcept = 0;
+
+        /**
+         * \brief Gets the number of storage buffers in the \ref IDescriptorSet.
+         * \return The number of storage buffers in the \ref IDescriptorSet.
+         */
+        [[nodiscard]] virtual unsigned int storages() const noexcept = 0;
+
+        /**
+         * \brief Gets the number of images (textures) in the \ref IDescriptorSet.
+         * \return The number of images (textures) in the \ref IDescriptorSet.
+         */
+        [[nodiscard]] virtual unsigned int images() const noexcept = 0;
+
+        /**
+         * \brief Get the number of texel buffer descriptors in the \ref IDescriptorSet.
+         * \return The number of texel buffer descriptors in the \ref IDescriptorSet.
+         */
+        [[nodiscard]] virtual unsigned int buffers() const noexcept = 0;
+
+        /**
+         * \brief Gets the number of texel buffer descriptors in the \ref IDescriptorSet.
+         * \return The number of texel buffer descriptors in the \ref IDescriptorSet.
+         */
+        [[nodiscard]] virtual unsigned int samplers() const noexcept = 0;
+
+        /**
+         * \brief Gets the number of static/immutable samplers in the \ref IDescriptorSet.
+         * \return The number of static/immutable samplers in the \ref IDescriptorSet.
+         */
+        [[nodiscard]] virtual unsigned int staticSamplers() const noexcept = 0;
+
+        /**
+         * \brief Gets the number of input attachments in the \ref IDescriptorSet.
+         * \return The number of input attachments in the \ref IDescriptorSet.
+         */
+        [[nodiscard]] virtual unsigned int inputAttachments() const noexcept = 0;
+
+        /**
+         * \brief Allocates a new \ref IDescriptorSet or returns an unused descriptor set.
+         * \param bindings Optional list of descriptor bindings to initialize the \ref IDescriptorSet with.
+         * \return A \ref std::unique_ptr to the allocated \ref IDescriptorSet.
+         *
+         * Allocating a new descriptor set may be an expensive operation. To improve performance, and prevent fragmentation, the descriptor set layout keeps track of
+         * created descriptor sets. It does this by never releasing them. Instead, when a \ref IDescriptorSet instance gets destroyed, it should call 
+         * \ref IDescriptorSetLayout::free() in order to mark itself (i.e. its handle) as not being used any longer.
+         * 
+         * Before allocating a new descriptor set from a pool (which may even result in the creation of a new pool, if the existing pools are full), the layout tries 
+         * to hand out descriptor sets that marked as unused. Descriptor sets are only deleted, if the whole layout instance and therefore the descriptor pools are 
+         * deleted.
+         * (
+         * The above does not apply to unbounded descriptor arrays. A unbounded descriptor array is one, for which \ref IDescriptorLayout::descriptors() 
+         * returns `-1` (or `0xFFFFFFFF`). They must be allocated by specifying the \p descriptors parameter. This parameter defines the number of
+         * descriptors to allocate in the array. 
+         * 
+         * Note that descriptor sets, that contain an unbounded descriptor array must only contain one single descriptor (the one that identifies this array). Such 
+         * descriptor sets are never cached. Instead, they are released when calling \ref IDescriptorSetLayout::free(). It is a good practice to cache such descriptor
+         * sets as global descriptor tables once and never release them. They provide more flexibility than regular descriptor arrays, since they may be updated, even after
+         * they have been bound to a command buffer or from different threads. However, you must ensure yourself not to overwrite any descriptors that are currently
+         * in use. Because unbounded arrays are not cached, freeing and re-allocating such descriptor sets may leave the descriptor heap fragmented, which might cause
+         * the allocation to fail, if the heap is full.
+         */
+        [[nodiscard]] std::unique_ptr<IDescriptorSet> allocate(const std::vector<DescriptorBinding>& bindings = {}) const { return genericAllocate(0, bindings); }
+
+        /**
+         * \brief Allocates a new \ref IDescriptorSet or returns an unused descriptor set.
+         * \param descriptors The number of descriptors to allocate in an unbounded descriptor array. Ignored if the descriptor array is bounded.
+         * \param bindings Optional list of descriptor bindings to initialize the \ref IDescriptorSet with.
+         * \return A \ref std::unique_ptr to the allocated \ref IDescriptorSet.
+         */
+        [[nodiscard]] std::unique_ptr<IDescriptorSet> allocate(unsigned int descriptors, const std::vector<DescriptorBinding>& bindings = {}) const
+        {
+            return genericAllocate(descriptors, bindings);
+        }
+
+        /**
+         * \brief Allocates an array of \ref IDescriptorSet.
+         * \param descriptors_sets The number of \ref IDescriptorSet to allocate.
+         * \param bindings Optional list of descriptor bindings to initialize the \ref IDescriptorSet with.
+         * \return A \ref std::vector containing \ref std::unique_ptr to the newly allocated \link IDescriptorSet descriptor sets \endlink .
+         */
+        [[nodiscard]] std::vector<std::unique_ptr<IDescriptorSet>> allocateMultiple(unsigned int descriptors_sets,
+                                                                                    const std::vector<std::vector<DescriptorBinding>>& bindings = {}) const noexcept
+        {
+            return allocateMultiple(descriptors_sets, 0, bindings);
+        }
+
+        /**
+         * \brief Allocates an array of \ref IDescriptorSet.
+         * \param descriptors_sets The number of \ref IDescriptorSet to allocate.
+         * \param binding_factory A factory function that creates a list of descriptor bindings for each \ref IDescriptorSet.
+         * \return A \ref std::vector containing \ref std::unique_ptr to the newly allocated \link IDescriptorSet descriptor sets \endlink .
+         */
+        [[nodiscard]] std::vector<std::unique_ptr<IDescriptorSet>> allocateMultiple(unsigned int descriptors_sets,
+                                                                                    const std::function<std::vector<DescriptorBinding>(unsigned)>& binding_factory) const noexcept
+        {
+            return allocateMultiple(descriptors_sets, 0, binding_factory);
+        }
+
+        /**
+         * \brief Allocates an array of \ref IDescriptorSet.
+         * \param descriptors_sets The number of \ref IDescriptorSet to allocate.
+         * \param descriptors The number of descriptors to allocate in an unbounded descriptor array. Ignored if the descriptor array is bounded.
+         * \param bindings Optional list of descriptor bindings to initialize each \ref IDescriptorSet with.
+         * \return A \ref std::vector containing \ref std::unique_ptr to the newly allocated \link IDescriptorSet descriptor sets \endlink .
+         */
+        [[nodiscard]] std::vector<std::unique_ptr<IDescriptorSet>> allocateMultiple(unsigned int descriptors_sets,
+                                                                                    unsigned int descriptors,
+                                                                                    const std::vector<std::vector<DescriptorBinding>>& bindings = {}) const noexcept
+        {
+            return genericAllocate(descriptors_sets, descriptors, bindings);
+        }
+
+        /**
+         * \brief Allocates an array of \ref IDescriptorSet.
+         * \param descriptors_sets The number of \ref IDescriptorSet to allocate.
+         * \param descriptors The number of descriptors to allocate in an unbounded descriptor array. Ignored if the descriptor array is bounded.
+         * \param binding_factory A factory function that creates a list of descriptor bindings for each \ref IDescriptorSet.
+         * \return A \ref std::vector containing \ref std::unique_ptr to the newly allocated \link IDescriptorSet descriptor sets \endlink .
+         */
+        [[nodiscard]] std::vector<std::unique_ptr<IDescriptorSet>> allocateMultiple(unsigned int descriptors_sets,
+                                                                                    unsigned int descriptors,
+                                                                                    const std::function<std::vector<DescriptorBinding>(unsigned)>& binding_factory = {}) const
+            noexcept { return genericAllocate(descriptors_sets, descriptors, binding_factory); }
+
+        /**
+         * \brief Marks a \ref IDescriptorSet as unused, so that it can be handed out again instead of allocating a new one.
+         * \param descriptor_set The \ref IDescriptorSet to mark as unused.
+         */
+        void free(const IDescriptorSet& descriptor_set) const noexcept { genericFree(descriptor_set); }
+
+    private:
+        /// @{
+        /// \brief Private method used to allow the replacement of the generic methods by a custom \ref IDescriptorLayout type.
+        [[nodiscard]] virtual std::vector<const IDescriptorLayout*> genericDescriptors() const noexcept = 0;
+        [[nodiscard]] virtual std::unique_ptr<IDescriptorSet> genericAllocate(unsigned int descriptors, const std::vector<DescriptorBinding>& bindings) const noexcept = 0;
+        [[nodiscard]] virtual std::vector<std::unique_ptr<IDescriptorSet>> genericAllocate(unsigned descriptor_sets,
+                                                                                           unsigned descriptors,
+                                                                                           const std::vector<std::vector<DescriptorBinding>>& bindings) const = 0;
+        [[nodiscard]] virtual std::vector<std::unique_ptr<IDescriptorSet>> genericAllocate(unsigned descriptor_sets,
+                                                                                           unsigned descriptors,
+                                                                                           const std::function<std::vector<DescriptorBinding>(unsigned)>& binding_factory) const =
+        0;
+        virtual void genericFree(const IDescriptorSet& descriptor_set) const noexcept = 0;
+        /// @}
     };
 }
 
