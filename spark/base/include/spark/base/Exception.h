@@ -89,6 +89,11 @@ namespace spark::base
      * \brief Exception thrown when trying to create multiple instances of an application, which is not allowed.
      */
     SPARK_BASE_DEFINE_EXCEPTION(DuplicatedApplicationException)
+
+    /**
+     * \brief Exception thrown when starting a command buffer recording while it is already recording.
+     */
+    SPARK_BASE_DEFINE_EXCEPTION(CommandBufferAlreadyRecordingException)
 }
 
 #undef SPARK_BASE_DEFINE_EXCEPTION
