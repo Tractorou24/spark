@@ -94,6 +94,11 @@ namespace spark::base
      * \brief Exception thrown when starting a command buffer recording while it is already recording.
      */
     SPARK_BASE_DEFINE_EXCEPTION(CommandBufferAlreadyRecordingException)
+
+    /**
+     * \brief Exception thrown when an argument is out of range.
+     */
+    SPARK_BASE_DEFINE_EXCEPTION(ArgumentOutOfRangeException)
 }
 
 #undef SPARK_BASE_DEFINE_EXCEPTION
