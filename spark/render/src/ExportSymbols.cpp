@@ -2,4 +2,5 @@
 // Else, the symbols are not exported and it fails to link, searching for the ctor and dtor of the interfaces.
 
 #include "spark/render/GraphicsAdapter.h"
+#include "spark/render/Shader.h"
 #include "spark/render/Surface.h"
