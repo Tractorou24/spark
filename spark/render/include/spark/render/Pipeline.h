@@ -7,6 +7,8 @@
 
 namespace spark::render
 {
+    class IShaderProgram;
+
     /**
      * \brief Interface for pipeline layouts.
      */
@@ -71,5 +73,33 @@ namespace spark::render
                                    [](const auto& descriptor_set) { return static_cast<const IDescriptorSetLayout*>(descriptor_set); });
             return descriptor_sets_vector;
         }
+    };
+
+    /**
+     * \brief Interface representing a pipeline.
+     */
+    class SPARK_RENDER_EXPORT IPipeline : public virtual IStateResource
+    {
+    public:
+        ~IPipeline() noexcept override = default;
+
+        /**
+         * \brief Gets the shader program used by the pipeline.
+         * \return A \ref std::shared_ptr pointer to the \ref IShaderProgram used by the pipeline.
+         */
+        [[nodiscard]] std::shared_ptr<const IShaderProgram> program() const noexcept { return genericProgram(); }
+
+        /**
+         * \brief Gets the pipeline layout.
+         * \return A \ref std::shared_ptr pointer to the \ref IPipelineLayout.
+         */
+        [[nodiscard]] std::shared_ptr<IPipelineLayout> layout() const noexcept { return genericLayout(); }
+
+    private:
+        /// @{
+        /// \brief Private methods used to allow replacement of the generic methods by custom types.
+        [[nodiscard]] virtual std::shared_ptr<const IShaderProgram> genericProgram() const noexcept = 0;
+        [[nodiscard]] virtual std::shared_ptr<IPipelineLayout> genericLayout() const noexcept = 0;
+        /// @}
     };
 }
