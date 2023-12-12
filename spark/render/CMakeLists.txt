@@ -24,12 +24,14 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/Surface.h
         ${HEADER_DIR}/${SPARK_NAME}/render/SwapChain.h
         ${HEADER_DIR}/${SPARK_NAME}/render/VertexBuffer.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/Viewport.h
 
         ${HEADER_DIR}/${SPARK_NAME}/render/impl/Resource.h
     CXX_SOURCES
         ${SOURCE_DIR}/Buffer.cpp
         ${SOURCE_DIR}/ExportSymbols.cpp
         ${SOURCE_DIR}/StateResource.cpp
+        ${SOURCE_DIR}/Viewport.cpp
 )
 
 target_link_libraries(${TARGET_NAME}
