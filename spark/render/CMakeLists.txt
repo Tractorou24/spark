@@ -5,6 +5,7 @@ set (SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 spark_add_library(${TARGET_NAME}
     PUBLIC_HEADERS
         ${HEADER_DIR}/${SPARK_NAME}/render/Buffer.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/CommandBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/DescriptorBinding.h
         ${HEADER_DIR}/${SPARK_NAME}/render/DescriptorSet.h
         ${HEADER_DIR}/${SPARK_NAME}/render/DeviceMemory.h
