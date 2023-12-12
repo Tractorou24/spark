@@ -6,6 +6,9 @@
 #include "spark/render/Sampler.h"
 #include "spark/render/ShaderStages.h"
 
+#include <algorithm>
+#include <memory>
+
 namespace spark::render
 {
     /**
@@ -91,6 +94,61 @@ namespace spark::render
          * \return A pointer to \ref ISampler containing the state of the sampler if the descriptor is a static sampler, or `nullptr` if the descriptor is not a static sampler.
          */
         [[nodiscard]] virtual const ISampler* staticSampler() const noexcept = 0;
+    };
+
+    /**
+     * \brief Interface for a descriptor set.
+     */
+    class SPARK_RENDER_EXPORT IDescriptorSet
+    {
+    public:
+        virtual ~IDescriptorSet() noexcept = default;
+
+        /**
+         * \brief Updates a constant buffer within the \ref IDescriptorSet.
+         * \param binding The buffer binding point.
+         * \param buffer The constant buffer to write to the \ref IDescriptorSet.
+         * \param buffer_element The index of the first element to write to the \ref IDescriptorSet.
+         * \param elements The number of elements to write to the \ref IDescriptorSet, or `0` to write all elements starting from \p buffer_element.
+         * \param first_descriptor The index of the first descriptor in the descriptor array to update.
+         */
+        void update(unsigned int binding, const IBuffer& buffer, unsigned int buffer_element = 0, unsigned int elements = 0, unsigned int first_descriptor = 0) const { genericUpdate(binding, buffer, buffer_element, elements, first_descriptor); }
+
+        /**
+         * \brief Updates a texture within the current descriptor set.
+         * \param binding The binding point of the texture.
+         * \param texture The texture to write to the descriptor set.
+         * \param descriptor The index of the descriptor in the descriptor array to bind the texture to.
+         * \param first_level The index of the first mip-map level to bind.
+         * \param levels The number of mip-map levels to bind. A value of `0` binds all available levels, starting at \p firstLevel.
+         * \param first_layer The index of the first layer to bind.
+         * \param layers The number of layers to bind. A value of `0` binds all available layers, starting at \p firstLayer.
+         */
+        void update(unsigned int binding, const IImage& texture, unsigned int descriptor = 0, unsigned int first_level = 0, unsigned int levels = 0, unsigned int first_layer = 0, unsigned int layers = 0) const { genericUpdate(binding, texture, descriptor, first_level, levels, first_layer, layers); }
+
+        /**
+         * \brief Updates a sampler within the current descriptor set.
+         * \param binding The binding point of the sampler.
+         * \param sampler The sampler to write to the descriptor set.
+         * \param descriptor The index of the descriptor in the descriptor array to bind the sampler to.
+         */
+        void update(unsigned int binding, const ISampler& sampler, unsigned int descriptor = 0) const { genericUpdate(binding, sampler, descriptor); }
+
+        /**
+         * \brief Attaches an image as an input attachment to a descriptor bound at \p binding.
+         * \param binding The input attachment binding point.
+         * \param image The image to bind to the input attachment descriptor.
+         */
+        void attach(unsigned int binding, const IImage& image) const { genericAttach(binding, image); }
+
+    private:
+        /// @{
+        /// \brief Private method used to allow the replacement of the generic methods by a custom \ref IBuffer type.
+        virtual void genericUpdate(unsigned int binding, const IBuffer& buffer, unsigned int buffer_element, unsigned int elements, unsigned int first_descriptor) const = 0;
+        virtual void genericUpdate(unsigned int binding, const IImage& texture, unsigned int descriptor, unsigned int first_level, unsigned int levels, unsigned int first_layer, unsigned int layers) const = 0;
+        virtual void genericUpdate(unsigned int binding, const ISampler& sampler, unsigned int descriptor) const = 0;
+        virtual void genericAttach(unsigned int binding, const IImage& image) const = 0;
+        /// @}
     };
 }
 
