@@ -6,6 +6,7 @@
 #include "spark/base/Macros.h"
 #include "spark/math/Vector4.h"
 
+#include <memory>
 #include <string>
 
 namespace spark::render
@@ -191,5 +192,96 @@ namespace spark::render
          * \return A \ref BlendState value describing the blend state of the render target.
          */
         [[nodiscard]] virtual BlendState blendState() const noexcept = 0;
+    };
+
+    /**
+     * \brief Implements a \ref IRenderTarget.
+     */
+    class SPARK_RENDER_EXPORT RenderTarget final : public IRenderTarget
+    {
+    public:
+        /**
+         * \brief Initializes a default \ref RenderTarget.
+         */
+        explicit RenderTarget() noexcept;
+
+        /**
+         * \brief Initializes the \ref RenderTarget.
+         * \param location The location of the render target output attachment.
+         * \param type The type of the render target.
+         * \param format The format of the render target.
+         * \param clear_buffer `true`, if the render target should be cleared when the render pass is started, `false` otherwise.
+         * \param clear_values The values with which the render target gets cleared.
+         * \param clear_stencil `true`, if the render target stencil should be cleared when the render pass is started, `false` otherwise.
+         * \param is_volatile `true`, if the target should not be persistent for access after the render pass has finished, `false` otherwise.
+         * \param blend_state The blend state of the render target.
+         */
+        explicit RenderTarget(unsigned int location,
+                              RenderTargetType type,
+                              Format format,
+                              bool clear_buffer,
+                              const math::Vector4<float>& clear_values = {0.f, 0.f, 0.f, 0.f},
+                              bool clear_stencil = true,
+                              bool is_volatile = false,
+                              const BlendState& blend_state = {});
+
+        /**
+         * \brief Initializes the \ref RenderTarget.
+         * \param name The name of the render target.
+         * \param location The location of the render target output attachment.
+         * \param type The type of the render target.
+         * \param format The format of the render target.
+         * \param clear_buffer `true`, if the render target should be cleared when the render pass is started, `false` otherwise.
+         * \param clear_values The values with which the render target gets cleared.
+         * \param clear_stencil `true`, if the render target stencil should be cleared when the render pass is started, `false` otherwise.
+         * \param is_volatile `true`, if the target should not be persistent for access after the render pass has finished, `false` otherwise.
+         * \param blend_state The blend state of the render target.
+         */
+        explicit RenderTarget(const std::string& name,
+                              unsigned int location,
+                              RenderTargetType type,
+                              Format format,
+                              bool clear_buffer,
+                              const math::Vector4<float>& clear_values = {0.f, 0.f, 0.f, 0.f},
+                              bool clear_stencil = true,
+                              bool is_volatile = false,
+                              const BlendState& blend_state = {});
+        ~RenderTarget() noexcept override;
+
+        RenderTarget(const RenderTarget& other);
+        RenderTarget(RenderTarget&& other) noexcept;
+        RenderTarget& operator=(const RenderTarget& other);
+        RenderTarget& operator=(RenderTarget&& other) noexcept;
+
+        /// \copydoc IRenderTarget::name()
+        [[nodiscard]] std::string name() const noexcept override;
+
+        /// \copydoc IRenderTarget::location()
+        [[nodiscard]] unsigned location() const noexcept override;
+
+        /// \copydoc IRenderTarget::type()
+        [[nodiscard]] RenderTargetType type() const noexcept override;
+
+        /// \copydoc IRenderTarget::format()
+        [[nodiscard]] Format format() const noexcept override;
+
+        /// \copydoc IRenderTarget::clearBuffer()
+        bool clearBuffer() const noexcept override;
+
+        /// \copydoc IRenderTarget::clearStencil()
+        bool clearStencil() const noexcept override;
+
+        /// \copydoc IRenderTarget::clearValues()
+        [[nodiscard]] math::Vector4<float> clearValues() const noexcept override;
+
+        /// \copydoc IRenderTarget::isVolatile()
+        [[nodiscard]] bool isVolatile() const noexcept override;
+
+        /// \copydoc IRenderTarget::blendState()
+        [[nodiscard]] BlendState blendState() const noexcept override;
+
+    private:
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
     };
 }
