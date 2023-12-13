@@ -89,6 +89,16 @@
  */
 #define BIT(X) (1 << X)
 
+/**
+ * \brief Defines the bitwise operators for an enum class. (operator|, operator|=, operator&, operator&=)
+ * \param T The enum class type.
+ */
+#define SPARK_DEFINE_ENUM_FLAGS(T)                                                                                                                                                                \
+    inline T operator| (const T lhs, const T rhs) { using _base_t = std::underlying_type_t<T>; return static_cast<T>(static_cast<_base_t>(lhs) | static_cast<_base_t>(rhs)); }  \
+    inline T& operator|= (T& lhs, const T& rhs) { lhs = lhs | rhs; return lhs; }                                                                                                \
+    inline T operator& (const T lhs, const T rhs) { using _base_t = std::underlying_type_t<T>; return static_cast<T>(static_cast<_base_t>(lhs) & static_cast<_base_t>(rhs)); }  \
+    inline T& operator&= (T& lhs, const T& rhs) { lhs = lhs & rhs; return lhs; }
+
 /*
  * Define assertions macros
  * TODO: Add support for custom assertion handlers
