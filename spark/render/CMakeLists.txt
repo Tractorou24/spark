@@ -34,6 +34,7 @@ spark_add_library(${TARGET_NAME}
     CXX_SOURCES
         ${SOURCE_DIR}/Buffer.cpp
         ${SOURCE_DIR}/ExportSymbols.cpp
+        ${SOURCE_DIR}/RenderTarget.cpp
         ${SOURCE_DIR}/StateResource.cpp
         ${SOURCE_DIR}/Scissor.cpp
         ${SOURCE_DIR}/Viewport.cpp
