@@ -11,6 +11,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/DescriptorSet.h
         ${HEADER_DIR}/${SPARK_NAME}/render/DeviceMemory.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Format.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/FrameBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/GraphicsAdapter.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Image.h
         ${HEADER_DIR}/${SPARK_NAME}/render/IndexBuffer.h
