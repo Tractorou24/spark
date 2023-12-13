@@ -6,10 +6,12 @@ spark_add_library(${TARGET_NAME} INTERFACE
     PUBLIC_HEADERS
         ${HEADER_DIR}/${SPARK_NAME}/math/Vector2.h
         ${HEADER_DIR}/${SPARK_NAME}/math/Vector3.h
+        ${HEADER_DIR}/${SPARK_NAME}/math/Vector4.h
 
         ${HEADER_DIR}/${SPARK_NAME}/math/details/Vector.h
         ${HEADER_DIR}/${SPARK_NAME}/math/impl/Vector2.h
         ${HEADER_DIR}/${SPARK_NAME}/math/impl/Vector3.h
+        ${HEADER_DIR}/${SPARK_NAME}/math/impl/Vector4.h
 )
 
 if(BUILD_TESTING)
