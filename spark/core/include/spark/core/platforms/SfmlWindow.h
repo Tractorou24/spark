@@ -27,11 +27,9 @@ namespace spark::core
         [[nodiscard]] math::Vector2<unsigned int> size() const override;
 
         [[nodiscard]] void* nativeWindow() const override;
-        void setEventCallback(const std::function<void(events::Event&)>& callback) override;
 
     private:
         std::unique_ptr<sf::RenderWindow> m_window;
-        std::function<void(events::Event&)> m_eventCallback;
         Settings m_settings;
     };
 }

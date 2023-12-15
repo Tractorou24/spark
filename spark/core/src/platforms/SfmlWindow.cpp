@@ -41,14 +41,14 @@ namespace spark::core
             case sf::Event::Closed:
                 {
                     events::WindowCloseEvent window_close_event;
-                    m_eventCallback(window_close_event);
+                    m_settings.eventCallback(window_close_event);
                     m_window->close();
                     break;
                 }
             case sf::Event::Resized:
                 {
                     events::WindowResizeEvent window_resize_event(event.size.width, event.size.height);
-                    m_eventCallback(window_resize_event);
+                    m_settings.eventCallback(window_resize_event);
                     m_settings.size.x = event.size.width;
                     m_settings.size.y = event.size.height;
 
@@ -60,37 +60,37 @@ namespace spark::core
             case sf::Event::KeyPressed:
                 {
                     events::KeyPressedEvent key_pressed_event(static_cast<base::KeyCode>(event.key.code));
-                    m_eventCallback(key_pressed_event);
+                    m_settings.eventCallback(key_pressed_event);
                     break;
                 }
             case sf::Event::KeyReleased:
                 {
                     events::KeyReleasedEvent key_released_event(static_cast<base::KeyCode>(event.key.code));
-                    m_eventCallback(key_released_event);
+                    m_settings.eventCallback(key_released_event);
                     break;
                 }
             case sf::Event::MouseWheelScrolled:
                 {
                     events::MouseScrolledEvent mouse_scrolled_event(event.mouseWheelScroll.delta);
-                    m_eventCallback(mouse_scrolled_event);
+                    m_settings.eventCallback(mouse_scrolled_event);
                     break;
                 }
             case sf::Event::MouseButtonPressed:
                 {
                     events::MouseButtonPressedEvent mouse_button_pressed_event(static_cast<base::MouseCode>(event.mouseButton.button));
-                    m_eventCallback(mouse_button_pressed_event);
+                    m_settings.eventCallback(mouse_button_pressed_event);
                     break;
                 }
             case sf::Event::MouseButtonReleased:
                 {
                     events::MouseButtonReleasedEvent mouse_button_released_event(static_cast<base::MouseCode>(event.mouseButton.button));
-                    m_eventCallback(mouse_button_released_event);
+                    m_settings.eventCallback(mouse_button_released_event);
                     break;
                 }
             case sf::Event::MouseMoved:
                 {
                     events::MouseMovedEvent mouse_moved_event(event.mouseMove.x, event.mouseMove.y);
-                    m_eventCallback(mouse_moved_event);
+                    m_settings.eventCallback(mouse_moved_event);
                     break;
                 }
             default:
@@ -117,10 +117,5 @@ namespace spark::core
     void* SfmlWindow::nativeWindow() const
     {
         return m_window.get();
-    }
-
-    void SfmlWindow::setEventCallback(const std::function<void(events::Event&)>& callback)
-    {
-        m_eventCallback = callback;
     }
 }

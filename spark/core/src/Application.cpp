@@ -24,11 +24,11 @@ namespace spark::core
         const Window::Settings window_settings =
         {
             .title = settings.name,
-            .size = settings.size
+            .size = settings.size,
+            .eventCallback = [this](events::Event& event) { onEvent(event); }
         };
 
         m_window = Window::Create(window_settings);
-        m_window->setEventCallback([this](events::Event& e) { onEvent(e); });
     }
 
     // ReSharper disable once CppMemberFunctionMayBeConst
