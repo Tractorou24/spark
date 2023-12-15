@@ -1,8 +1,9 @@
 #include "spark/core/Application.h"
+
 #include "spark/core/Input.h"
 #include "spark/core/Window.h"
 
-#include "spark/base/Macros.h"
+#include "spark/base/Exception.h"
 #include "spark/events/EventDispatcher.h"
 #include "spark/events/KeyEvents.h"
 #include "spark/events/MouseEvents.h"
@@ -19,11 +20,12 @@ namespace spark::core
         return s_instance;
     }
 
-    Application::Application(ApplicationSpecification settings)
-        : m_specification(std::move(settings))
+    Application::Application(const Settings& settings)
     {
-        WindowSpecification window_settings;
-        window_settings.title = m_specification.name;
+        const WindowSpecification window_settings =
+        {
+            .title = settings.name
+        };
 
         m_window = Window::Create(window_settings);
         m_window->setEventCallback([this](events::Event& e) { onEvent(e); });
@@ -56,9 +58,9 @@ namespace spark::core
         log::info("Closing application");
     }
 
-    ApplicationSpecification Application::settings() const
+    Application::Settings Application::settings() const
     {
-        return m_specification;
+        return m_settings;
     }
 
     // ReSharper disable once CppMemberFunctionMayBeConst
@@ -149,12 +151,12 @@ namespace spark::core
             log::warning("Failed to dispatch event {}", event.rttiInstance().className());
     }
 
-    std::unique_ptr<Application> make_application(ApplicationSpecification settings)
+    std::unique_ptr<Application> make_application(const Application::Settings& settings)
     {
         if (Application::Instance())
             throw spark::base::DuplicatedApplicationException("There is already an instance of Application");
 
-        auto app = std::unique_ptr<Application>(new Application(std::move(settings)));
+        auto app = std::unique_ptr<Application>(new Application(settings));
         app->s_instance = app.get();
         return app;
     }

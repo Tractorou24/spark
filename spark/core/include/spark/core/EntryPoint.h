@@ -4,7 +4,7 @@
 #include "spark/core/SceneManager.h"
 #include "spark/log/Logger.h"
 
-extern std::unique_ptr<spark::core::Application> spark_main(const spark::core::ApplicationSpecification& default_settings);
+extern std::unique_ptr<spark::core::Application> spark_main(const std::vector<std::string>& args);
 
 // ReSharper disable once CppNonInlineFunctionDefinitionInHeaderFile
 int main(const int argc, char* argv[])
@@ -21,13 +21,8 @@ int main(const int argc, char* argv[])
             args.emplace_back(argv[i]);
     }
 
-    // Create application default settings
-    spark::core::ApplicationSpecification settings;
-    settings.workingDirectory = std::filesystem::current_path();
-    settings.commandLineArgs = args;
-
     // Run application
-    const auto app = spark_main(settings);
+    const auto app = spark_main(args);
     app->run();
 
     spark::core::SceneManager::UnregisterAllScenes();
