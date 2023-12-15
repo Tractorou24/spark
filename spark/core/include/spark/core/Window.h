@@ -24,6 +24,7 @@ namespace spark::core
         {
             std::string title;
             spark::math::Vector2<unsigned int> size;
+            std::function<void(events::Event&)> eventCallback;
         };
 
         /**
@@ -68,11 +69,5 @@ namespace spark::core
          * \return A void* pointer to the native window which can be casted to the platform's window type.
          */
         [[nodiscard]] virtual void* nativeWindow() const = 0;
-
-        /**
-         * \brief Sets the event callback for the window.
-         * \param callback A std::function taking an event as parameter.
-         */
-        virtual void setEventCallback(const std::function<void(events::Event&)>& callback) = 0;
     };
 }
