@@ -11,27 +11,26 @@
 namespace spark::core
 {
     /**
-     * \brief A struct containing the settings used to create a window.
-     */
-    struct WindowSpecification
-    {
-        std::string title = "Spark Engine";
-        uint32_t width = 1280;
-        uint32_t height = 720;
-    };
-
-    /**
      * \brief An interface representing any window of any platform.
      */
     class SPARK_CORE_EXPORT Window
     {
     public:
         /**
+         * \brief A struct containing the settings used to create a window.
+         */
+        struct Settings
+        {
+            std::string title;
+            spark::math::Vector2<unsigned int> size;
+        };
+
+        /**
          * \brief Creates a window based on the platform.
          * \param settings The window build settings. 
          * \return A std::unique_ptr to the window.
          */
-        static std::unique_ptr<Window> Create(const WindowSpecification& settings = WindowSpecification());
+        static std::unique_ptr<Window> Create(const Settings& settings);
 
     public:
         Window() = default;
@@ -73,7 +72,7 @@ namespace spark::core
          * \brief Gets the size of the window.
          * \return A 2D vector representing the width and height of the window.
          */
-        [[nodiscard]] virtual math::Vector2<uint32_t> size() const = 0;
+        [[nodiscard]] virtual math::Vector2<unsigned int> size() const = 0;
 
         /**
          * \brief Gets a handle to the native platform window.
