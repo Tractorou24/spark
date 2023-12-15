@@ -5,17 +5,15 @@
 #include "pong/ui/Menu.h"
 
 #include "spark/core/Application.h"
+#include "spark/core/ApplicationBuilder.h"
 #include "spark/core/EntryPoint.h"
 #include "spark/core/SceneManager.h"
 #include "spark/engine/GameObject.h"
 #include "spark/engine/Scene.h"
 
-std::unique_ptr<spark::core::Application> spark_main(const spark::core::ApplicationSpecification& default_settings)
+std::unique_ptr<spark::core::Application> spark_main(const std::vector<std::string>& /*args*/)
 {
-    auto settings = default_settings;
-    settings.name = "Pong";
-
-    auto app = spark::core::make_application(settings);
+    auto app = spark::core::ApplicationBuilder().setName("Pong").setSize(1280, 720).build();
 
     // Create the main menu scene
     {
