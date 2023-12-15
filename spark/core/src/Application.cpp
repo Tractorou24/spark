@@ -3,7 +3,6 @@
 #include "spark/core/Input.h"
 #include "spark/core/Window.h"
 
-#include "spark/base/Exception.h"
 #include "spark/events/EventDispatcher.h"
 #include "spark/events/KeyEvents.h"
 #include "spark/events/MouseEvents.h"
@@ -24,7 +23,9 @@ namespace spark::core
     {
         const WindowSpecification window_settings =
         {
-            .title = settings.name
+            .title = settings.name,
+            .width = settings.size.x,
+            .height = settings.size.y,
         };
 
         m_window = Window::Create(window_settings);
@@ -149,15 +150,5 @@ namespace spark::core
 
         if (!result)
             log::warning("Failed to dispatch event {}", event.rttiInstance().className());
-    }
-
-    std::unique_ptr<Application> make_application(const Application::Settings& settings)
-    {
-        if (Application::Instance())
-            throw spark::base::DuplicatedApplicationException("There is already an instance of Application");
-
-        auto app = std::unique_ptr<Application>(new Application(settings));
-        app->s_instance = app.get();
-        return app;
     }
 }

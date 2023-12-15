@@ -21,7 +21,8 @@ namespace spark::core
         friend class Renderer2D;
         friend class SceneManager;
 
-        friend SPARK_CORE_EXPORT std::unique_ptr<Application> make_application(Application::Settings settings);
+        template<typename... Tags>
+        friend class ApplicationBuilder;
 
     public:
         /**
@@ -103,13 +104,4 @@ namespace spark::core
         Settings m_settings;
         bool m_isRunning = true;
     };
-
-    /**
-     * \brief Creates and configures a new application with the given settings.
-     * \param settings Settings for the application.
-     * \return A \ref std::unique_ptr to the application.
-     *
-     * \throws spark::core::DuplicatedApplicationException if the application was already created.
-     */
-    SPARK_CORE_EXPORT std::unique_ptr<Application> make_application(const Application::Settings& settings);
 }
