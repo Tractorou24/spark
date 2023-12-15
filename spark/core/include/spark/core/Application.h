@@ -8,21 +8,10 @@
 
 #include <filesystem>
 #include <string>
-#include <vector>
 
 namespace spark::core
 {
     class SceneManager;
-
-    /**
-     * \brief A struct containing the settings for the application.
-     */
-    struct ApplicationSpecification
-    {
-        std::string name = "Spark Application";
-        std::filesystem::path workingDirectory;
-        std::vector<std::string> commandLineArgs;
-    };
 
     /**
      * \brief A class representing a SPARK application.
@@ -32,9 +21,18 @@ namespace spark::core
         friend class Renderer2D;
         friend class SceneManager;
 
-        friend SPARK_CORE_EXPORT std::unique_ptr<Application> make_application(ApplicationSpecification settings);
+        friend SPARK_CORE_EXPORT std::unique_ptr<Application> make_application(Application::Settings settings);
 
     public:
+        /**
+         * \brief A struct containing the settings for the application.
+         */
+        struct Settings
+        {
+            std::string name;
+            spark::math::Vector2<unsigned int> size;
+        };
+
         /**
          * \brief Gets the instance of the application.
          * \return A pointer to the instance of the application singleton.
@@ -61,9 +59,9 @@ namespace spark::core
 
         /**
          * \brief Gets the settings for the application.
-         * \return A \link spark::core::ApplicationSpecification \endlink struct containing the settings for the application.
+         * \return A \ref spark::core::Application::Settings struct containing the settings for the application.
          */
-        [[nodiscard]] ApplicationSpecification settings() const;
+        [[nodiscard]] Settings settings() const;
 
         /**
          * \brief Gets the window for the application.
@@ -86,9 +84,9 @@ namespace spark::core
     private:
         /**
          * \brief Instantiates a new application with the given settings.
-         * \param settings The \link spark::core::ApplicationSpecification \endlink for the application.
+         * \param settings The \ref spark::core::Application::Settings for the application.
          */
-        explicit Application(ApplicationSpecification settings);
+        explicit Application(const Settings& settings);
 
         /**
          * \brief Dispatches an event to the application.
@@ -100,9 +98,9 @@ namespace spark::core
         static Application* s_instance;
 
     private:
-        ApplicationSpecification m_specification;
         std::unique_ptr<Window> m_window;
         std::shared_ptr<engine::Scene> m_scene;
+        Settings m_settings;
         bool m_isRunning = true;
     };
 
@@ -113,5 +111,5 @@ namespace spark::core
      *
      * \throws spark::core::DuplicatedApplicationException if the application was already created.
      */
-    SPARK_CORE_EXPORT std::unique_ptr<Application> make_application(ApplicationSpecification settings);
+    SPARK_CORE_EXPORT std::unique_ptr<Application> make_application(const Application::Settings& settings);
 }
