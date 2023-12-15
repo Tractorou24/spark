@@ -16,7 +16,7 @@ namespace spark::core
         friend class Renderer2D;
 
     public:
-        explicit SfmlWindow(const WindowSpecification& settings);
+        explicit SfmlWindow(const Window::Settings& settings);
         ~SfmlWindow() override = default;
 
         void close() override;
@@ -33,13 +33,7 @@ namespace spark::core
 
     private:
         std::unique_ptr<sf::RenderWindow> m_window;
-
-        struct WindowData
-        {
-            std::string title;
-            unsigned int width, height;
-
-            std::function<void(events::Event&)> eventCallback;
-        } m_data;
+        std::function<void(events::Event&)> m_eventCallback;
+        Settings m_settings;
     };
 }

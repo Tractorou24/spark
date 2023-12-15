@@ -21,11 +21,10 @@ namespace spark::core
 
     Application::Application(const Settings& settings)
     {
-        const WindowSpecification window_settings =
+        const Window::Settings window_settings =
         {
             .title = settings.name,
-            .width = settings.size.x,
-            .height = settings.size.y,
+            .size = settings.size
         };
 
         m_window = Window::Create(window_settings);
