@@ -7,6 +7,6 @@ spark_add_library(${TARGET_NAME} INTERFACE
         ${HEADER_DIR}/${SPARK_NAME}/math/Vector2.h
         ${HEADER_DIR}/${SPARK_NAME}/math/Vector3.h
 
-        ${HEADER_DIR}/${SPARK_NAME}/math/impl/Vector3.h
+        ${HEADER_DIR}/${SPARK_NAME}/math/impl/Vector2.h
         ${HEADER_DIR}/${SPARK_NAME}/math/impl/Vector3.h
 )

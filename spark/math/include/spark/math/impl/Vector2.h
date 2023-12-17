@@ -5,6 +5,18 @@
 namespace spark::math
 {
     template <typename T>
+    constexpr bool Vector2<T>::operator==(const Vector2& other) const noexcept
+    {
+        return x == other.x && y == other.y;
+    }
+
+    template <typename T>
+    constexpr bool Vector2<T>::operator!=(const Vector2& other) const noexcept
+    {
+        return !(this == other);
+    }
+
+    template <typename T>
     constexpr Vector2<T> Vector2<T>::operator+(const Vector2& other) const noexcept
     {
         return Vector2(x + other.x, y + other.y);
@@ -79,21 +91,10 @@ namespace spark::math
     }
 
     template <typename T>
-    constexpr Vector2<T> Vector2<T>::operator+() const noexcept
+    constexpr void swap(Vector2<T>& lhs, Vector2<T>& rhs) noexcept
     {
-        return *this;
-    }
-
-    template <typename T>
-    constexpr T Vector2<T>::distance(const Vector2& other) const noexcept
-    {
-        return static_cast<T>(std::sqrt(std::pow(x - other.x, 2) + std::pow(y - other.y, 2)));
-    }
-
-    template <typename T>
-    constexpr T Vector2<T>::angle(const Vector2& other) const noexcept
-    {
-        return std::atan2(other.y - y, other.x - x);
+        std::swap(lhs.x, rhs.x);
+        std::swap(lhs.y, rhs.y);
     }
 
     template <typename T>   
