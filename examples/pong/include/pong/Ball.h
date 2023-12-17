@@ -8,9 +8,10 @@
 #include "spark/engine/components/Rectangle.h"
 #include "spark/engine/components/Transform.h"
 #include "spark/lib/Random.h"
-#include "spark/math/Constants.h"
 #include "spark/patterns/Signal.h"
 #include "spark/rtti/HasRtti.h"
+
+#include <numbers>
 
 namespace pong
 {
@@ -46,11 +47,11 @@ namespace pong
             m_paddleSize = m_leftPaddle->component<spark::engine::components::Rectangle>()->size;
 
             // Randomize the direction of the ball.
-            float angle = spark::lib::Random::Number(spark::math::PI / 6, spark::math::PI / 4);
+            float angle = spark::lib::Random::Number(std::numbers::pi_v<float> / 6, std::numbers::pi_v<float> / 4);
             if (spark::lib::Random::Number(0.0f, 1.0f) > 0.5f) // 50% chance to flip the angle up/down.
                 angle = -angle;
             if (spark::lib::Random::Number(0.0f, 1.0f) > 0.5f) // 50% chance to flip the angle left/right.
-                angle = spark::math::PI - angle;
+                angle = std::numbers::pi_v<float> - angle;
 
             direction = {std::cos(angle), std::sin(angle)};
         }
