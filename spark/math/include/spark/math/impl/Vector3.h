@@ -3,107 +3,43 @@
 namespace spark::math
 {
     template <typename T>
-    constexpr bool Vector3<T>::operator==(const Vector3& other) const noexcept
-    {
-        return x == other.x && y == other.y && z == other.z;
-    }
+    constexpr Vector3<T>::Vector3()
+        : details::Vector<Vector3, T, 3>({std::ref(x), std::ref(y), std::ref(z)}) {}
 
     template <typename T>
-    constexpr bool Vector3<T>::operator!=(const Vector3& other) const noexcept
-    {
-        return !(this == other);
-    }
+    constexpr Vector3<T>::Vector3(T x_value, T y_value, T z_value) noexcept
+        : details::Vector<Vector3, T, 3>({std::ref(x), std::ref(y), std::ref(z)}), x(std::move(x_value)), y(std::move(y_value)), z(std::move(z_value)) {}
 
     template <typename T>
-    constexpr Vector3<T> Vector3<T>::operator+(const Vector3& other) const noexcept
-    {
-        return Vector3(x + other.x, y + other.y, z + other.z);
-    }
+    constexpr Vector3<T>::Vector3(const Vector3& other)
+        : details::Vector<Vector3, T, 3>({std::ref(x), std::ref(y), std::ref(z)}), x(other.x), y(other.y), z(other.z) {}
 
     template <typename T>
-    constexpr Vector3<T> Vector3<T>::operator-(const Vector3& other) const noexcept
-    {
-        return Vector3(x - other.x, y - other.y, z - other.z);
-    }
+    constexpr Vector3<T>::Vector3(Vector3&& other) noexcept
+        : details::Vector<Vector3, T, 3>({std::ref(x), std::ref(y), std::ref(z)}), x(std::move(other.x)), y(std::move(other.y)), z(std::move(other.z)) {}
 
     template <typename T>
-    constexpr Vector3<T> Vector3<T>::operator*(const Vector3& other) const noexcept
+    constexpr Vector3<T>& Vector3<T>::operator=(const Vector3& other)
     {
-        return Vector3(x * other.x, y * other.y, z * other.z);
-    }
-
-    template <typename T>
-    constexpr Vector3<T> Vector3<T>::operator/(const Vector3& other) const noexcept
-    {
-        return Vector3(x / other.x, y / other.y, z / other.z);
-    }
-
-    template <typename T>
-    constexpr Vector3<T> Vector3<T>::operator*(const T& value) const noexcept
-    {
-        return Vector3(x * value, y * value, z * value);
-    }
-
-    template <typename T>
-    constexpr Vector3<T> Vector3<T>::operator/(const T& value) const noexcept
-    {
-        return Vector3(x / value, y / value, z / value);
-    }
-
-    template <typename T>
-    constexpr Vector3<T>& Vector3<T>::operator+=(const Vector3& other) noexcept
-    {
-        x += other.x;
-        y += other.y;
-        z += other.z;
+        x = other.x;
+        y = other.y;
+        z = other.z;
         return *this;
     }
 
     template <typename T>
-    constexpr Vector3<T>& Vector3<T>::operator-=(const Vector3& other) noexcept
+    constexpr Vector3<T>& Vector3<T>::operator=(Vector3&& other) noexcept
     {
-        x -= other.x;
-        y -= other.y;
-        z -= other.z;
+        x = std::move(other.x);
+        y = std::move(other.y);
+        z = std::move(other.z);
         return *this;
-    }
-
-    template <typename T>
-    constexpr Vector3<T>& Vector3<T>::operator*=(const Vector3& other) noexcept
-    {
-        x *= other.x;
-        y *= other.y;
-        z *= other.z;
-        return *this;
-    }
-
-    template <typename T>
-    constexpr Vector3<T>& Vector3<T>::operator/=(const T& value) noexcept
-    {
-        x /= value;
-        y /= value;
-        z /= value;
-        return *this;
-    }
-
-    template <typename T>
-    constexpr Vector3<T> Vector3<T>::operator-() const noexcept
-    {
-        return Vector3(-x, -y, -z);
-    }
-
-    template <typename T>
-    constexpr void swap(Vector3<T>& lhs, Vector3<T>& rhs) noexcept
-    {
-        std::swap(lhs.x, rhs.x);
-        std::swap(lhs.y, rhs.y);
-        std::swap(lhs.z, rhs.z);
     }
 
     template <typename T>
     template <typename To>
     constexpr Vector3<To> Vector3<T>::castTo() const noexcept
     {
-        return { static_cast<To>(x), static_cast<To>(y), static_cast<To>(z) };
+        return {static_cast<To>(x), static_cast<To>(y), static_cast<To>(z)};
     }
 }

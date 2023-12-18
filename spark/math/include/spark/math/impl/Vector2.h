@@ -1,106 +1,49 @@
 #pragma once
 
-#include <cmath>
-
 namespace spark::math
 {
     template <typename T>
-    constexpr bool Vector2<T>::operator==(const Vector2& other) const noexcept
-    {
-        return x == other.x && y == other.y;
-    }
+    constexpr Vector2<T>::Vector2()
+        : details::Vector<Vector2, T, 2>({std::ref(x), std::ref(y)}) {}
 
     template <typename T>
-    constexpr bool Vector2<T>::operator!=(const Vector2& other) const noexcept
-    {
-        return !(this == other);
-    }
+    constexpr Vector2<T>::Vector2(T x_value, T y_value) noexcept
+        : details::Vector<Vector2, T, 2>({std::ref(x), std::ref(y)}), x(x_value), y(y_value) {}
 
     template <typename T>
-    constexpr Vector2<T> Vector2<T>::operator+(const Vector2& other) const noexcept
-    {
-        return Vector2(x + other.x, y + other.y);
-    }
+    constexpr Vector2<T>::Vector2(const Vector2& other)
+        : details::Vector<Vector2, T, 2>({std::ref(x), std::ref(y)}), x(other.x), y(other.y) { }
 
     template <typename T>
-    constexpr Vector2<T> Vector2<T>::operator-(const Vector2& other) const noexcept
-    {
-        return Vector2(x - other.x, y - other.y);
-    }
+    constexpr Vector2<T>::Vector2(Vector2&& other) noexcept
+        : details::Vector<Vector2, T, 2>({std::ref(x), std::ref(y)}), x(std::move(other.x)), y(std::move(other.y)) { }
 
     template <typename T>
-    constexpr Vector2<T> Vector2<T>::operator*(const Vector2& other) const noexcept
+    constexpr Vector2<T>& Vector2<T>::operator=(const Vector2& other)
     {
-        return Vector2(x * other.x, y * other.y);
-    }
+        if (this == &other)
+            return *this;
 
-    template <typename T>
-    constexpr Vector2<T> Vector2<T>::operator/(const Vector2& other) const noexcept
-    {
-        return Vector2(x / other.x, y / other.y);
-    }
-
-    template <typename T>
-    constexpr Vector2<T> Vector2<T>::operator*(const T& value) const noexcept
-    {
-        return Vector2(x * value, y * value);
-    }
-
-    template <typename T>
-    constexpr Vector2<T> Vector2<T>::operator/(const T& value) const noexcept
-    {
-        return Vector2(x / value, y / value);
-    }
-
-    template <typename T>
-    constexpr Vector2<T>& Vector2<T>::operator+=(const Vector2& other) noexcept
-    {
-        x += other.x;
-        y += other.y;
+        x = other.x;
+        y = other.y;
         return *this;
     }
 
     template <typename T>
-    constexpr Vector2<T>& Vector2<T>::operator-=(const Vector2& other) noexcept
+    constexpr Vector2<T>& Vector2<T>::operator=(Vector2&& other) noexcept
     {
-        x -= other.x;
-        y -= other.y;
+        if (this == &other)
+            return *this;
+
+        x = std::move(other.x);
+        y = std::move(other.y);
         return *this;
     }
 
     template <typename T>
-    constexpr Vector2<T>& Vector2<T>::operator*=(const Vector2& other) noexcept
-    {
-        x *= other.x;
-        y *= other.y;
-        return *this;
-    }
-
-    template <typename T>
-    constexpr Vector2<T>& Vector2<T>::operator/=(const T& value) noexcept
-    {
-        x /= value;
-        y /= value;
-        return *this;
-    }
-
-    template <typename T>
-    constexpr Vector2<T> Vector2<T>::operator-() const noexcept
-    {
-        return Vector2(-x, -y);
-    }
-
-    template <typename T>
-    constexpr void swap(Vector2<T>& lhs, Vector2<T>& rhs) noexcept
-    {
-        std::swap(lhs.x, rhs.x);
-        std::swap(lhs.y, rhs.y);
-    }
-
-    template <typename T>   
-    template<typename To>
+    template <typename To>
     constexpr Vector2<To> Vector2<T>::castTo() const noexcept
     {
-        return {static_cast<To>(x), static_cast<To>(y)};
+        return Vector2<To>(static_cast<To>(x), static_cast<To>(y));
     }
 }
