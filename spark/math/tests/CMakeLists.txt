@@ -6,6 +6,7 @@ set (SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 spark_add_test_executable(${TARGET_NAME}
     GTEST_DISCOVER
     CXX_SOURCES
+        ${SOURCE_DIR}/RectangleTests.cpp
         ${SOURCE_DIR}/Vector2Tests.cpp
         ${SOURCE_DIR}/Vector3Tests.cpp
         ${SOURCE_DIR}/Vector4Tests.cpp
