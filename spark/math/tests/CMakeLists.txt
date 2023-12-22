@@ -7,6 +7,7 @@ spark_add_test_executable(${TARGET_NAME}
     GTEST_DISCOVER
     CXX_SOURCES
         ${SOURCE_DIR}/Vector2Tests.cpp
+        ${SOURCE_DIR}/Vector3Tests.cpp
 )
 
 target_link_libraries(${TARGET_NAME}
