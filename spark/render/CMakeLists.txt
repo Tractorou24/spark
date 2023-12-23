@@ -23,6 +23,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/PushConstantsLayout.h
         ${HEADER_DIR}/${SPARK_NAME}/render/PushConstantsRange.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Rasterizer.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/RenderPass.h
         ${HEADER_DIR}/${SPARK_NAME}/render/RenderPipeilne.h
         ${HEADER_DIR}/${SPARK_NAME}/render/RenderTarget.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Resource.h
