@@ -40,6 +40,7 @@ spark_add_library(${TARGET_NAME}
         ${SOURCE_DIR}/Buffer.cpp
         ${SOURCE_DIR}/DepthStencilState.cpp
         ${SOURCE_DIR}/ExportSymbols.cpp
+        ${SOURCE_DIR}/Rasterizer.cpp
         ${SOURCE_DIR}/RenderTarget.cpp
         ${SOURCE_DIR}/StateResource.cpp
         ${SOURCE_DIR}/Scissor.cpp
