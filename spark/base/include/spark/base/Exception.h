@@ -104,6 +104,11 @@ namespace spark::base
      * \brief Exception thrown when calling a function which requires a render pass to be ended while it is not.
      */
     SPARK_BASE_DEFINE_EXCEPTION(RenderPassAlreadyStartedException)
+    
+    /**
+     * \brief Exception thrown when calling a function which requires a render pass to be started while it is not.
+     */
+    SPARK_BASE_DEFINE_EXCEPTION(RenderPassNotStartedException)
 }
 
 #undef SPARK_BASE_DEFINE_EXCEPTION
