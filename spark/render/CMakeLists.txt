@@ -11,6 +11,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/DescriptorBinding.h
         ${HEADER_DIR}/${SPARK_NAME}/render/DescriptorSet.h
         ${HEADER_DIR}/${SPARK_NAME}/render/DeviceMemory.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/DeviceState.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Format.h
         ${HEADER_DIR}/${SPARK_NAME}/render/FrameBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/GraphicsAdapter.h
@@ -41,6 +42,7 @@ spark_add_library(${TARGET_NAME}
     CXX_SOURCES
         ${SOURCE_DIR}/Buffer.cpp
         ${SOURCE_DIR}/DepthStencilState.cpp
+        ${SOURCE_DIR}/DeviceState.cpp
         ${SOURCE_DIR}/ExportSymbols.cpp
         ${SOURCE_DIR}/Rasterizer.cpp
         ${SOURCE_DIR}/RenderTarget.cpp
