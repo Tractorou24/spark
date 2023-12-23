@@ -95,6 +95,52 @@ namespace spark::render
          */
         [[nodiscard]] virtual const DepthStencilState& depthStencilState() const noexcept = 0;
     };
+
+    /**
+     * \brief Implements the \ref IRasterizer interface.
+     */
+    class SPARK_RENDER_EXPORT Rasterizer : public IRasterizer
+    {
+    public:
+        /**
+         * \brief Creates a new \ref Rasterizer instance.
+         * \param polygon_mode The \ref PolygonMode of the rasterizer.
+         * \param cull_mode The \ref CullMode of the rasterizer.
+         * \param cull_order The \ref CullOrder of the rasterizer.
+         * \param line_width The line width of the rasterizer.
+         * \param depth_stencil_state The \ref DepthStencilState of the rasterizer.
+         */
+        explicit Rasterizer(PolygonMode polygon_mode, CullMode cull_mode, CullOrder cull_order, float line_width, const DepthStencilState& depth_stencil_state) noexcept;
+        ~Rasterizer() noexcept override;
+
+        Rasterizer(const Rasterizer& other);
+        Rasterizer(Rasterizer&& other) noexcept;
+        Rasterizer& operator=(const Rasterizer& other);
+        Rasterizer& operator=(Rasterizer&& other) noexcept;
+
+        /// \copydoc IRasterizer::polygonMode()
+        [[nodiscard]] PolygonMode polygonMode() const noexcept override;
+
+        /// \copydoc IRasterizer::cullMode()
+        [[nodiscard]] CullMode cullMode() const noexcept override;
+
+        /// \copydoc IRasterizer::cullOrder()
+        [[nodiscard]] CullOrder cullOrder() const noexcept override;
+
+        /// \copydoc IRasterizer::lineWidth()
+        [[nodiscard]] float lineWidth() const noexcept override;
+
+        /// \copydoc IRasterizer::depthStencilState()
+        [[nodiscard]] const DepthStencilState& depthStencilState() const noexcept override;
+
+    protected:
+        /// \brief Gets a reference to the line width of the rasterizer.
+        [[nodiscard]] float& lineWidth() noexcept;
+
+    private:
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
+    };
 }
 
 template <>
