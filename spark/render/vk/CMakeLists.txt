@@ -13,12 +13,14 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanGraphicsAdapter.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanImage.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanSurface.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanVertexBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanVertexBufferLayout.h
     CXX_SOURCES
         ${SOURCE_DIR}/VulkanBuffer.cpp
         ${SOURCE_DIR}/VulkanGraphicsAdapter.cpp
         ${SOURCE_DIR}/VulkanImage.cpp
         ${SOURCE_DIR}/VulkanSurface.cpp
+        ${SOURCE_DIR}/VulkanVertexBuffer.cpp
         ${SOURCE_DIR}/VulkanVertexBufferLayout.cpp
 )
 
