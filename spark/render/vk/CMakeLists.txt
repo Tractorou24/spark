@@ -23,6 +23,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanPushConstantsRange.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanSampler.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanSurface.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanShaderModule.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanVertexBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanVertexBufferLayout.h
     CXX_SOURCES
@@ -39,6 +40,7 @@ spark_add_library(${TARGET_NAME}
         ${SOURCE_DIR}/VulkanPushConstantsRange.cpp
         ${SOURCE_DIR}/VulkanSampler.cpp
         ${SOURCE_DIR}/VulkanSurface.cpp
+        ${SOURCE_DIR}/VulkanShaderModule.cpp
         ${SOURCE_DIR}/VulkanVertexBuffer.cpp
         ${SOURCE_DIR}/VulkanVertexBufferLayout.cpp
 )
