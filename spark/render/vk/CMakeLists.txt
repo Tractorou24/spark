@@ -12,6 +12,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanGraphicsAdapter.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanImage.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanIndexBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanIndexBufferLayout.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanSurface.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanVertexBuffer.h
@@ -20,6 +21,7 @@ spark_add_library(${TARGET_NAME}
         ${SOURCE_DIR}/VulkanBuffer.cpp
         ${SOURCE_DIR}/VulkanGraphicsAdapter.cpp
         ${SOURCE_DIR}/VulkanImage.cpp
+        ${SOURCE_DIR}/VulkanIndexBuffer.cpp
         ${SOURCE_DIR}/VulkanIndexBufferLayout.cpp
         ${SOURCE_DIR}/VulkanSurface.cpp
         ${SOURCE_DIR}/VulkanVertexBuffer.cpp
