@@ -114,6 +114,11 @@ namespace spark::base
      * \brief Exception thrown when a descriptor does not have the expected type.
      */
     SPARK_BASE_DEFINE_EXCEPTION(InvalidDescriptorTypeException)
+
+    /**
+     * \brief Exception thrown when failing to create a shader.
+     */
+    SPARK_BASE_DEFINE_EXCEPTION(CouldNotCreateShaderException)
 }
 
 #undef SPARK_BASE_DEFINE_EXCEPTION
