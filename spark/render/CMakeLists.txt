@@ -59,3 +59,6 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_lib
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_math
 )
+
+# Include all render backends
+add_subdirectory(vk)
