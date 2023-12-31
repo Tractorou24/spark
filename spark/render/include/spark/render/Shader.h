@@ -67,4 +67,29 @@ namespace spark::render
         /// \brief Private method to allow the replacement of the return type of \ref shaders() without complaining about non covariant return types.
         [[nodiscard]] virtual std::vector<const IShaderModule*> genericShaders() const noexcept = 0;
     };
+
+    /**
+     * \brief Represents a shader program with a specific type of \ref IShaderModule.
+     * \tparam ShaderModuleType The type of \ref IShaderModule this shader program contains.
+     */
+    template <typename ShaderModuleType>
+    class ShaderProgram : public IShaderProgram
+    {
+    public:
+        using shader_module_type = ShaderModuleType;
+
+    public:
+        /// \copydoc IShaderProgram::shaders()
+        [[nodiscard]] virtual std::vector<const shader_module_type*> shaders() const noexcept = 0;
+
+    private:
+        [[nodiscard]] std::vector<const IShaderModule*> genericShaders() const noexcept final
+        {
+            auto tmp = shaders();
+            std::vector<const IShaderModule*> result;
+            result.reserve(tmp.size());
+            std::ranges::transform(tmp, std::back_inserter(result), [](const auto& shader) { return static_cast<const IShaderModule*>(shader); });
+            return result;
+        }
+    };
 }
