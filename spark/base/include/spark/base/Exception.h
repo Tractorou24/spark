@@ -109,6 +109,11 @@ namespace spark::base
      * \brief Exception thrown when calling a function which requires a render pass to be started while it is not.
      */
     SPARK_BASE_DEFINE_EXCEPTION(RenderPassNotStartedException)
+
+    /**
+     * \brief Exception thrown when a descriptor does not have the expected type.
+     */
+    SPARK_BASE_DEFINE_EXCEPTION(InvalidDescriptorTypeException)
 }
 
 #undef SPARK_BASE_DEFINE_EXCEPTION
