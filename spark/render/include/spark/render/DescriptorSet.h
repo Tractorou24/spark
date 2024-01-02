@@ -440,6 +440,86 @@ namespace spark::render
         virtual void genericFree(const IDescriptorSet& descriptor_set) const noexcept = 0;
         /// @}
     };
+
+    /**
+     * \brief Describes the layout of a descriptor set.
+     * \tparam DescriptorLayoutType Type of the descriptor layout. (inherits from \ref IDescriptorLayout)
+     * \tparam DescriptorSetType Type of the descriptor set. (inherits from \ref IDescriptorSet)
+     */
+    template <typename DescriptorLayoutType, typename DescriptorSetType>
+    class DescriptorSetLayout : public IDescriptorSetLayout
+    {
+    public:
+        using descriptor_layout_type = DescriptorLayoutType;
+        using descriptor_set_type = DescriptorSetType;
+
+    public:
+        /// \copydoc IDescriptorSetLayout::descriptors()
+        [[nodiscard]] virtual std::vector<const descriptor_layout_type*> descriptors() const noexcept = 0;
+
+        /// \copydoc IDescriptorSetLayout::descriptor()
+        [[nodiscard]] const descriptor_layout_type* descriptor(unsigned binding) const override = 0;
+
+        /// \copydoc IDescriptorSetLayout::allocate()
+        [[nodiscard]] virtual std::unique_ptr<descriptor_set_type> allocate(const std::vector<DescriptorBinding>& bindings = {}) const = 0;
+
+        /// \copydoc IDescriptorSetLayout::allocate()
+        [[nodiscard]] virtual std::unique_ptr<descriptor_set_type> allocate(unsigned descriptors, const std::vector<DescriptorBinding>& bindings = { }) const = 0;
+
+        /// \copydoc IDescriptorSetLayout::allocateMultiple()
+        [[nodiscard]] virtual std::vector<std::unique_ptr<descriptor_set_type>> allocateMultiple(unsigned descriptor_sets, const std::vector<std::vector<DescriptorBinding>>& bindings = { }) const = 0;
+
+        /// \copydoc IDescriptorSetLayout::allocateMultiple()
+        [[nodiscard]] virtual std::vector<std::unique_ptr<descriptor_set_type>> allocateMultiple(unsigned descriptor_sets, const std::function<std::vector<DescriptorBinding>(unsigned)>& binding_factory) const = 0;
+
+        /// \copydoc IDescriptorSetLayout::allocateMultiple()
+        [[nodiscard]] virtual std::vector<std::unique_ptr<descriptor_set_type>> allocateMultiple(unsigned descriptor_sets, unsigned descriptors, const std::vector<std::vector<DescriptorBinding>>& bindings = { }) const = 0;
+
+        /// \copydoc IDescriptorSetLayout::allocateMultiple()
+        [[nodiscard]] virtual std::vector<std::unique_ptr<descriptor_set_type>> allocateMultiple(unsigned descriptor_sets, unsigned descriptors, const std::function<std::vector<DescriptorBinding>(unsigned)>& binding_factory) const = 0;
+
+        /// \copydoc IDescriptorSetLayout::free()
+        virtual void free(const descriptor_set_type& descriptor_set) const noexcept = 0;
+
+    private:
+        [[nodiscard]] std::vector<const IDescriptorLayout*> genericDescriptors() const noexcept final
+        {
+            auto tmp = descriptors();
+            std::vector<const IDescriptorLayout*> result;
+            result.reserve(tmp.size());
+            std::ranges::transform(tmp, std::back_inserter(result), [](auto& ptr) { return static_cast<const IDescriptorLayout*>(ptr); });
+            return result;
+        }
+
+        [[nodiscard]] std::unique_ptr<IDescriptorSet> genericAllocate(unsigned descriptors, const std::vector<DescriptorBinding>& bindings) const noexcept final
+        {
+            return allocate(descriptors, bindings);
+        }
+
+        [[nodiscard]] std::vector<std::unique_ptr<IDescriptorSet>> genericAllocate(unsigned descriptor_sets,
+                                                                                   unsigned descriptors,
+                                                                                   const std::vector<std::vector<DescriptorBinding>>& bindings) const final
+        {
+            auto tmp = allocateMultiple(descriptor_sets, descriptors, bindings);
+            std::vector<std::unique_ptr<IDescriptorSet>> result;
+            result.reserve(tmp.size());
+            std::ranges::transform(tmp, std::back_inserter(result), [](auto& ptr) { return std::unique_ptr<IDescriptorSet>(ptr.release()); });
+            return result;
+        }
+
+        [[nodiscard]] std::vector<std::unique_ptr<IDescriptorSet>> genericAllocate(unsigned descriptor_sets,
+                                                                                   unsigned descriptors,
+                                                                                   const std::function<std::vector<DescriptorBinding>(unsigned)>& binding_factory) const final
+        {
+            auto tmp = allocateMultiple(descriptor_sets, descriptors, binding_factory);
+            std::vector<std::unique_ptr<IDescriptorSet>> result;
+            result.reserve(tmp.size());
+            std::ranges::transform(tmp, std::back_inserter(result), [](auto& ptr) { return std::unique_ptr<IDescriptorSet>(ptr.release()); });
+            return result;
+        }
+
+        void genericFree(const IDescriptorSet& descriptor_set) const noexcept final { free(dynamic_cast<const descriptor_set_type&>(descriptor_set)); }
+    };
 }
 
 template <>
