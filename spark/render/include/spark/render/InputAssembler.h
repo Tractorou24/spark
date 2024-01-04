@@ -4,6 +4,7 @@
 #include "spark/render/IndexBuffer.h"
 #include "spark/render/VertexBuffer.h"
 
+#include <algorithm>
 #include <format>
 #include <vector>
 
@@ -63,6 +64,41 @@ namespace spark::render
     private:
         /// \brief Private method used to allow replacement of the generic methods by a custom \ref IVertexBufferLayout type.
         [[nodiscard]] virtual std::vector<const IVertexBufferLayout*> genericVertexBufferLayouts() const noexcept = 0;
+    };
+
+    /**
+     * \brief Represents a the input assembler state of a \ref IRenderPipeline.
+     * \tparam VertexBufferLayoutType The type of the vertex buffer layout. (inherits from \ref IVertexBufferLayout)
+     * \tparam IndexBufferLayoutType The type of the index buffer layout. (inherits from \ref IIndexBufferLayout)
+     */
+    template <typename VertexBufferLayoutType, typename IndexBufferLayoutType>
+    class InputAssembler : public IInputAssembler
+    {
+    public:
+        using VertexBufferLayout = VertexBufferLayoutType;
+        using IndexBufferLayout = IndexBufferLayoutType;
+
+    public:
+        /// \copydoc IInputAssembler::vertexBufferLayouts()
+        [[nodiscard]] virtual std::vector<const VertexBufferLayoutType*> vertexBufferLayouts() const noexcept = 0;
+
+        /// \copydoc IInputAssembler::vertexBufferLayout(unsigned)
+        [[nodiscard]] const VertexBufferLayoutType& vertexBufferLayout(unsigned binding) const override = 0;
+
+        /// \copydoc IInputAssembler::indexBufferLayout()
+        [[nodiscard]] const IndexBufferLayoutType& indexBufferLayout() const override = 0;
+
+    private:
+        [[nodiscard]] std::vector<const IVertexBufferLayout*> genericVertexBufferLayouts() const noexcept override
+        {
+            auto tmp = vertexBufferLayouts();
+            std::vector<const IVertexBufferLayout*> vertex_buffer_layouts_vector;
+            vertex_buffer_layouts_vector.reserve(tmp.size());
+            std::ranges::transform(tmp,
+                                   std::back_inserter(vertex_buffer_layouts_vector),
+                                   [](const auto& vertex_buffer_layout) { return static_cast<const IVertexBufferLayout*>(vertex_buffer_layout); });
+            return vertex_buffer_layouts_vector;
+        }
     };
 }
 
