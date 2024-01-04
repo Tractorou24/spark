@@ -1,5 +1,6 @@
 find_package(Vulkan QUIET REQUIRED)
 find_package(VulkanMemoryAllocator QUIET REQUIRED)
+find_package(unofficial-spirv-reflect QUIET REQUIRED)
 
 set (TARGET_NAME ${SPARK_NAME}_render_vk)
 set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -24,6 +25,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanSampler.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanSurface.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanShaderModule.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanShaderProgram.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanVertexBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanVertexBufferLayout.h
     CXX_SOURCES
@@ -41,6 +43,7 @@ spark_add_library(${TARGET_NAME}
         ${SOURCE_DIR}/VulkanSampler.cpp
         ${SOURCE_DIR}/VulkanSurface.cpp
         ${SOURCE_DIR}/VulkanShaderModule.cpp
+        ${SOURCE_DIR}/VulkanShaderProgram.cpp
         ${SOURCE_DIR}/VulkanVertexBuffer.cpp
         ${SOURCE_DIR}/VulkanVertexBufferLayout.cpp
 )
@@ -50,6 +53,8 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_log
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_render
     PRIVATE
+        ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_patterns
+        unofficial::spirv-reflect::spirv-reflect
         Vulkan::Vulkan
         GPUOpen::VulkanMemoryAllocator
 )
