@@ -20,6 +20,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanIndexBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanIndexBufferLayout.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanInputAssembler.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanPipeline.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanPipelineLayout.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanPushConstantsLayout.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanPushConstantsRange.h
@@ -40,6 +41,7 @@ spark_add_library(${TARGET_NAME}
         ${SOURCE_DIR}/VulkanIndexBuffer.cpp
         ${SOURCE_DIR}/VulkanIndexBufferLayout.cpp
         ${SOURCE_DIR}/VulkanInputAssembler.cpp
+        ${SOURCE_DIR}/VulkanPipeline.cpp
         ${SOURCE_DIR}/VulkanPipelineLayout.cpp
         ${SOURCE_DIR}/VulkanPushConstantsLayout.cpp
         ${SOURCE_DIR}/VulkanPushConstantsRange.cpp
