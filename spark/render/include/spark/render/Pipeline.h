@@ -102,4 +102,28 @@ namespace spark::render
         [[nodiscard]] virtual std::shared_ptr<IPipelineLayout> genericLayout() const noexcept = 0;
         /// @}
     };
+
+    /**
+     * \brief Represents a pipeline state.
+     * \tparam PipelineLayoutType The type of the render pipeline layout. (inherits from \ref IPipelineLayout)
+     * \tparam ShaderProgramType The type of the shader program. (inherits from \ref IShaderProgram)
+     */
+    template <typename PipelineLayoutType, typename ShaderProgramType>
+    class Pipeline : virtual public IPipeline
+    {
+    public:
+        using shader_program_type = ShaderProgramType;
+        using pipeline_layout_type = PipelineLayoutType;
+
+    public:
+        /// \copydoc IPipeline::program()
+        [[nodiscard]] virtual std::shared_ptr<const shader_program_type> program() const noexcept = 0;
+
+        /// \copydoc IPipeline::layout()
+        [[nodiscard]] virtual std::shared_ptr<pipeline_layout_type> layout() const noexcept = 0;
+
+    private:
+        [[nodiscard]] std::shared_ptr<IPipelineLayout> genericLayout() const noexcept final { return std::static_pointer_cast<IPipelineLayout>(layout()); }
+        [[nodiscard]] std::shared_ptr<const IShaderProgram> genericProgram() const noexcept final { return std::static_pointer_cast<const IShaderProgram>(program()); }
+    };
 }
