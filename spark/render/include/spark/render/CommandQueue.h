@@ -184,4 +184,56 @@ namespace spark::render
         virtual std::size_t genericSubmit(const std::vector<std::shared_ptr<const ICommandBuffer>>& command_buffers) const noexcept = 0;
         /// @}
     };
+
+    /**
+     * \brief Represents a \ref ICommandQueue. 
+     * \tparam CommandBufferType Type of the command buffer that is used by the queue. (inherits from \ref ICommandBuffer)
+     */
+    template <typename CommandBufferType>
+    class CommandQueue : public ICommandQueue
+    {
+    public:
+        using command_buffer_type = CommandBufferType;
+
+    public:
+        /// \copydoc ICommandQueue::createCommandBuffer()
+        [[nodiscard]] virtual std::shared_ptr<command_buffer_type> createCommandBuffer(bool begin_recording = false, bool secondary = false) const noexcept = 0;
+
+        /// \copydoc ICommandQueue::submit()
+        [[nodiscard]] virtual std::size_t submit(std::shared_ptr<command_buffer_type> command_buffer) const noexcept = 0;
+
+        /// \copydoc ICommandQueue::submit()
+        [[nodiscard]] virtual std::size_t submit(std::shared_ptr<const command_buffer_type> command_buffer) const noexcept = 0;
+
+        /// \copydoc ICommandQueue::submit()
+        [[nodiscard]] virtual std::size_t submit(const std::vector<std::shared_ptr<const command_buffer_type>>& command_buffers) const noexcept = 0;
+
+        /// \copydoc ICommandQueue::submit()
+        [[nodiscard]] virtual std::size_t submit(const std::vector<std::shared_ptr<command_buffer_type>>& command_buffers) const noexcept = 0;
+
+    private:
+        [[nodiscard]] std::shared_ptr<ICommandBuffer> genericCreateCommandBuffer(bool begin_recording, bool secondary) const noexcept final
+        {
+            return createCommandBuffer(begin_recording, secondary);
+        }
+
+        std::size_t genericSubmit(std::shared_ptr<ICommandBuffer> command_buffer) const noexcept final
+        {
+            return submit(std::dynamic_pointer_cast<command_buffer_type>(std::move(command_buffer)));
+        }
+
+        std::size_t genericSubmit(std::shared_ptr<const ICommandBuffer> command_buffer) const noexcept final
+        {
+            return submit(std::dynamic_pointer_cast<const command_buffer_type>(std::move(command_buffer)));
+        }
+
+        std::size_t genericSubmit(const std::vector<std::shared_ptr<const ICommandBuffer>>& command_buffers) const noexcept final
+        {
+            std::vector<std::shared_ptr<const command_buffer_type>> command_buffers_vector;
+            std::ranges::transform(command_buffers,
+                                   std::back_inserter(command_buffers_vector),
+                                   [](auto& command_buffer) { return std::dynamic_pointer_cast<const command_buffer_type>(command_buffer); });
+            return submit(command_buffers_vector);
+        }
+    };
 }
