@@ -447,4 +447,206 @@ namespace spark::render
         virtual void genericPushConstants(const IPushConstantsLayout& layout, const void* const memory) const noexcept = 0;
         /// @}
     };
+
+    /**
+     * \brief
+     * \tparam CommandBufferType Type of the command buffer. (derived from \ref ICommandBuffer)
+     * \tparam BufferType Type of the buffer. (derived from \ref IBuffer)
+     * \tparam VertexBufferType Type of the vertex buffer. (derived from \ref IVertexBuffer)
+     * \tparam IndexBufferType Type of the index buffer. (derived from \ref IIndexBuffer)
+     * \tparam ImageType Type of the image. (derived from \ref IImage)
+     * \tparam PipelineType Type of the pipeline. (derived from \ref IPipeline)
+     */
+    template <typename CommandBufferType, typename BufferType, typename VertexBufferType, typename IndexBufferType, typename ImageType, typename PipelineType>
+    class CommandBuffer : public ICommandBuffer
+    {
+    public:
+        using command_buffer_type = CommandBufferType;
+        using buffer_type = BufferType;
+        using vertex_buffer_type = VertexBufferType;
+        using index_buffer_type = IndexBufferType;
+        using image_type = ImageType;
+        using pipeline_type = PipelineType;
+        using pipeline_layout_type = typename pipeline_type::pipeline_layout_type;
+        using descriptor_set_layout_type = typename pipeline_layout_type::descriptor_set_layout_type;
+        using push_constants_layout_type = typename pipeline_layout_type::push_constants_layout_type;
+        using descriptor_set_type = typename descriptor_set_layout_type::descriptor_set_type;
+
+    public:
+        /// \copydoc ICommandBuffer::transfer()
+        virtual void transfer(buffer_type& source, buffer_type& target, unsigned source_element, unsigned target_element, unsigned elements) const = 0;
+
+        /// \copydoc ICommandBuffer::transfer()
+        virtual void transfer(image_type& source, buffer_type& target, unsigned first_subresource, unsigned target_element, unsigned subresources) const = 0;
+
+        /// \copydoc ICommandBuffer::transfer()
+        virtual void transfer(buffer_type& source, image_type& target, unsigned source_element, unsigned first_subresource, unsigned elements) const = 0;
+
+        /// \copydoc ICommandBuffer::transfer()
+        virtual void transfer(image_type& source, image_type& target, unsigned source_subresource, unsigned target_subresource, unsigned subresources) const = 0;
+
+        /// \copydoc ICommandBuffer::transfer()
+        virtual void transfer(std::shared_ptr<buffer_type> source, buffer_type& target, unsigned source_element, unsigned target_element, unsigned elements) const = 0;
+
+        /// \copydoc ICommandBuffer::transfer()
+        virtual void transfer(std::shared_ptr<buffer_type> source, image_type& target, unsigned source_element, unsigned first_subresource, unsigned elements) const = 0;
+
+        /// \copydoc ICommandBuffer::transfer()
+        virtual void transfer(std::shared_ptr<image_type> source, image_type& target, unsigned first_subresource, unsigned target_element, unsigned subresources) const = 0;
+
+        /// \copydoc ICommandBuffer::transfer()
+        virtual void transfer(std::shared_ptr<image_type> source,
+                              buffer_type& target,
+                              unsigned int first_subresource,
+                              unsigned int target_element,
+                              unsigned int subresources) const = 0;
+
+        /// \copydoc ICommandBuffer::use()
+        virtual void use(const pipeline_type& pipeline) const noexcept = 0;
+
+        /// \copydoc ICommandBuffer::bind()
+        virtual void bind(const descriptor_set_type& descriptor_set) const = 0;
+
+        /// \copydoc ICommandBuffer::bind()
+        virtual void bind(const descriptor_set_type& descriptor_set, const pipeline_type& pipeline) const noexcept = 0;
+
+        /// \copydoc ICommandBuffer::bind()
+        virtual void bind(const index_buffer_type& index_buffer) const noexcept = 0;
+
+        /// \copydoc ICommandBuffer::bind()
+        virtual void bind(const vertex_buffer_type& vertex_buffer) const noexcept = 0;
+
+        /// \copydoc ICommandBuffer::draw()
+        virtual void draw(unsigned vertices, unsigned instances, unsigned first_vertex, unsigned first_instance) const noexcept = 0;
+
+        /// \copydoc ICommandBuffer::draw()
+        virtual void draw(const vertex_buffer_type& vertex_buffer, unsigned instances, unsigned first_vertex, unsigned first_instance) const noexcept = 0;
+
+        /// \copydoc ICommandBuffer::drawIndexed()
+        virtual void drawIndexed(unsigned indices, unsigned instances, unsigned first_index, int vertex_offset, unsigned first_instance) const noexcept = 0;
+
+        /// \copydoc ICommandBuffer::drawIndexed()
+        virtual void drawIndexed(const index_buffer_type& index_buffer, unsigned instances, unsigned first_index, int vertex_offset, unsigned first_instance) const noexcept = 0;
+
+        /// \copydoc ICommandBuffer::drawIndexed()
+        virtual void drawIndexed(const vertex_buffer_type& vertex_buffer,
+                                 const index_buffer_type& index_buffer,
+                                 unsigned instances,
+                                 unsigned first_index,
+                                 int vertex_offset,
+                                 unsigned first_instance) const noexcept = 0;
+
+        /// \copydoc ICommandBuffer::execute()
+        virtual void execute(std::shared_ptr<const command_buffer_type> command_buffer) const = 0;
+
+        /// \copydoc ICommandBuffer::execute()
+        virtual void execute(const std::vector<std::shared_ptr<const command_buffer_type>>& command_buffers) const = 0;
+
+        /// \copydoc ICommandBuffer::pushConstants()
+        virtual void pushConstants(const push_constants_layout_type& layout, const void* const memory) const noexcept = 0;
+
+    private:
+        void genericTransfer(IBuffer& source, IBuffer& target, unsigned source_element, unsigned target_element, unsigned elements) const noexcept final
+        {
+            transfer(dynamic_cast<buffer_type&>(source), dynamic_cast<buffer_type&>(target), source_element, target_element, elements);
+        }
+
+        void genericTransfer(std::shared_ptr<IBuffer> source, IBuffer& target, unsigned source_element, unsigned target_element, unsigned elements) const final
+        {
+            transfer(std::dynamic_pointer_cast<buffer_type>(source), dynamic_cast<buffer_type&>(target), source_element, target_element, elements);
+        }
+
+        void genericTransfer(IBuffer& source, IImage& target, unsigned source_element, unsigned first_subresource, unsigned elements) const noexcept final
+        {
+            transfer(dynamic_cast<buffer_type&>(source), dynamic_cast<image_type&>(target), source_element, first_subresource, elements);
+        }
+
+        void genericTransfer(std::shared_ptr<IBuffer> source, IImage& target, unsigned source_element, unsigned first_subresource, unsigned elements) const noexcept final
+        {
+            transfer(std::dynamic_pointer_cast<buffer_type>(source), dynamic_cast<image_type&>(target), source_element, first_subresource, elements);
+        }
+
+        void genericTransfer(IImage& source, IImage& target, unsigned source_subresource, unsigned target_subresource, unsigned subresources) const noexcept final
+        {
+            transfer(dynamic_cast<image_type&>(source), dynamic_cast<image_type&>(target), source_subresource, target_subresource, subresources);
+        }
+
+        void genericTransfer(std::shared_ptr<IImage> source, IImage& target, unsigned source_subresource, unsigned target_subresource, unsigned subresources) const noexcept final
+        {
+            transfer(std::static_pointer_cast<image_type>(source), dynamic_cast<image_type&>(target), source_subresource, target_subresource, subresources);
+        }
+
+        void genericTransfer(IImage& source, IBuffer& target, unsigned first_subresource, unsigned target_element, unsigned subresources) const noexcept final
+        {
+            transfer(dynamic_cast<image_type&>(source), dynamic_cast<buffer_type&>(target), first_subresource, target_element, subresources);
+        }
+
+        void genericTransfer(std::shared_ptr<IImage> source, IBuffer& target, unsigned first_subresource, unsigned target_element, unsigned subresources) const noexcept final
+        {
+            transfer(std::static_pointer_cast<image_type>(source), dynamic_cast<buffer_type&>(target), first_subresource, target_element, subresources);
+        }
+
+        void genericUse(const IPipeline& pipeline) const noexcept final { use(dynamic_cast<const pipeline_type&>(pipeline)); }
+        void genericBind(const IDescriptorSet& descriptor_set) const final { bind(dynamic_cast<const descriptor_set_type&>(descriptor_set)); }
+
+        void genericBind(const IDescriptorSet& descriptor_set, const IPipeline& pipeline) const noexcept final
+        {
+            bind(dynamic_cast<const descriptor_set_type&>(descriptor_set), dynamic_cast<const pipeline_type&>(pipeline));
+        }
+
+        void genericBind(const IIndexBuffer& index_buffer) const noexcept final { bind(dynamic_cast<const index_buffer_type&>(index_buffer)); }
+        void genericBind(const IVertexBuffer& vertex_buffer) const noexcept final { bind(dynamic_cast<const vertex_buffer_type&>(vertex_buffer)); }
+
+        void genericDraw(unsigned vertices, unsigned instances, unsigned first_vertex, unsigned first_instance) const noexcept final
+        {
+            draw(vertices, instances, first_vertex, first_instance);
+        }
+
+        void genericDraw(const IVertexBuffer& vertex_buffer, unsigned instances, unsigned first_vertex, unsigned first_instance) const noexcept final
+        {
+            draw(dynamic_cast<const vertex_buffer_type&>(vertex_buffer), instances, first_vertex, first_instance);
+        }
+
+        void genericDrawIndexed(unsigned indices, unsigned instances, unsigned first_index, int vertex_offset, unsigned first_instance) const noexcept final
+        {
+            drawIndexed(indices, instances, first_index, vertex_offset, first_instance);
+        }
+
+        void genericDrawIndexed(const IIndexBuffer& index_buffer, unsigned instances, unsigned first_index, int vertex_offset, unsigned first_instance) const noexcept final
+        {
+            drawIndexed(dynamic_cast<const index_buffer_type&>(index_buffer), instances, first_index, vertex_offset, first_instance);
+        }
+
+        void genericDrawIndexed(const IVertexBuffer& vertex_buffer,
+                                const IIndexBuffer& index_buffer,
+                                unsigned instances,
+                                unsigned first_index,
+                                int vertex_offset,
+                                unsigned first_instance) const noexcept final
+        {
+            drawIndexed(dynamic_cast<const vertex_buffer_type&>(vertex_buffer),
+                        dynamic_cast<const index_buffer_type&>(index_buffer),
+                        instances,
+                        first_index,
+                        vertex_offset,
+                        first_instance);
+        }
+
+        void genericExecute(std::shared_ptr<const ICommandBuffer> command_buffer) const final { execute(std::static_pointer_cast<const command_buffer_type>(command_buffer)); }
+
+        void genericExecute(const std::vector<std::shared_ptr<const ICommandBuffer>>& command_buffers) const final
+        {
+            std::vector<std::shared_ptr<const command_buffer_type>> command_buffer_types;
+            command_buffer_types.reserve(command_buffers.size());
+            std::ranges::transform(command_buffers,
+                                   std::back_inserter(command_buffer_types),
+                                   [](const std::shared_ptr<const ICommandBuffer>& command_buffer) { return std::static_pointer_cast<const command_buffer_type>(command_buffer); });
+            execute(command_buffer_types);
+        }
+
+        void genericPushConstants(const IPushConstantsLayout& layout, const void* const memory) const noexcept final
+        {
+            pushConstants(dynamic_cast<const push_constants_layout_type&>(layout), memory);
+        }
+    };
 }
