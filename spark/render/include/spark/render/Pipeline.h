@@ -38,4 +38,38 @@ namespace spark::render
         /// \brief Private method used to allow replacement of the generic methods by a custom \ref IDescriptorSetLayout type.
         [[nodiscard]] virtual std::vector<const IDescriptorSetLayout*> genericDescriptorSets() const noexcept = 0;
     };
+
+    /**
+     * \brief Represents a the layout of a \ref RenderPipeline.
+     * \tparam DescriptorSetLayoutType The type of the descriptor set layout. (inherits from \ref IDescriptorSetLayout)
+     * \tparam PushConstantsLayoutType The type of the push constants layout. (inherits from \ref IPushConstantsLayout)
+     */
+    template <typename DescriptorSetLayoutType, typename PushConstantsLayoutType>
+    class PipelineLayout : public IPipelineLayout
+    {
+    public:
+        using descriptor_set_layout_type = DescriptorSetLayoutType;
+        using push_constants_layout_type = PushConstantsLayoutType;
+
+    public:
+        /// \copydoc IPipelineLayout::descriptorSet()
+        [[nodiscard]] const descriptor_set_layout_type& descriptorSet(unsigned int space) const override = 0;
+
+        /// \copydoc IPipelineLayout::descriptorSets()
+        [[nodiscard]] virtual std::vector<const descriptor_set_layout_type*> descriptorSets() const noexcept = 0;
+
+        /// \copydoc IPipelineLayout::pushConstants()
+        [[nodiscard]] const push_constants_layout_type* pushConstants() const noexcept override = 0;
+
+    private:
+        [[nodiscard]] std::vector<const IDescriptorSetLayout*> genericDescriptorSets() const noexcept override
+        {
+            std::vector<const IDescriptorSetLayout*> descriptor_sets_vector;
+            descriptor_sets_vector.reserve(descriptorSets().size());
+            std::ranges::transform(descriptorSets(),
+                                   std::back_inserter(descriptor_sets_vector),
+                                   [](const auto& descriptor_set) { return static_cast<const IDescriptorSetLayout*>(descriptor_set); });
+            return descriptor_sets_vector;
+        }
+    };
 }
