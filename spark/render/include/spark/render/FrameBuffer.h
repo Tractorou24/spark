@@ -81,4 +81,54 @@ namespace spark::render
         [[nodiscard]] virtual const IImage& genericImage(unsigned int location) const = 0;
         ///@}
     };
+
+    /**
+     * \brief Stores the images for the output attachments for a back buffer of a \ref IRenderPass>, as well as a \ref CommandBuffer instance, that records draw commands.
+     * \tparam CommandBufferType Type of the command buffer (inherits from \ref ICommandBuffer).
+     */
+    template <typename CommandBufferType>
+    class FrameBuffer : public IFrameBuffer
+    {
+    public:
+        using command_buffer_type = CommandBufferType;
+        using image_type = typename command_buffer_type::image_type;
+
+    public:
+        /// \copydoc IFrameBuffer::commandBuffers()
+        [[nodiscard]] virtual std::vector<std::shared_ptr<const command_buffer_type>> commandBuffers() const noexcept = 0;
+
+        /// \copydoc IFrameBuffer:commandBuffer()
+        [[nodiscard]] virtual std::shared_ptr<const command_buffer_type> commandBuffer(unsigned index) const = 0;
+
+        /// \copydoc IFrameBuffer:images()
+        [[nodiscard]] virtual std::vector<const image_type*> images() const noexcept = 0;
+
+        /// \copydoc IFrameBuffer::image()
+        [[nodiscard]] virtual const image_type& image(unsigned location) const = 0;
+
+    private:
+        [[nodiscard]] std::vector<std::shared_ptr<const ICommandBuffer>> genericCommandBuffers() const noexcept final
+        {
+            auto tmp = commandBuffers();
+            std::vector<std::shared_ptr<const ICommandBuffer>> command_buffers_vector;
+            command_buffers_vector.reserve(tmp.size());
+            std::ranges::transform(tmp,
+                                   std::back_inserter(command_buffers_vector),
+                                   [](const auto& command_buffer) { return static_cast<std::shared_ptr<const ICommandBuffer>>(command_buffer); });
+            return command_buffers_vector;
+        }
+
+        [[nodiscard]] std::shared_ptr<const ICommandBuffer> genericCommandBuffer(unsigned index) const final { return commandBuffer(index); }
+
+        [[nodiscard]] std::vector<const IImage*> genericImages() const noexcept final
+        {
+            auto tmp = images();
+            std::vector<const IImage*> images_vector;
+            images_vector.reserve(tmp.size());
+            std::ranges::transform(tmp, std::back_inserter(images_vector), [](const auto& image) { return static_cast<const IImage*>(image); });
+            return images_vector;
+        }
+
+        [[nodiscard]] const IImage& genericImage(unsigned location) const final { return image(location); }
+    };
 }
