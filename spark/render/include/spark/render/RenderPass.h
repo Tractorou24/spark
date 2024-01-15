@@ -99,4 +99,67 @@ namespace spark::render
         [[nodiscard]] virtual std::vector<const IRenderPipeline*> genericPipelines() const noexcept = 0;
         virtual void genericUpdateAttachments(const IDescriptorSet& descriptor_set) const = 0;
     };
+
+    /**
+     * \brief Represents a render pass.
+     * \tparam RenderPipelineType Type of the render pipeline. (inherits from \ref IRenderPipeline)
+     * \tparam FrameBufferType Type of the frame buffer. (inherits from \ref IFrameBuffer)
+     * \tparam InputAttachmentMappingType Type of the input attachment mapping. (inherits from \ref IInputAttachmentMapping)
+     *
+     * A render pass is a conceptual layer, that may not have any logical representation within the actual implementation. It is a high-level view on a specific workload on the
+     * GPU, that processes data using different \ref IRenderPipeline and stores the outputs in the \ref IRenderTarget of a \ref IFrameBuffer.
+     */
+    template <typename RenderPipelineType, typename FrameBufferType, typename InputAttachmentMappingType>
+    class RenderPass : public StateResource, public IRenderPass, public InputAttachmentMappingSource<FrameBufferType>
+    {
+    public:
+        using frame_buffer_type = FrameBufferType;
+        using render_pipeline_type = RenderPipelineType;
+        using input_attachment_mapping_type = InputAttachmentMappingType;
+        using pipeline_layout_type = typename render_pipeline_type::pipeline_layout_type;
+        using descriptor_set_layout_type = typename pipeline_layout_type::descriptor_set_layout_type;
+        using descriptor_set_type = typename descriptor_set_layout_type::descriptor_set_type;
+
+    public:
+        /// \copydoc IRenderPass::activeFrameBuffer()
+        [[nodiscard]] virtual const frame_buffer_type& activeFrameBuffer() const = 0;
+
+        /// \copydoc IRenderPass::frameBuffers()
+        [[nodiscard]] virtual std::vector<const frame_buffer_type*> frameBuffers() const noexcept = 0;
+
+        /// \copydoc IRenderPass::pipelines()
+        [[nodiscard]] virtual std::vector<const render_pipeline_type*> pipelines() const noexcept = 0;
+
+        /**
+         * \brief Gets the input attachments the render pass is consuming.
+         * \return A \ref std::span of \ref IInputAttachmentMapping the render pass is consuming.
+         */
+        [[nodiscard]] virtual std::span<const input_attachment_mapping_type> inputAttachments() const noexcept = 0;
+
+        /// \copydoc IRenderPass::updateAttachments()
+        virtual void updateAttachments(const descriptor_set_type& descriptor_set) const = 0;
+
+    private:
+        [[nodiscard]] const IFrameBuffer& genericActiveFrameBuffer() const final { return activeFrameBuffer(); }
+
+        [[nodiscard]] std::vector<const IFrameBuffer*> genericFrameBuffers() const noexcept final
+        {
+            auto tmp = frameBuffers();
+            std::vector<const IFrameBuffer*> frame_buffers_vector;
+            frame_buffers_vector.reserve(tmp.size());
+            std::ranges::transform(tmp, std::back_inserter(frame_buffers_vector), [](const auto& frame_buffer) { return static_cast<const IFrameBuffer*>(frame_buffer); });
+            return frame_buffers_vector;
+        }
+
+        [[nodiscard]] std::vector<const IRenderPipeline*> genericPipelines() const noexcept final
+        {
+            auto tmp = pipelines();
+            std::vector<const IRenderPipeline*> pipelines_vector;
+            pipelines_vector.reserve(tmp.size());
+            std::ranges::transform(tmp, std::back_inserter(pipelines_vector), [](const auto& pipeline) { return static_cast<const IRenderPipeline*>(pipeline); });
+            return pipelines_vector;
+        }
+
+        void genericUpdateAttachments(const IDescriptorSet& descriptor_set) const final { updateAttachments(static_cast<const descriptor_set_type&>(descriptor_set)); }
+    };
 }
