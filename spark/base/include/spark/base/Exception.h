@@ -99,6 +99,11 @@ namespace spark::base
      * \brief Exception thrown when an argument is out of range.
      */
     SPARK_BASE_DEFINE_EXCEPTION(ArgumentOutOfRangeException)
+
+    /**
+     * \brief Exception thrown when calling a function which requires a render pass to be ended while it is not.
+     */
+    SPARK_BASE_DEFINE_EXCEPTION(RenderPassAlreadyStartedException)
 }
 
 #undef SPARK_BASE_DEFINE_EXCEPTION
