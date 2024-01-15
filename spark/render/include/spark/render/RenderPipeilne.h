@@ -46,4 +46,28 @@ namespace spark::render
         [[nodiscard]] virtual std::shared_ptr<IRasterizer> genericRasterizer() const noexcept = 0;
         /// @}
     };
+
+    /**
+     * \brief Represents a graphics \ref IPipeline.
+     * \tparam InputAssemblerType Type of the input assembler state used by the render pipeline. (inherits from \ref IInputAssembler)
+     * \tparam RasterizerType Type of the rasterizer state used by the render pipeline. (inherits from \ref IRasterizer)
+     */
+    template <typename PipelineLayoutType, typename ShaderProgramType, typename InputAssemblerType, typename RasterizerType>
+    class RenderPipeline : public IRenderPipeline, public StateResource, public virtual Pipeline<PipelineLayoutType, ShaderProgramType>
+    {
+    public:
+        using input_assembler_type = InputAssemblerType;
+        using rasterizer_type = RasterizerType;
+
+    public:
+        /// \copydoc IRenderPipeline::inputAssembler()
+        [[nodiscard]] virtual std::shared_ptr<input_assembler_type> inputAssembler() const noexcept = 0;
+
+        /// \copydoc IRenderPipeline::rasterizer()
+        [[nodiscard]] virtual std::shared_ptr<rasterizer_type> rasterizer() const noexcept = 0;
+
+    private:
+        [[nodiscard]] std::shared_ptr<IInputAssembler> genericInputAssembler() const noexcept final { return inputAssembler(); }
+        [[nodiscard]] std::shared_ptr<IRasterizer> genericRasterizer() const noexcept final { return rasterizer(); }
+    };
 }
