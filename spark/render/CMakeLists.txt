@@ -16,6 +16,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/Image.h
         ${HEADER_DIR}/${SPARK_NAME}/render/IndexBuffer.h
         ${HEADER_DIR}/${SPARK_NAME}/render/InputAssembler.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/InputAttachementMapping.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Mappable.h
         ${HEADER_DIR}/${SPARK_NAME}/render/Pipeline.h
         ${HEADER_DIR}/${SPARK_NAME}/render/PushConstantsLayout.h
