@@ -90,4 +90,36 @@ namespace spark::render
         virtual void genericPresent(const IFrameBuffer& frame_buffer) const noexcept = 0;
         ///@}
     };
+
+    /**
+     * \brief Represents a swap chain, i.e. a chain of multiple \ref IImage instances, that can be presented to a \ref ISurface.
+     * \tparam ImageType Type of the swap chain's images. (inherits from \ref IImage)
+     * \tparam FrameBufferType Type of the frame buffer. (inherits from \ref IFrameBuffer)
+     */
+    template <typename ImageType, typename FrameBufferType>
+    class SwapChain : public ISwapChain
+    {
+    public:
+        using image_type = ImageType;
+        using frame_buffer_type = FrameBufferType;
+
+    public:
+        /// \copydoc ISwapChain::images()
+        [[nodiscard]] virtual std::vector<const image_type*> images() const noexcept = 0;
+
+        /// \copydoc ISwapChain::present()
+        virtual void present(const frame_buffer_type& frame_buffer) const noexcept = 0;
+
+    private:
+        [[nodiscard]] std::vector<const IImage*> genericImages() const noexcept final
+        {
+            auto tmp = images();
+            std::vector<const IImage*> images_vector;
+            images_vector.reserve(tmp.size());
+            std::ranges::transform(tmp, std::back_inserter(images_vector), [](const auto& image) { return static_cast<const IImage*>(image); });
+            return images_vector;
+        }
+
+        void genericPresent(const IFrameBuffer& frame_buffer) const noexcept final { present(static_cast<const frame_buffer_type&>(frame_buffer)); }
+    };
 }
