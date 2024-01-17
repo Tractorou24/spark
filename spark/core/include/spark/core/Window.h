@@ -4,6 +4,7 @@
 
 #include "spark/events/Event.h"
 #include "spark/log/Logger.h"
+#include "spark/math/Vector2.h"
 
 #include <functional>
 #include <memory>
