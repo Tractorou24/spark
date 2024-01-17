@@ -12,6 +12,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/lib/Clock.h
         ${HEADER_DIR}/${SPARK_NAME}/lib/Overloaded.h
         ${HEADER_DIR}/${SPARK_NAME}/lib/Random.h
+        ${HEADER_DIR}/${SPARK_NAME}/lib/String.h
         ${HEADER_DIR}/${SPARK_NAME}/lib/Uuid.h
         ${HEADER_DIR}/${SPARK_NAME}/lib/UuidGenerator.h
 
