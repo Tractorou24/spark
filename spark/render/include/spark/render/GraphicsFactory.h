@@ -501,4 +501,172 @@ namespace spark::render
         /// @}
         // @formatter:on
     };
+
+    /**
+     * \brief Describes a factory that creates objects for a \ref IGraphicsDevice.
+     * \tparam DescriptorLayoutType Type of the descriptor layout. (inherits from \ref IDescriptorSetLayout)
+     * \tparam RawBufferType Type of the raw buffer. (inherits from \ref IBuffer)
+     * \tparam VertexBufferType Type of the vertex buffer. (inherits from \ref IVertexBuffer)
+     * \tparam IndexBufferType Type of the index buffer. (inherits from \ref IIndexBuffer)
+     * \tparam ImageType Type of the image. (inherits from \ref IImage)
+     * \tparam SamplerType Type of the sampler. (inherits from \ref ISampler)
+     */
+    template <typename DescriptorLayoutType, typename RawBufferType, typename VertexBufferType, typename IndexBufferType, typename ImageType, typename SamplerType>
+    class GraphicsFactory : public IGraphicsFactory
+    {
+    public:
+        using descriptor_layout_type = DescriptorLayoutType;
+        using vertex_buffer_type = VertexBufferType;
+        using vertex_buffer_layout_type = typename vertex_buffer_type::vertex_buffer_layout_type;
+        using index_buffer_type = IndexBufferType;
+        using index_buffer_layout_type = typename index_buffer_type::index_buffer_layout_type;
+        using buffer_type = RawBufferType;
+        using image_type = ImageType;
+        using sampler_type = SamplerType;
+
+    public:
+        /// \copydoc IGraphicsFactory::createBuffer()
+        [[nodiscard]] virtual std::unique_ptr<buffer_type> createBuffer(BufferType type,
+                                                                        BufferUsage usage,
+                                                                        std::size_t element_size,
+                                                                        unsigned elements,
+                                                                        bool allow_write = false) const = 0;
+
+        /// \copydoc IGraphicsFactory::createBuffer()
+        [[nodiscard]] virtual std::unique_ptr<buffer_type> createBuffer(const std::string& name,
+                                                                        BufferType type,
+                                                                        BufferUsage usage,
+                                                                        std::size_t element_size,
+                                                                        unsigned elements,
+                                                                        bool allow_write = false) const = 0;
+
+        /// \copydoc IGraphicsFactory::createVertexBuffer()
+        [[nodiscard]] virtual std::unique_ptr<vertex_buffer_type> createVertexBuffer(const vertex_buffer_layout_type& layout, BufferUsage usage, unsigned elements = 1) const =
+        0;
+
+        /// \copydoc IGraphicsFactory::createVertexBuffer()
+        [[nodiscard]] virtual std::unique_ptr<vertex_buffer_type> createVertexBuffer(const std::string& name,
+                                                                                     const vertex_buffer_layout_type& layout,
+                                                                                     BufferUsage usage,
+                                                                                     unsigned elements = 1) const = 0;
+
+        /// \copydoc IGraphicsFactory::createVertexBuffer()
+        [[nodiscard]] virtual std::unique_ptr<index_buffer_type> createIndexBuffer(const index_buffer_layout_type& layout, BufferUsage usage, unsigned elements) const = 0;
+
+        /// \copydoc IGraphicsFactory::createIndexBuffer()
+        [[nodiscard]] virtual std::unique_ptr<index_buffer_type> createIndexBuffer(const std::string& name,
+                                                                                   const index_buffer_layout_type& layout,
+                                                                                   BufferUsage usage,
+                                                                                   unsigned elements) const = 0;
+
+        /// \copydoc IGraphicsFactory::createAttachment()
+        [[nodiscard]] virtual std::unique_ptr<image_type> createAttachment(Format format,
+                                                                           const math::Vector2<unsigned>& size,
+                                                                           MultiSamplingLevel samples = MultiSamplingLevel::X1) const = 0;
+
+        /// \copydoc IGraphicsFactory::createAttachment()
+        [[nodiscard]] virtual std::unique_ptr<image_type> createAttachment(const std::string& name,
+                                                                           Format format,
+                                                                           const math::Vector2<unsigned>& size,
+                                                                           MultiSamplingLevel samples = MultiSamplingLevel::X1) const = 0;
+
+        /// \copydoc IGraphicsFactory::createTexture()
+        [[nodiscard]] virtual std::unique_ptr<image_type> createTexture(Format format,
+                                                                        const math::Vector3<unsigned>& size,
+                                                                        ImageDimensions dimension = ImageDimensions::DIM_2,
+                                                                        unsigned levels = 1,
+                                                                        unsigned layers = 1,
+                                                                        MultiSamplingLevel samples = MultiSamplingLevel::X1,
+                                                                        bool allow_write = false) const = 0;
+
+        /// \copydoc IGraphicsFactory::createTexture()
+        [[nodiscard]] virtual std::unique_ptr<image_type> createTexture(const std::string& name,
+                                                                        Format format,
+                                                                        const math::Vector3<unsigned>& size,
+                                                                        ImageDimensions dimension = ImageDimensions::DIM_2,
+                                                                        unsigned levels = 1,
+                                                                        unsigned layers = 1,
+                                                                        MultiSamplingLevel samples = MultiSamplingLevel::X1,
+                                                                        bool allow_write = false) const = 0;
+
+        /// \copydoc IGraphicsFactory::createTextures()
+        [[nodiscard]] virtual std::vector<std::unique_ptr<image_type>> createTextures(std::size_t elements,
+                                                                                      Format format,
+                                                                                      const math::Vector3<unsigned>& size,
+                                                                                      ImageDimensions dimension = ImageDimensions::DIM_2,
+                                                                                      unsigned layers = 1,
+                                                                                      unsigned levels = 1,
+                                                                                      MultiSamplingLevel samples = MultiSamplingLevel::X1,
+                                                                                      bool allow_write = false) const = 0;
+
+        /// \copydoc IGraphicsFactory::createSampler()
+        [[nodiscard]] virtual std::unique_ptr<sampler_type> createSampler(FilterMode mag_filter = FilterMode::Nearest,
+                                                                          FilterMode min_filter = FilterMode::Nearest,
+                                                                          BorderMode border_u = BorderMode::Repeat,
+                                                                          BorderMode border_v = BorderMode::Repeat,
+                                                                          BorderMode border_w = BorderMode::Repeat,
+                                                                          MipMapMode mip_map_mode = MipMapMode::Nearest,
+                                                                          float mip_map_bias = 0.f,
+                                                                          float max_lod = std::numeric_limits<float>::max(),
+                                                                          float min_lod = 0.f,
+                                                                          float anisotropy = 0.f) const = 0;
+
+        /// \copydoc IGraphicsFactory::createSampler()
+        [[nodiscard]] virtual std::unique_ptr<sampler_type> createSampler(const std::string& name,
+                                                                          FilterMode mag_filter = FilterMode::Nearest,
+                                                                          FilterMode min_filter = FilterMode::Nearest,
+                                                                          BorderMode border_u = BorderMode::Repeat,
+                                                                          BorderMode border_v = BorderMode::Repeat,
+                                                                          BorderMode border_w = BorderMode::Repeat,
+                                                                          MipMapMode mip_map_mode = MipMapMode::Nearest,
+                                                                          float mip_map_bias = 0.f,
+                                                                          float max_lod = std::numeric_limits<float>::max(),
+                                                                          float min_lod = 0.f,
+                                                                          float anisotropy = 0.f) const = 0;
+
+        /// \copydoc IGraphicsFactory::createSamplers()
+        [[nodiscard]] virtual std::vector<std::unique_ptr<sampler_type>> createSamplers(std::size_t elements,
+                                                                                        FilterMode mag_filter = FilterMode::Nearest,
+                                                                                        FilterMode min_filter = FilterMode::Nearest,
+                                                                                        BorderMode border_u = BorderMode::Repeat,
+                                                                                        BorderMode border_v = BorderMode::Repeat,
+                                                                                        BorderMode border_w = BorderMode::Repeat,
+                                                                                        MipMapMode mip_map_mode = MipMapMode::Nearest,
+                                                                                        float mip_map_bias = 0.f,
+                                                                                        float max_lod = std::numeric_limits<float>::max(),
+                                                                                        float min_lod = 0.f,
+                                                                                        float anisotropy = 0.f) const = 0;
+
+    private:
+        // @formatter:off
+        [[nodiscard]] std::unique_ptr<IBuffer> genericCreateBuffer(render::BufferType type, BufferUsage usage, std::size_t element_size, unsigned elements, bool allow_write) const final { return createBuffer(type, usage, element_size, elements, allow_write); }
+        [[nodiscard]] std::unique_ptr<IBuffer> genericCreateBuffer(const std::string& name, render::BufferType type, BufferUsage usage, std::size_t element_size, unsigned elements, bool allow_write) const final { return createBuffer(name, type, usage, element_size, elements, allow_write); }
+        [[nodiscard]] std::unique_ptr<IVertexBuffer> genericCreateVertexBuffer(const IVertexBufferLayout& layout, BufferUsage usage, unsigned elements) const final { return createVertexBuffer(dynamic_cast<const vertex_buffer_layout_type&>(layout), usage, elements); }
+        [[nodiscard]] std::unique_ptr<IVertexBuffer> genericCreateVertexBuffer(const std::string& name, const IVertexBufferLayout& layout, BufferUsage usage, unsigned elements) const final { return createVertexBuffer(name, dynamic_cast<const vertex_buffer_layout_type&>(layout), usage, elements); }
+        [[nodiscard]] std::unique_ptr<IIndexBuffer> genericCreateIndexBuffer(const IIndexBufferLayout& layout, BufferUsage usage, unsigned elements) const final { return createIndexBuffer(dynamic_cast<const index_buffer_layout_type&>(layout), usage, elements); }
+        [[nodiscard]] std::unique_ptr<IIndexBuffer> genericCreateIndexBuffer(const std::string& name, const IIndexBufferLayout& layout, BufferUsage usage, unsigned elements) const final { return createIndexBuffer(name, dynamic_cast<const index_buffer_layout_type&>(layout), usage, elements); }
+        [[nodiscard]] std::unique_ptr<IImage> genericCreateAttachment(Format format, const math::Vector2<unsigned>& size, MultiSamplingLevel samples) const final { return createAttachment(format, size, samples); }
+        [[nodiscard]] std::unique_ptr<IImage> genericCreateAttachment(const std::string& name, Format format, const math::Vector2<unsigned>& size, MultiSamplingLevel samples) const final { return createAttachment(name, format, size, samples); }
+        [[nodiscard]] std::unique_ptr<IImage> genericCreateTexture(Format format, const math::Vector3<unsigned>& size, ImageDimensions dimension, unsigned levels, unsigned layers, MultiSamplingLevel samples, bool allow_write) const final { return createTexture(format, size, dimension, levels, layers, samples, allow_write); }
+        [[nodiscard]] std::unique_ptr<IImage> genericCreateTexture(const std::string& name, Format format, const math::Vector3<unsigned>& size, ImageDimensions dimension, unsigned levels, unsigned layers, MultiSamplingLevel samples, bool allow_write) const final { return createTexture(name, format, size, dimension, levels, layers, samples, allow_write); }
+        [[nodiscard]] std::vector<std::unique_ptr<IImage>> genericCreateTextures(std::size_t elements, Format format, const math::Vector3<unsigned>& size, ImageDimensions dimension, unsigned layers, unsigned levels, MultiSamplingLevel samples, bool allow_write) const final
+        {
+            auto tmp = createTextures(elements, format, size, dimension, layers, levels, samples, allow_write);
+            std::vector<std::unique_ptr<IImage>> result;
+            result.reserve(tmp.size());
+            std::ranges::transform(tmp, std::back_inserter(result), [](auto& ptr) { return std::unique_ptr<IImage>(std::move(ptr)); });
+            return result;
+        }
+        [[nodiscard]] std::unique_ptr<ISampler> genericCreateSampler(FilterMode mag_filter, FilterMode min_filter, BorderMode border_u, BorderMode border_v, BorderMode border_w, MipMapMode mip_map_mode, float mip_map_bias, float max_lod, float min_lod, float anisotropy) const final { return createSampler(mag_filter, min_filter, border_u, border_v, border_w, mip_map_mode, mip_map_bias, max_lod, min_lod, anisotropy); }
+        [[nodiscard]] std::unique_ptr<ISampler> genericCreateSampler(const std::string& name, FilterMode mag_filter, FilterMode min_filter, BorderMode border_u, BorderMode border_v, BorderMode border_w, MipMapMode mip_map_mode, float mip_map_bias, float max_lod, float min_lod, float anisotropy) const final { return createSampler(name, mag_filter, min_filter, border_u, border_v, border_w, mip_map_mode, mip_map_bias, max_lod, min_lod, anisotropy); }
+        [[nodiscard]] std::vector<std::unique_ptr<ISampler>> genericCreateSamplers(std::size_t elements, FilterMode mag_filter, FilterMode min_filter, BorderMode border_u, BorderMode border_v, BorderMode border_w, MipMapMode mip_map_mode, float mip_map_bias, float max_lod, float min_lod, float anisotropy) const final
+        {
+            auto tmp = createSamplers(elements, mag_filter, min_filter, border_u, border_v, border_w, mip_map_mode, mip_map_bias, max_lod, min_lod, anisotropy);
+            std::vector<std::unique_ptr<ISampler>> result;
+            result.reserve(tmp.size());
+            std::ranges::transform(tmp, std::back_inserter(result), [](auto& ptr) { return std::unique_ptr<ISampler>(std::move(ptr)); });
+            return result;
+        }
+        // @formatter:on
+    };
 }
