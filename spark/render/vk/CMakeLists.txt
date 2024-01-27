@@ -10,9 +10,11 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/Conversions.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/Helpers.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanGraphicsAdapter.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanImage.h
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/VulkanSurface.h
     CXX_SOURCES
         ${SOURCE_DIR}/VulkanGraphcisAdapter.cpp
+        ${SOURCE_DIR}/VulkanImage.cpp
         ${SOURCE_DIR}/VulkanSurface.cpp
 )
 
