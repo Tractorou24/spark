@@ -7,6 +7,7 @@ set (SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 spark_add_library(${TARGET_NAME}
     PUBLIC_HEADERS
         ${HEADER_DIR}/${SPARK_NAME}/render/vk/Conversions.h
+        ${HEADER_DIR}/${SPARK_NAME}/render/vk/Helpers.h
 )
 
 target_link_libraries(${TARGET_NAME}
