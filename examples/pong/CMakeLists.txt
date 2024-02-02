@@ -6,9 +6,9 @@ spark_add_executable(${TARGET_NAME}
     CXX_SOURCES
         ${SOURCE_DIR}/main.cpp
     PUBLIC_HEADERS
-	    ${HEADER_DIR}/pong/Ball.h
-	    ${HEADER_DIR}/pong/GameManager.h
-	    ${HEADER_DIR}/pong/Paddle.h
+        ${HEADER_DIR}/pong/Ball.h
+        ${HEADER_DIR}/pong/GameManager.h
+        ${HEADER_DIR}/pong/Paddle.h
         ${HEADER_DIR}/pong/ui/Background.h
         ${HEADER_DIR}/pong/ui/Button.h
         ${HEADER_DIR}/pong/ui/Menu.h

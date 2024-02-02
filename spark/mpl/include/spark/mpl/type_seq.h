@@ -43,7 +43,7 @@ namespace spark::mpl::type_seq
 
     // index_of
     template <typename T, typename... Ts>
-    struct index_of { };
+    struct index_of {};
 
     template <typename T, typename Head, typename... Ts>
     struct index_of<T, Head, Ts...>
@@ -81,7 +81,7 @@ namespace spark::mpl::type_seq
 
     // front
     template <typename... Ts>
-    struct front { };
+    struct front {};
 
     template <typename Head, typename... Ts>
     struct front<Head, Ts...>

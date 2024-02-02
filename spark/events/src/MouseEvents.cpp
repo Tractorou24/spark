@@ -3,7 +3,7 @@
 namespace spark::events
 {
     MouseMovedEvent::MouseMovedEvent(const int x, const int y)
-        : m_mouseX(x), m_mouseY(y) { }
+        : m_mouseX(x), m_mouseY(y) {}
 
     int MouseMovedEvent::x() const
     {
@@ -16,7 +16,7 @@ namespace spark::events
     }
 
     MouseScrolledEvent::MouseScrolledEvent(const float offset)
-        : m_offset(offset) { }
+        : m_offset(offset) {}
 
     float MouseScrolledEvent::offset() const
     {
@@ -29,11 +29,11 @@ namespace spark::events
     }
 
     MouseButtonEvent::MouseButtonEvent(const base::MouseCode button)
-        : m_button(button) { }
+        : m_button(button) {}
 
     MouseButtonPressedEvent::MouseButtonPressedEvent(const base::MouseCode button)
-        : MouseButtonEvent(button) { }
+        : MouseButtonEvent(button) {}
 
     MouseButtonReleasedEvent::MouseButtonReleasedEvent(const base::MouseCode button)
-        : MouseButtonEvent(button) { }
+        : MouseButtonEvent(button) {}
 }

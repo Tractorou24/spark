@@ -8,7 +8,7 @@ spark_add_library(${TARGET_NAME}
     CXX_SOURCES
         ${SOURCE_DIR}/Sound.cpp
     PUBLIC_HEADERS
-	    ${HEADER_DIR}/${SPARK_NAME}/audio/Sound.h
+        ${HEADER_DIR}/${SPARK_NAME}/audio/Sound.h
 )
 
 target_link_libraries(${TARGET_NAME}

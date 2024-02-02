@@ -10,7 +10,7 @@ spark_add_executable(${TARGET_NAME}
 )
 
 target_link_libraries(${TARGET_NAME}
-	PRIVATE
+    PRIVATE
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_base
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_log
 )

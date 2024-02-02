@@ -9,7 +9,7 @@ namespace spark::patterns
 {
     template <typename... Args>
     Signal<Args...>::Signal()
-        : m_connections(), m_sequence(0) { }
+        : m_connections(), m_sequence(0) {}
 
     template <typename... Args>
     Signal<Args...>::Signal(Signal&& signal) noexcept
@@ -98,7 +98,7 @@ namespace spark::patterns
         m_connections.clear();
     }
 
-    template<typename... Args>
+    template <typename... Args>
     bool Signal<Args...>::isConnected(const std::size_t key) const
     {
         const auto keys = connectedKeys();
@@ -136,7 +136,7 @@ namespace spark::patterns
          */
 
         auto keys_view = m_connections | std::views::keys;
-        std::vector<std::size_t> keys = { keys_view.begin(), keys_view.end() };
+        std::vector<std::size_t> keys = {keys_view.begin(), keys_view.end()};
 
         for (const auto& key : keys)
         {

@@ -24,7 +24,7 @@ spark_add_library(${TARGET_NAME}
 )
 
 target_link_libraries(${TARGET_NAME}
-	PUBLIC
+    PUBLIC
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_base
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_events
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_engine
@@ -34,6 +34,6 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_patterns
     PRIVATE
         sfml-system
-		sfml-window
-		sfml-graphics
+    sfml-window
+    sfml-graphics
 )

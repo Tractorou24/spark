@@ -4,15 +4,15 @@ namespace spark::patterns
 {
     template <typename... Args>
     Slot<Args...>::Slot()
-        : m_callback() { }
+        : m_callback() {}
 
     template <typename... Args>
     Slot<Args...>::Slot(const std::function<void(Args...)>& f)
-        : m_callback(f) { }
+        : m_callback(f) {}
 
     template <typename... Args>
     Slot<Args...>::Slot(std::function<void(Args...)>&& f)
-        : m_callback(f) { }
+        : m_callback(f) {}
 
     template <typename... Args>
     template <class T>
@@ -42,7 +42,7 @@ namespace spark::patterns
 
     template <typename... Args>
     Slot<Args...>::Slot(const Slot& slot)
-        : m_callback(slot.m_callback) { }
+        : m_callback(slot.m_callback) {}
 
     template <typename... Args>
     Slot<Args...>::Slot(Slot&& slot) noexcept

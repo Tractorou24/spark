@@ -19,7 +19,7 @@ spark_add_library(${TARGET_NAME}
 )
 
 target_link_libraries(${TARGET_NAME}
-	PUBLIC
+    PUBLIC
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_base
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_log
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_rtti

@@ -16,7 +16,7 @@ namespace spark::log
             auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("spark.log", true);
             file_sink->set_pattern("[%T] [%l] %n: %v");
 
-            auto core_logger = std::make_shared<spdlog::logger>("SPARK", spdlog::sinks_init_list{color_sink, file_sink});
+            auto core_logger = std::make_shared<spdlog::logger>("SPARK", spdlog::sinks_init_list {color_sink, file_sink});
             spdlog::register_logger(core_logger);
             core_logger->set_level(spdlog::level::trace);
             core_logger->flush_on(spdlog::level::trace);

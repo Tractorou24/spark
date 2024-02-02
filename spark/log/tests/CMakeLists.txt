@@ -17,7 +17,7 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_base
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_log
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_path
-		GTest::gtest_main
+    GTest::gtest_main
         fmt::fmt
 )
 

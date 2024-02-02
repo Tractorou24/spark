@@ -15,7 +15,7 @@ namespace spark::core
 
     template <typename... Tags>
     ApplicationBuilder<Tags...>::ApplicationBuilder(Application::Settings settings)
-        : m_settings(std::move(settings)) { }
+        : m_settings(std::move(settings)) {}
 
     template <typename... Tags>
     ApplicationBuilder<details::application_tags::set_name_called, Tags...> ApplicationBuilder<Tags...>::setName(std::string name)

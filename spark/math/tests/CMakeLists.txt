@@ -15,5 +15,5 @@ spark_add_test_executable(${TARGET_NAME}
 target_link_libraries(${TARGET_NAME}
     PUBLIC
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_math
-		GTest::gtest_main
+    GTest::gtest_main
 )

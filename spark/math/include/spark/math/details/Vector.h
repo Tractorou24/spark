@@ -11,7 +11,7 @@ namespace spark::math::details
     public:
         /// \brief Initializes a new \ref Vector.
         explicit constexpr Vector(std::array<std::reference_wrapper<T>, N> values)
-            : m_values(values) { }
+            : m_values(values) {}
 
         /**
          * \brief Compares two \ref Vector for equality.

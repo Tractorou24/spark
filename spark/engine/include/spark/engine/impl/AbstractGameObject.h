@@ -5,13 +5,11 @@
 
 namespace spark::engine::details
 {
-    template<typename Impl>
+    template <typename Impl>
     AbstractGameObject<Impl>::AbstractGameObject(GameObject* parent)
-        : Composite(parent)
-    {
-    }
+        : Composite(parent) {}
 
-    template<typename Impl>
+    template <typename Impl>
     AbstractGameObject<Impl>::~AbstractGameObject()
     {
         // Ensure onDestroyed() was called
@@ -51,7 +49,7 @@ namespace spark::engine::details
     template <typename Impl>
     void AbstractGameObject<Impl>::onDestroyed()
     {
-        if(!m_initialized)
+        if (!m_initialized)
             return;
 
         std::ranges::for_each(m_components | std::views::values | std::views::keys,

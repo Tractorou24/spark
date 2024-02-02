@@ -8,10 +8,10 @@ namespace spark::events
     }
 
     KeyEvent::KeyEvent(const base::KeyCode key) noexcept
-        : key(key) { }
+        : key(key) {}
 
     KeyPressedEvent::KeyPressedEvent(const base::KeyCode key, const bool is_repeat) noexcept
-        : KeyEvent(key), m_isRepeat(is_repeat) { }
+        : KeyEvent(key), m_isRepeat(is_repeat) {}
 
     bool KeyPressedEvent::isRepeat() const noexcept
     {
@@ -19,8 +19,8 @@ namespace spark::events
     }
 
     KeyReleasedEvent::KeyReleasedEvent(const base::KeyCode key) noexcept
-        : KeyEvent(key) { }
+        : KeyEvent(key) {}
 
     KeyTypedEvent::KeyTypedEvent(const base::KeyCode key) noexcept
-        : KeyEvent(key) { }
+        : KeyEvent(key) {}
 }

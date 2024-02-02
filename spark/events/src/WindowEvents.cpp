@@ -3,7 +3,7 @@
 namespace spark::events
 {
     WindowResizeEvent::WindowResizeEvent(const unsigned int width, const unsigned int height)
-        : m_width(width), m_height(height) { }
+        : m_width(width), m_height(height) {}
 
     unsigned int WindowResizeEvent::width() const
     {

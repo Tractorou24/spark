@@ -174,8 +174,8 @@ namespace spark::patterns::testing
         const Node b1(&a1);
 
         auto traverser = make_traverser<const Node, std::stringstream&>([](const Node*, std::stringstream& ss) { ss << "apply "; },
-                                                                  [](const Node*, std::stringstream& ss) { ss << "pre "; },
-                                                                  [](const Node*, std::stringstream& ss) { ss << "post "; });
+                                                                        [](const Node*, std::stringstream& ss) { ss << "pre "; },
+                                                                        [](const Node*, std::stringstream& ss) { ss << "post "; });
 
         // When traversing the tree as a const tree
         std::stringstream ss;

@@ -21,7 +21,7 @@ namespace spark::core
         friend class Renderer2D;
         friend class SceneManager;
 
-        template<typename... Tags>
+        template <typename... Tags>
         friend class ApplicationBuilder;
 
     public:

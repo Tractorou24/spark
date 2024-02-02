@@ -45,7 +45,7 @@ namespace spark::patterns::testing
         Signal<> signal;
 
         // When connecting a lambda to the signal
-        const std::size_t key = signal.connect([] { });
+        const std::size_t key = signal.connect([] {});
 
         // Then, it should be connected
         EXPECT_TRUE(signal.isConnected(key));

@@ -57,7 +57,7 @@ namespace spark::mpl
 
     // Specialization for empty typelist
     template <>
-    struct typelist<> : typelist_base<> { };
+    struct typelist<> : typelist_base<> {};
 
     // Specialization for typelist with at least one type
     template <typename First, typename... Ts>
@@ -173,7 +173,7 @@ namespace spark::mpl
      * \brief Concatenate given typelists to one
      * \tparam Lists Typelists to concatenate
      */
-    template<typename... Lists>
+    template <typename... Lists>
     using typelist_concat = type_seq::concat_t<Lists...>;
 
     /**
