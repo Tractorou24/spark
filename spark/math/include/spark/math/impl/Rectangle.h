@@ -5,7 +5,7 @@ namespace spark::math
     template <typename T>
     Rectangle<T>::Rectangle(const Vector2<T>& position, const Vector2<T>& extent)
         : position(position)
-        , extent(extent) { }
+        , extent(extent) {}
 
     template <typename T>
     Rectangle<T>::Rectangle(T x, T y, T width, T height)

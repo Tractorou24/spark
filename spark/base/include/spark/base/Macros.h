@@ -22,7 +22,7 @@
  * \param pragma The pragma to execute.
  */
 #if defined(SPARK_COMPILER_MSVC)
-    #define SPARK_DO_PRAGMA(pragma) __pragma(pragma)
+#define SPARK_DO_PRAGMA(pragma) __pragma(pragma)
 #elif defined(SPARK_COMPILER_GCC) || defined(SPARK_COMPILER_CLANG) || defined(SPARK_COMPILER_CLANG_ANALYSER)
     #define SPARK_DO_PRAGMA(pragma) _Pragma(#pragma)
 #else
@@ -33,8 +33,8 @@
  * \brief Macro to push/pop warning settings.
  */
 #if defined(SPARK_COMPILER_MSVC)
-    #define SPARK_WARNING_PUSH SPARK_DO_PRAGMA(warning(push))
-    #define SPARK_WARNING_POP  SPARK_DO_PRAGMA(warning(pop))
+#define SPARK_WARNING_PUSH SPARK_DO_PRAGMA(warning(push))
+#define SPARK_WARNING_POP  SPARK_DO_PRAGMA(warning(pop))
 #elif defined(SPARK_COMPILER_GCC)
     #define SPARK_WARNING_PUSH SPARK_DO_PRAGMA(GCC diagnostic push)
     #define SPARK_WARNING_POP  SPARK_DO_PRAGMA(GCC diagnostic pop)
@@ -51,10 +51,10 @@
  * \param warningValue The warning number or name to disable/suppress.
  */
 #ifdef SPARK_COMPILER_MSVC
-    #define SPARK_DISABLE_MSVC_WARNING(warningValue) SPARK_DO_PRAGMA(warning(disable: warningValue))
-    #define SPARK_SUPPRESS_MSVC_WARNING(warningValue) SPARK_DO_PRAGMA(warning(suppress: warningValue))
-    #define SPARK_DISABLE_GCC_WARNING(warningValue)
-    #define SPARK_DISABLE_CLANG_WARNING(warningValue)
+#define SPARK_DISABLE_MSVC_WARNING(warningValue) SPARK_DO_PRAGMA(warning(disable: warningValue))
+#define SPARK_SUPPRESS_MSVC_WARNING(warningValue) SPARK_DO_PRAGMA(warning(suppress: warningValue))
+#define SPARK_DISABLE_GCC_WARNING(warningValue)
+#define SPARK_DISABLE_CLANG_WARNING(warningValue)
 #elif defined(SPARK_COMPILER_GCC)
     #define SPARK_DISABLE_MSVC_WARNING(warningValue)
     #define SPARK_SUPPRESS_MSVC_WARNING(warningValue)
@@ -76,7 +76,7 @@
  * * \brief Macro to make a debugger break.
  */
 #ifdef SPARK_COMPILER_MSVC
-    #define SPARK_DEBUG_BREAK __debugbreak()
+#define SPARK_DEBUG_BREAK __debugbreak()
 #elif defined(SPARK_COMPILER_GCC) || defined(SPARK_COMPILER_CLANG)
     #define SPARK_DEBUG_BREAK __builtin_trap()
 #else

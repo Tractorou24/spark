@@ -83,14 +83,14 @@ namespace spark::math::testing
     TEST(RectangleShould, beEqualityComparable)
     {
         const Rectangle<int> rectangle({1, 2}, {3, 4});
-        const Rectangle<int> rectangle2({ 1, 2 }, { 3, 4 });
+        const Rectangle<int> rectangle2({1, 2}, {3, 4});
         EXPECT_EQ(rectangle, rectangle2);
     }
 
     TEST(RectangleShould, notBeEquallyComparable)
     {
         const Rectangle<int> rectangle({1, 2}, {3, 4});
-        const Rectangle<int> rectangle2({ 10, 20 }, { 30, 40 });
+        const Rectangle<int> rectangle2({10, 20}, {30, 40});
         EXPECT_NE(rectangle, rectangle2);
     }
 

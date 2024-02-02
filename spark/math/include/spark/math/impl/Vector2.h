@@ -12,11 +12,11 @@ namespace spark::math
 
     template <typename T>
     constexpr Vector2<T>::Vector2(const Vector2& other)
-        : details::Vector<Vector2, T, 2>({std::ref(x), std::ref(y)}), x(other.x), y(other.y) { }
+        : details::Vector<Vector2, T, 2>({std::ref(x), std::ref(y)}), x(other.x), y(other.y) {}
 
     template <typename T>
     constexpr Vector2<T>::Vector2(Vector2&& other) noexcept
-        : details::Vector<Vector2, T, 2>({std::ref(x), std::ref(y)}), x(std::move(other.x)), y(std::move(other.y)) { }
+        : details::Vector<Vector2, T, 2>({std::ref(x), std::ref(y)}), x(std::move(other.x)), y(std::move(other.y)) {}
 
     template <typename T>
     constexpr Vector2<T>& Vector2<T>::operator=(const Vector2& other)

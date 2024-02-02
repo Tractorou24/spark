@@ -24,7 +24,7 @@ void print_help()
 #ifdef SPARK_OS_WINDOWS
     std::cout << "Usage: ./spark_log_executor.exe [log_level] [message_to_log]" << std::endl;
 #else
-	std::cout << "Usage: ./spark_log_executor [log_level] [message_to_log]" << std::endl;
+    std::cout << "Usage: ./spark_log_executor [log_level] [message_to_log]" << std::endl;
 #endif
 
     std::cout << "Log levels: [trace, debug, info, warn, error, critical]" << std::endl;

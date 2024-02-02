@@ -16,7 +16,7 @@ namespace spark::patterns::testing
     TEST(SlotShould, constructFromAFunction)
     {
         // Given a std::function with and without arguments
-        const std::function f = [] { };
+        const std::function f = [] {};
         const std::function f2 = [](const int i) { SPARK_UNUSED(i); };
 
         // When constructing a slot, then it should not throw
@@ -35,7 +35,7 @@ namespace spark::patterns::testing
     {
         struct S
         {
-            static void F() { }
+            static void F() {}
             static void F2(const int i) { SPARK_UNUSED(i); }
         };
 
@@ -48,7 +48,7 @@ namespace spark::patterns::testing
     {
         // Given a signal and a slot
         Signal<> signal;
-        Slot<> slot([] { });
+        Slot<> slot([] {});
 
         // When connecting the slot to the signal
         signal.connect(slot);

@@ -3,7 +3,7 @@
 namespace spark::lib
 {
     Clock::Clock()
-        : m_startTime(std::chrono::steady_clock::now()) { }
+        : m_startTime(std::chrono::steady_clock::now()) {}
 
     void Clock::restart()
     {
