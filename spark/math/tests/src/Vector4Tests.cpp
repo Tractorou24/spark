@@ -19,50 +19,50 @@ namespace spark::math::testing
     TEST(Vector4Should, beConstructibleWithValues)
     {
         const Vector4<int> v(1, 2, 3, 4);
-        EXPECT_EQ(v.w, 1);
-        EXPECT_EQ(v.x, 2);
-        EXPECT_EQ(v.y, 3);
-        EXPECT_EQ(v.z, 4);
+        EXPECT_EQ(v.x, 1);
+        EXPECT_EQ(v.y, 2);
+        EXPECT_EQ(v.z, 3);
+        EXPECT_EQ(v.w, 4);
     }
 
     TEST(Vector4Should, beCopyConstructible)
     {
         const Vector4<int> v(1, 2, 3, 4);
         const Vector4<int> v2(v);
-        EXPECT_EQ(v2.w, 1);
-        EXPECT_EQ(v2.x, 2);
-        EXPECT_EQ(v2.y, 3);
-        EXPECT_EQ(v2.z, 4);
+        EXPECT_EQ(v2.x, 1);
+        EXPECT_EQ(v2.y, 2);
+        EXPECT_EQ(v2.z, 3);
+        EXPECT_EQ(v2.w, 4);
     }
 
     TEST(Vector4Should, beMoveConstructible)
     {
         Vector4<int> v(1, 2, 3, 4);
         const Vector4<int> v2(std::move(v));
-        EXPECT_EQ(v2.w, 1);
-        EXPECT_EQ(v2.x, 2);
-        EXPECT_EQ(v2.y, 3);
-        EXPECT_EQ(v2.z, 4);
+        EXPECT_EQ(v2.x, 1);
+        EXPECT_EQ(v2.y, 2);
+        EXPECT_EQ(v2.z, 3);
+        EXPECT_EQ(v2.w, 4);
     }
 
     TEST(Vector4Should, beCopyAssignable)
     {
         const Vector4<int> v(1, 2, 3, 4);
         const Vector4<int> v2 = v;
-        EXPECT_EQ(v2.w, 1);
-        EXPECT_EQ(v2.x, 2);
-        EXPECT_EQ(v2.y, 3);
-        EXPECT_EQ(v2.z, 4);
+        EXPECT_EQ(v2.x, 1);
+        EXPECT_EQ(v2.y, 2);
+        EXPECT_EQ(v2.z, 3);
+        EXPECT_EQ(v2.w, 4);
     }
 
     TEST(Vector4Should, beMoveAssignable)
     {
         Vector4<int> v(1, 2, 3, 4);
         const Vector4<int> v2 = std::move(v);
-        EXPECT_EQ(v2.w, 1);
-        EXPECT_EQ(v2.x, 2);
-        EXPECT_EQ(v2.y, 3);
-        EXPECT_EQ(v2.z, 4);
+        EXPECT_EQ(v2.x, 1);
+        EXPECT_EQ(v2.y, 2);
+        EXPECT_EQ(v2.z, 3);
+        EXPECT_EQ(v2.w, 4);
     }
 
     TEST(Vector4Should, beSelfAssignable)
@@ -72,10 +72,10 @@ namespace spark::math::testing
 
         v = v_ref;
 
-        EXPECT_EQ(v.w, 1);
-        EXPECT_EQ(v.x, 2);
-        EXPECT_EQ(v.y, 3);
-        EXPECT_EQ(v.z, 4);
+        EXPECT_EQ(v.x, 1);
+        EXPECT_EQ(v.y, 2);
+        EXPECT_EQ(v.z, 3);
+        EXPECT_EQ(v.w, 4);
     }
 
     TEST(Vector4Should, beSelfMoveAssignable)
@@ -85,10 +85,10 @@ namespace spark::math::testing
 
         v = std::move(v_ref);
 
-        EXPECT_EQ(v.w, 1);
-        EXPECT_EQ(v.x, 2);
-        EXPECT_EQ(v.y, 3);
-        EXPECT_EQ(v.z, 4);
+        EXPECT_EQ(v.x, 1);
+        EXPECT_EQ(v.y, 2);
+        EXPECT_EQ(v.z, 3);
+        EXPECT_EQ(v.w, 4);
     }
 
     TEST(Vector4Should, beEquallyComparable)
@@ -110,10 +110,10 @@ namespace spark::math::testing
         const Vector4<int> v(1, 2, 3, 4);
         const Vector4<int> v2(4, 3, 2, 1);
         const Vector4<int> v3 = v + v2;
-        EXPECT_EQ(v3.w, 5);
         EXPECT_EQ(v3.x, 5);
         EXPECT_EQ(v3.y, 5);
         EXPECT_EQ(v3.z, 5);
+        EXPECT_EQ(v3.w, 5);
     }
 
     TEST(Vector4Should, beSubtractable)
@@ -121,10 +121,10 @@ namespace spark::math::testing
         const Vector4<int> v(1, 2, 3, 4);
         const Vector4<int> v2(4, 3, 2, 1);
         const Vector4<int> v3 = v - v2;
-        EXPECT_EQ(v3.w, -3);
-        EXPECT_EQ(v3.x, -1);
-        EXPECT_EQ(v3.y, 1);
-        EXPECT_EQ(v3.z, 3);
+        EXPECT_EQ(v3.x, -3);
+        EXPECT_EQ(v3.y, -1);
+        EXPECT_EQ(v3.z, 1);
+        EXPECT_EQ(v3.w, 3);
     }
 
     TEST(Vector4Should, beMultipliable)
@@ -132,10 +132,10 @@ namespace spark::math::testing
         const Vector4<int> v(1, 2, 3, 4);
         const Vector4<int> v2(4, 3, 2, 1);
         const Vector4<int> v3 = v * v2;
-        EXPECT_EQ(v3.w, 4);
-        EXPECT_EQ(v3.x, 6);
+        EXPECT_EQ(v3.x, 4);
         EXPECT_EQ(v3.y, 6);
-        EXPECT_EQ(v3.z, 4);
+        EXPECT_EQ(v3.z, 6);
+        EXPECT_EQ(v3.w, 4);
     }
 
     TEST(Vector4Should, beDivisible)
@@ -143,40 +143,40 @@ namespace spark::math::testing
         const Vector4<int> v(9, 4, 2, 3);
         const Vector4<int> v2(3, 2, 2, 1);
         const Vector4<int> v3 = v / v2;
+        EXPECT_EQ(v3.x, 3);
+        EXPECT_EQ(v3.y, 2);
+        EXPECT_EQ(v3.z, 1);
         EXPECT_EQ(v3.w, 3);
-        EXPECT_EQ(v3.x, 2);
-        EXPECT_EQ(v3.y, 1);
-        EXPECT_EQ(v3.z, 3);
     }
 
     TEST(Vector4Should, beMultipliableByValue)
     {
         const Vector4<int> v(1, 2, 3, 4);
         const Vector4<int> v2 = v * 2;
-        EXPECT_EQ(v2.w, 2);
-        EXPECT_EQ(v2.x, 4);
-        EXPECT_EQ(v2.y, 6);
-        EXPECT_EQ(v2.z, 8);
+        EXPECT_EQ(v2.x, 2);
+        EXPECT_EQ(v2.y, 4);
+        EXPECT_EQ(v2.z, 6);
+        EXPECT_EQ(v2.w, 8);
     }
 
     TEST(Vector4Should, beDivisibleByValue)
     {
         const Vector4<int> v(2, 4, 6, 8);
         const Vector4<int> v2 = v / 2;
-        EXPECT_EQ(v2.w, 1);
-        EXPECT_EQ(v2.x, 2);
-        EXPECT_EQ(v2.y, 3);
-        EXPECT_EQ(v2.z, 4);
+        EXPECT_EQ(v2.x, 1);
+        EXPECT_EQ(v2.y, 2);
+        EXPECT_EQ(v2.z, 3);
+        EXPECT_EQ(v2.w, 4);
     }
 
     TEST(Vector4Should, beNegatable)
     {
         const Vector4<int> v(1, 2, 3, 4);
         const Vector4<int> v2 = -v;
-        EXPECT_EQ(v2.w, -1);
-        EXPECT_EQ(v2.x, -2);
-        EXPECT_EQ(v2.y, -3);
-        EXPECT_EQ(v2.z, -4);
+        EXPECT_EQ(v2.x, -1);
+        EXPECT_EQ(v2.y, -2);
+        EXPECT_EQ(v2.z, -3);
+        EXPECT_EQ(v2.w, -4);
     }
 
     TEST(Vector4Should, beSwappable)
@@ -186,23 +186,23 @@ namespace spark::math::testing
 
         swap(v, v2);
 
-        EXPECT_EQ(v.w, 4);
-        EXPECT_EQ(v.x, 3);
-        EXPECT_EQ(v.y, 2);
-        EXPECT_EQ(v.z, 1);
-        EXPECT_EQ(v2.w, 1);
-        EXPECT_EQ(v2.x, 2);
-        EXPECT_EQ(v2.y, 3);
-        EXPECT_EQ(v2.z, 4);
+        EXPECT_EQ(v.x, 4);
+        EXPECT_EQ(v.y, 3);
+        EXPECT_EQ(v.z, 2);
+        EXPECT_EQ(v.w, 1);
+        EXPECT_EQ(v2.x, 1);
+        EXPECT_EQ(v2.y, 2);
+        EXPECT_EQ(v2.z, 3);
+        EXPECT_EQ(v2.w, 4);
     }
 
     TEST(Vector4Should, beCastableToOtherType)
     {
         const Vector4<float> v(1.5f, 2.5f, 3.5f, 4.5f);
         const Vector4<int> v2 = v.castTo<int>();
-        EXPECT_EQ(v2.w, 1);
-        EXPECT_EQ(v2.x, 2);
-        EXPECT_EQ(v2.y, 3);
-        EXPECT_EQ(v2.z, 4);
+        EXPECT_EQ(v2.x, 1);
+        EXPECT_EQ(v2.y, 2);
+        EXPECT_EQ(v2.z, 3);
+        EXPECT_EQ(v2.w, 4);
     }
 }

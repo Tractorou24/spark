@@ -22,7 +22,7 @@ namespace spark::math
          * \param value_y The value of the y component.
          * \param value_z The value of the z component.
          */
-        constexpr Vector4(T value_w, T value_x, T value_y, T value_z) noexcept;
+        constexpr Vector4(T value_x, T value_y, T value_z, T value_w) noexcept;
         ~Vector4() = default;
 
         constexpr Vector4(const Vector4& other);
@@ -39,10 +39,10 @@ namespace spark::math
         [[nodiscard]] constexpr Vector4<To> castTo() const noexcept;
 
     public:
-        T w {};
         T x {};
         T y {};
         T z {};
+        T w {};
     };
 }
 
