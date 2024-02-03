@@ -80,6 +80,16 @@ RUN export DEBIAN_FRONTEND=noninteractive;                              \
     apt-get clean &&                                                    \
     rm -rf /var/lib/apt/lists/*
 
+# Setup vukan sdk
+RUN wget -qO- https://packages.lunarg.com/lunarg-signing-key-pub.asc | tee /etc/apt/trusted.gpg.d/lunarg.asc &&         \
+    wget -qO /etc/apt/sources.list.d/lunarg-vulkan-jammy.list http://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list
+
+RUN apt-get update &&           \
+    apt-get install -qy         \
+    vulkan-sdk &&               \
+    apt-get clean &&            \
+    rm -rf /var/lib/apt/lists/*
+
 # Setup alternatives
 RUN update-alternatives --install /usr/bin/lld lld /usr/bin/lld-16 10 &&            \
     update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-16 10 &&   \
