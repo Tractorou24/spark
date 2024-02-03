@@ -18,6 +18,7 @@ def get_commits(folder: str, reference: str) -> List[str]:
     Returns:
     -------
         commits (List[str]): The commits from the specified git reference to HEAD
+
     """
     command = f"git rev-list {reference}..HEAD"
     commits_ids = subprocess.check_output([command], shell=True, cwd=folder).decode("utf-8").splitlines()
@@ -42,6 +43,7 @@ def check_commit(commit: str) -> List[str]:
     Returns:
     -------
         errors (List[str]): The errors found in the commit message
+
     """
     errors = []
     if not re.search(r"^[a-zA-Z-0-9, \/._]+: ", commit):
@@ -69,6 +71,7 @@ def show_errors(errors: List[str]) -> None:
     Arguments:
     ---------
         errors (List[str]): The errors to show
+
     """
     if len(errors) == 0:
         return
@@ -88,6 +91,7 @@ def handle_commits(commits: List[str]) -> bool:
     Returns:
     -------
         has_errors (bool): If there are any errors
+
     """
     errors = []
     for commit in commits:

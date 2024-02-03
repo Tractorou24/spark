@@ -8,10 +8,10 @@ line-length = 180
 # I: isort
 # N: pep8 naming
 # W: pycodestyle warnings
-select = ["D", "E", "F", "I", "N", "W"]
+lint.select = ["D", "E", "F", "I", "N", "W"]
 
 # D203: OneBlankLineBeforeClass (203 and D213 are mutually exclusive)
 # D213: MultiLineSummarySecondLine (D212 and D213 are mutually exclusive)
 # E501: line-too-long (Formatting handled by black)
 # D417: DocumentAllArguments (may be bugged)
-ignore = ["D203", "D213","E501", "D417"]
+lint.ignore = ["D203", "D213","E501", "D417"]
