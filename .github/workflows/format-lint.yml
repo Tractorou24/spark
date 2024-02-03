@@ -12,7 +12,7 @@ jobs:
       VCPKG_DEFAULT_BINARY_CACHE: C:\vcpkg_cache
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
         # Install Vulkan SDK
       - name: Install Vulkan SDK
@@ -50,7 +50,7 @@ jobs:
     container: tracto/spark-python-tools:latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Format
         run: |
@@ -68,7 +68,7 @@ jobs:
     container: tracto/spark-python-tools:latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 

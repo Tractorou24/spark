@@ -12,7 +12,7 @@ jobs:
       VCPKG_DEFAULT_BINARY_CACHE: C:\vcpkg_cache
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
         # Install Vulkan SDK
       - name: Install Vulkan SDK
@@ -47,7 +47,7 @@ jobs:
       VCPKG_DEFAULT_BINARY_CACHE: C:\vcpkg_cache
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
         # Install Vulkan SDK
       - name: Install Vulkan SDK
@@ -86,12 +86,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Update / Restore Vcpkg binary cache
       - name: Restore Vcpkg cache
         id: cache-vcpkg
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /vcpkg_cache
           key: linux-clang-vcpkg
@@ -117,12 +117,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Update / Restore Vcpkg binary cache
       - name: Restore Vcpkg cache
         id: cache-vcpkg
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: /vcpkg_cache
           key: linux-gcc-vcpkg
