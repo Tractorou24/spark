@@ -21,6 +21,7 @@ RUN export DEBIAN_FRONTEND=noninteractive;                              \
     clang-16                                                            \
     libstdc++-13-dev                                                    \
     lld-16                                                              \
+    clang-tools-16                                                      \
     # Install packages required by dependencies
     autoconf                                                            \
     libtool                                                             \
