@@ -6,7 +6,10 @@
     // Target OS is Windows
     #define SPARK_OS_WINDOWS 1
     #ifdef _WIN64
-        #if defined(_MSC_VER)
+        #if defined(__clang__)
+            // Compiler is Clang
+            #define SPARK_COMPILER_CLANG 1
+        #elif defined(_MSC_VER)
             // Compiler is MSVC
             #define SPARK_COMPILER_MSVC 1
         #else
