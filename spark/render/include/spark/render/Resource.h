@@ -10,6 +10,9 @@ namespace spark::render
     class IResource
     {
     public:
+        using handle_type = Handle;
+
+    public:
         virtual ~IResource() noexcept = default;
 
         /**
