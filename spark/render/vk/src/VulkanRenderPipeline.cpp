@@ -13,6 +13,8 @@
 
 #include "spark/log/Logger.h"
 
+#include "vulkan/vulkan.h"
+
 namespace spark::render::vk
 {
     struct VulkanRenderPipeline::Impl
