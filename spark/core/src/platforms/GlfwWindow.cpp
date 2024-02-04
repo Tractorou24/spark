@@ -1,6 +1,7 @@
 #include "spark/core/platforms/GlfwWindow.h"
 
 #include "spark/base/Exception.h"
+#include "spark/base/KeyCodes.h"
 #include "spark/events/KeyEvents.h"
 #include "spark/events/MouseEvents.h"
 #include "spark/events/WindowEvents.h"
