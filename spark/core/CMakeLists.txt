@@ -11,7 +11,7 @@ spark_add_library(${TARGET_NAME}
         ${SOURCE_DIR}/Application.cpp
         ${SOURCE_DIR}/Input.cpp
         ${SOURCE_DIR}/SceneManager.cpp
-        ${SOURCE_DIR}/platforms/GlfwWindow.cpp
+        ${SOURCE_DIR}/Window.cpp
     PUBLIC_HEADERS
         ${HEADER_DIR}/${SPARK_NAME}/core/Application.h
         ${HEADER_DIR}/${SPARK_NAME}/core/ApplicationBuilder.h
@@ -20,7 +20,6 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/core/SceneManager.h
         ${HEADER_DIR}/${SPARK_NAME}/core/Window.h
         ${HEADER_DIR}/${SPARK_NAME}/core/impl/ApplicationBuilder.h
-        ${HEADER_DIR}/${SPARK_NAME}/core/platforms/GlfwWindow.h
 )
 
 target_link_libraries(${TARGET_NAME}

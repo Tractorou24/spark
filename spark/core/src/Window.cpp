@@ -1,4 +1,4 @@
-#include "spark/core/platforms/GlfwWindow.h"
+#include "spark/core/Window.h"
 
 #include "spark/base/Exception.h"
 #include "spark/base/KeyCodes.h"
@@ -273,7 +273,7 @@ namespace
 
 namespace spark::core
 {
-    GlfwWindow::GlfwWindow(const Window::Settings& settings)
+    Window::Window(const Window::Settings& settings)
         : m_settings(settings)
     {
         // Initialize GLFW
@@ -302,7 +302,7 @@ namespace spark::core
         glfwSetWindowSizeCallback(PRIVATE_TO_WINDOW(m_window),
                                   [](GLFWwindow* window, const int width, const int height)
                                   {
-                                      GlfwWindow& data = *static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+                                      Window & data = *static_cast<Window*>(glfwGetWindowUserPointer(window));
                                       data.m_settings.size.x = std::max(1, width);
                                       data.m_settings.size.y = std::max(1, height);
 
@@ -313,7 +313,7 @@ namespace spark::core
         glfwSetWindowCloseCallback(PRIVATE_TO_WINDOW(m_window),
                                    [](GLFWwindow* window)
                                    {
-                                       const GlfwWindow& data = *static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+                                       const Window& data = *static_cast<Window*>(glfwGetWindowUserPointer(window));
 
                                        events::WindowCloseEvent event;
                                        data.m_settings.eventCallback(event);
@@ -322,7 +322,7 @@ namespace spark::core
         glfwSetKeyCallback(PRIVATE_TO_WINDOW(m_window),
                            [](GLFWwindow* window, const int key, int /*scancode*/, int action, int /*mods*/)
                            {
-                               const GlfwWindow& data = *static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+                               const Window& data = *static_cast<Window*>(glfwGetWindowUserPointer(window));
 
                                switch (action)
                                {
@@ -353,7 +353,7 @@ namespace spark::core
         glfwSetMouseButtonCallback(PRIVATE_TO_WINDOW(m_window),
                                    [](GLFWwindow* window, const int button, int action, int /*mods*/)
                                    {
-                                       const GlfwWindow& data = *static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+                                       const Window& data = *static_cast<Window*>(glfwGetWindowUserPointer(window));
 
                                        switch (action)
                                        {
@@ -378,7 +378,7 @@ namespace spark::core
         glfwSetScrollCallback(PRIVATE_TO_WINDOW(m_window),
                               [](GLFWwindow* window, const double /*x_offset*/, const double y_offset)
                               {
-                                  const GlfwWindow& data = *static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+                                  const Window& data = *static_cast<Window*>(glfwGetWindowUserPointer(window));
 
                                   events::MouseScrolledEvent event(static_cast<float>(y_offset));
                                   data.m_settings.eventCallback(event);
@@ -387,7 +387,7 @@ namespace spark::core
         glfwSetCursorPosCallback(PRIVATE_TO_WINDOW(m_window),
                                  [](GLFWwindow* window, const double x, const double y)
                                  {
-                                     const GlfwWindow& data = *static_cast<GlfwWindow*>(glfwGetWindowUserPointer(window));
+                                     const Window& data = *static_cast<Window*>(glfwGetWindowUserPointer(window));
 
                                      events::MouseMovedEvent event(static_cast<int>(x), static_cast<int>(y));
                                      data.m_settings.eventCallback(event);
@@ -395,35 +395,35 @@ namespace spark::core
         spark::log::info("GLFW window callbacks set for '{0}'", settings.title);
     }
 
-    GlfwWindow::~GlfwWindow()
+    Window::~Window()
     {
         glfwDestroyWindow(PRIVATE_TO_WINDOW(m_window));
         glfwTerminate();
         spark::log::info("Terminated GLFW, window '{0}' destroyed", m_settings.title);
     }
 
-    void GlfwWindow::close()
+    void Window::close()
     {
         spark::log::info("Closing GLFW window '{0}'", m_settings.title);
         glfwSetWindowShouldClose(PRIVATE_TO_WINDOW(m_window), GLFW_TRUE);
     }
 
-    void GlfwWindow::onUpdate()
+    void Window::onUpdate()
     {
         glfwPollEvents();
     }
 
-    void GlfwWindow::onRender()
+    void Window::onRender()
     {
         // TODO: Call renderer here
     }
 
-    math::Vector2<unsigned int> GlfwWindow::size() const
+    math::Vector2<unsigned int> Window::size() const
     {
         return m_settings.size;
     }
 
-    void* GlfwWindow::nativeWindow() const
+    void* Window::nativeWindow() const
     {
         return m_window;
     }
