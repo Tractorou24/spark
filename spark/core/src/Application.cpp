@@ -28,7 +28,7 @@ namespace spark::core
             .eventCallback = [this](events::Event& event) { onEvent(event); }
         };
 
-        m_window = Window::Create(window_settings);
+        m_window = std::make_unique<Window>(window_settings);
     }
 
     // ReSharper disable once CppMemberFunctionMayBeConst

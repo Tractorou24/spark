@@ -7,7 +7,6 @@
 #include "spark/math/Vector2.h"
 
 #include <functional>
-#include <memory>
 
 namespace spark::core
 {
@@ -27,16 +26,13 @@ namespace spark::core
             std::function<void(events::Event&)> eventCallback;
         };
 
-        /**
-         * \brief Creates a window based on the platform.
-         * \param settings The window build settings. 
-         * \return A std::unique_ptr to the window.
-         */
-        static std::unique_ptr<Window> Create(const Settings& settings);
-
     public:
-        Window() = default;
-        virtual ~Window() = default;
+        /**
+         * \brief Creates a window with the given \p settings.
+         * \param settings The \ref Settings used to create and manage the window.
+         */
+        explicit Window(const Settings& settings);
+        ~Window();
 
         Window(const Window& other) = delete;
         Window(Window&& other) noexcept = default;
@@ -46,28 +42,32 @@ namespace spark::core
         /**
          * \brief Closes the window.
          */
-        virtual void close() = 0;
+        void close();
 
         /**
          * \brief Method called every frame to update the window.
          */
-        virtual void onUpdate() = 0;
+        void onUpdate();
 
         /**
          * \brief Method called every frame to render the window.
          */
-        virtual void onRender() = 0;
+        void onRender();
 
         /**
          * \brief Gets the size of the window.
          * \return A 2D vector representing the width and height of the window.
          */
-        [[nodiscard]] virtual math::Vector2<unsigned int> size() const = 0;
+        [[nodiscard]] math::Vector2<unsigned int> size() const;
 
         /**
          * \brief Gets a handle to the native platform window.
          * \return A void* pointer to the native window which can be casted to the platform's window type.
          */
-        [[nodiscard]] virtual void* nativeWindow() const = 0;
+        [[nodiscard]] void* nativeWindow() const;
+
+    private:
+        Settings m_settings;
+        void* m_window;
     };
 }
