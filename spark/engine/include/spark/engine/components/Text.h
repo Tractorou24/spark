@@ -2,7 +2,6 @@
 
 #include "spark/engine/Component.h"
 
-#include "spark/core/Renderer2D.h"
 #include "spark/math/Vector2.h"
 #include "spark/rtti/HasRtti.h"
 
@@ -18,7 +17,7 @@ namespace spark::engine::components
 
         void render() const override
         {
-            core::Renderer2D::DrawText(m_content, Transform::LocalToWorld(gameObject()->transform()) + m_offset, 72, m_fontPath);
+            //core::Renderer2D::DrawText(m_content, Transform::LocalToWorld(gameObject()->transform()) + m_offset, 72, m_fontPath);
         }
 
     private:

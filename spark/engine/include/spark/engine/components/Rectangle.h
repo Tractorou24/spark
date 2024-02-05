@@ -1,7 +1,5 @@
 #pragma once
 
-#include "spark/core/Renderer2D.h"
-
 #include "spark/engine/components/Transform.h"
 #include "spark/math/Vector2.h"
 #include "spark/rtti/HasRtti.h"
@@ -26,8 +24,8 @@ namespace spark::engine::components
         {
             Component::render();
 
-            const auto position = Transform::LocalToWorld(gameObject()->transform());
-            core::Renderer2D::DrawQuad(position, size, {255, 255, 255});
+            //const auto position = Transform::LocalToWorld(gameObject()->transform());
+            //core::Renderer2D::DrawQuad(position, size, {255, 255, 255});
         }
     };
 }

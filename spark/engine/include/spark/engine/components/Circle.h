@@ -2,7 +2,6 @@
 
 #include "spark/engine/components/Transform.h"
 
-#include "spark/core/Renderer2D.h"
 #include "spark/math/Vector2.h"
 #include "spark/rtti/HasRtti.h"
 
@@ -26,8 +25,8 @@ namespace spark::engine::components
         {
             Component::render();
 
-            const auto position = Transform::LocalToWorld(gameObject()->transform());
-            core::Renderer2D::DrawCircle(position, {255, 255, 255}, radius);
+            //const auto position = Transform::LocalToWorld(gameObject()->transform());
+            //core::Renderer2D::DrawCircle(position, {255, 255, 255}, radius);
         }
     };
 }

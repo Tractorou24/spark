@@ -57,18 +57,3 @@ namespace spark::engine
 }
 
 IMPLEMENT_SPARK_RTTI(spark::engine::Scene)
-
-namespace spark::core
-{
-    template <typename T>
-    struct Render2D;
-
-    template <>
-    struct Render2D<engine::Scene>
-    {
-        static void exec(engine::Scene& scene)
-        {
-            Render2D<engine::GameObject>::exec(*scene.root());
-        }
-    };
-}
