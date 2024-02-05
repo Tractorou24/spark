@@ -1,7 +1,6 @@
 #pragma once
 
 #include "spark/core/Export.h"
-#include "spark/core/Renderer2D.h"
 #include "spark/core/Window.h"
 
 namespace spark::core
@@ -11,8 +10,6 @@ namespace spark::core
      */
     class SPARK_CORE_EXPORT GlfwWindow final : public Window
     {
-        friend class Renderer2D;
-
     public:
         explicit GlfwWindow(const Window::Settings& settings);
         ~GlfwWindow() override;
