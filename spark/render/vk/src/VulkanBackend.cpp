@@ -74,6 +74,13 @@ namespace spark::render::vk
             vkEnumeratePhysicalDevices(m_parent->handle(), &adapters, handles.data());
 
             std::ranges::transform(handles, std::back_inserter(m_adapters), [](const auto& handle) { return std::make_unique<VulkanGraphicsAdapter>(handle); });
+            std::ranges::sort(m_adapters,
+                              [](const std::unique_ptr<VulkanGraphicsAdapter>& lhs, const std::unique_ptr<VulkanGraphicsAdapter>& rhs)
+                              {
+                                  if (lhs->type() != rhs->type())
+                                      return lhs->type() < rhs->type();
+                                  return lhs->dedicatedVideoMemory() < rhs->dedicatedVideoMemory();
+                              });
         }
 
     private:
