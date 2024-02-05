@@ -10,7 +10,6 @@ spark_add_library(${TARGET_NAME}
     CXX_SOURCES
         ${SOURCE_DIR}/Application.cpp
         ${SOURCE_DIR}/Input.cpp
-        ${SOURCE_DIR}/Renderer2D.cpp
         ${SOURCE_DIR}/SceneManager.cpp
         ${SOURCE_DIR}/platforms/SfmlWindow.cpp
         ${SOURCE_DIR}/platforms/GlfwWindow.cpp
@@ -19,7 +18,6 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/core/ApplicationBuilder.h
         ${HEADER_DIR}/${SPARK_NAME}/core/EntryPoint.h
         ${HEADER_DIR}/${SPARK_NAME}/core/Input.h
-        ${HEADER_DIR}/${SPARK_NAME}/core/Renderer2D.h
         ${HEADER_DIR}/${SPARK_NAME}/core/SceneManager.h
         ${HEADER_DIR}/${SPARK_NAME}/core/Window.h
         ${HEADER_DIR}/${SPARK_NAME}/core/impl/ApplicationBuilder.h

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "spark/core/Application.h"
-#include "spark/core/Renderer2D.h"
 #include "spark/engine/GameObject.h"
 #include "spark/math/Vector2.h"
 #include "spark/path/Paths.h"
@@ -25,10 +24,10 @@ namespace pong::ui
 
         void render() const override
         {
-            const auto window_size = spark::core::Application::Instance()->window().size().castTo<std::size_t>();
+            //const auto window_size = spark::core::Application::Instance()->window().size().castTo<std::size_t>();
 
-            for (std::size_t i = 0; i < window_size.y / (lineLength + verticalOffset); i++)
-                spark::core::Renderer2D::DrawQuad({static_cast<float>(m_xOffset), static_cast<float>(i * lineLength + i * verticalOffset)}, {5, lineLength}, {255, 255, 255});
+            //for (std::size_t i = 0; i < window_size.y / (lineLength + verticalOffset); i++)
+            //    spark::core::Renderer2D::DrawQuad({static_cast<float>(m_xOffset), static_cast<float>(i * lineLength + i * verticalOffset)}, {5, lineLength}, {255, 255, 255});
         }
 
     private:
@@ -54,8 +53,8 @@ namespace pong::ui
 
         void render() const override
         {
-            const auto score = std::to_string(m_currentScore);
-            spark::core::Renderer2D::DrawText(score, m_position, 100, spark::path::assets_path() / "font.ttf");
+            //const auto score = std::to_string(m_currentScore);
+            //spark::core::Renderer2D::DrawText(score, m_position, 100, spark::path::assets_path() / "font.ttf");
         }
 
         /**

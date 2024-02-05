@@ -200,24 +200,3 @@ namespace spark::engine
 IMPLEMENT_SPARK_RTTI(spark::engine::GameObject)
 
 #include "spark/engine/impl/GameObject.h"
-
-namespace spark::core
-{
-    template <typename T>
-    struct Render2D;
-
-    template <>
-    struct Render2D<engine::GameObject>
-    {
-        static void exec(const engine::GameObject& game_object)
-        {
-            if (!game_object.isShown)
-                return;
-
-            for (const auto* component : game_object.components())
-                component->render();
-            for (const auto* child : game_object.children())
-                exec(*child);
-        }
-    };
-}
