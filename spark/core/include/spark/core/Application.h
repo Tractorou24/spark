@@ -1,7 +1,6 @@
 #pragma once
 
 #include "spark/core/Export.h"
-#include "spark/core/Renderer2D.h"
 #include "spark/core/Window.h"
 
 #include "spark/engine/Scene.h"
@@ -18,7 +17,6 @@ namespace spark::core
      */
     class SPARK_CORE_EXPORT Application final
     {
-        friend class Renderer2D;
         friend class SceneManager;
 
         template <typename... Tags>
