@@ -11,7 +11,7 @@
 
 namespace spark::path
 {
-    std::filesystem::path executable_path()
+    [[nodiscard]] std::filesystem::path executable_path()
     {
 #ifdef SPARK_OS_WINDOWS
         // Get the module handle of the library containing this function.
@@ -39,7 +39,7 @@ namespace spark::path
         return result;
     }
 
-    std::filesystem::path assets_path()
+    [[nodiscard]] std::filesystem::path assets_path()
     {
         return executable_path() / "assets";
     }
