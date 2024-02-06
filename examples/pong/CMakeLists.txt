@@ -30,5 +30,5 @@ target_link_libraries(${TARGET_NAME}
 # Create a link to the assets folder in the output directory
 add_custom_command(TARGET ${TARGET_NAME} PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E create_symlink
-                   ${CMAKE_CURRENT_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${TARGET_NAME}>/assets
+                   ${CMAKE_CURRENT_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${TARGET_NAME}>/${TARGET_NAME}_assets
 )

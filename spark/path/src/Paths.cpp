@@ -3,6 +3,8 @@
 #include "spark/base/Macros.h"
 #include "spark/base/Platforms.h"
 
+#include <format>
+
 #ifdef SPARK_OS_WINDOWS
 #   include <Windows.h>
 #else
@@ -44,6 +46,6 @@ namespace spark::path
 
     [[nodiscard]] std::filesystem::path assets_path()
     {
-        return executable_path() / "assets";
+        return executable_path() / std::format("{}_assets", executable_name());
     }
 }
