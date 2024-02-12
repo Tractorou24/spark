@@ -17,6 +17,7 @@
     "vulkan",
     "vulkan-memory-allocator",
     "spirv-reflect",
-    "glfw3"
+    "glfw3",
+    "glm"
   ]
 }
