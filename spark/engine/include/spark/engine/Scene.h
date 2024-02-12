@@ -45,13 +45,18 @@ namespace spark::engine
         void onUpdate(float dt);
 
         /**
+         * \brief Method called on every frame after \ref onUpdate to render the Scene.
+         */
+        void onRender();
+
+        /**
          * \brief Method called when the Scene is unloaded.
          */
         void onUnload();
 
     private:
         lib::Uuid m_uuid;
-        GameObject* m_root;
+        GameObject* m_root = nullptr;
         bool m_isLoaded = false;
     };
 }

@@ -43,7 +43,8 @@ namespace spark::core
             m_scene->onUpdate(dt);
 
             // Render
-            m_window->onRender();
+            m_scene->onRender();
+            m_window->renderer().render();
         }
 
         // Unload scene and close window (app is not running anymore, close() was called)
