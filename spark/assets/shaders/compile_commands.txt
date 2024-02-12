@@ -1,0 +1,10 @@
+How to compile shaders:
+- Install DirectX Shader Compiler (dxc) from GitHub
+- Replace the path to dxc.exe in the commands below with the path to your installation
+- Run the following commands in the root directory of the spark
+
+Vertex Shader:
+D:/VulkanSDK/1.3.268.0/Bin/dxc.exe -spirv -T vs_6_3 -E main -Fo ./spark/assets/shaders/2d_vert.spv -Zi -D SPIRV -fvk-invert-y -fspv-target-env="vulkan1.3" ./spark/assets/shaders/2d_vert.hlsl
+
+Fragment Shader:
+D:/VulkanSDK/1.3.268.0/Bin/dxc.exe -spirv -T ps_6_3 -E main -Fo ./spark/assets/shaders/2d_frag.spv -Zi -D SPIRV -fspv-target-env="vulkan1.3" ./spark/assets/shaders/2d_frag.hlsl

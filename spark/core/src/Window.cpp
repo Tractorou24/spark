@@ -1,10 +1,14 @@
 #include "spark/core/Window.h"
+#include "spark/core/Application.h"
 
 #include "spark/base/Exception.h"
 #include "spark/base/KeyCodes.h"
 #include "spark/events/KeyEvents.h"
 #include "spark/events/MouseEvents.h"
 #include "spark/events/WindowEvents.h"
+#include "spark/log/Logger.h"
+#include "spark/math/Vector2.h"
+#include "spark/render/vk/VulkanBackend.h"
 
 #define GLFW_INCLUDE_VULKAN
 #include "GLFW/glfw3.h"
@@ -308,6 +312,7 @@ namespace spark::core
 
                                       events::WindowResizeEvent event(width, height);
                                       data.m_settings.eventCallback(event);
+                                      data.m_renderer->recreateSwapChain(data.m_settings.size);
                                   });
 
         glfwSetWindowCloseCallback(PRIVATE_TO_WINDOW(m_window),
@@ -393,10 +398,37 @@ namespace spark::core
                                      data.m_settings.eventCallback(event);
                                  });
         spark::log::info("GLFW window callbacks set for '{0}'", settings.title);
+
+        // Setup renderer with required instance extensions
+        unsigned extensions = 0;
+        const char** extension_names = glfwGetRequiredInstanceExtensions(&extensions);
+        if (!extension_names)
+        {
+            glfwDestroyWindow(PRIVATE_TO_WINDOW(m_window));
+            glfwTerminate();
+            throw base::NullPointerException("Failed to get required instance extensions for Vulkan");
+        }
+
+        std::vector<std::string> required_extensions(extensions);
+        std::ranges::generate(required_extensions, [&extension_names, i = 0]() mutable { return extension_names[i++]; });
+
+        using renderer_type = decltype(m_renderer)::element_type;
+        using backend_type = renderer_type::backend_type;
+        m_renderer = std::make_unique<renderer_type>(m_settings.size,
+                                                     [&](const backend_type::handle_type& instance)
+                                                     {
+                                                         backend_type::surface_type::handle_type vk_surface = nullptr;
+                                                         glfwCreateWindowSurface(instance, PRIVATE_TO_WINDOW(m_window), nullptr, &vk_surface);
+                                                         return vk_surface;
+                                                     },
+                                                     required_extensions);
     }
 
     Window::~Window()
     {
+        // Renderer2D must be destroyed before the window
+        m_renderer.reset();
+
         glfwDestroyWindow(PRIVATE_TO_WINDOW(m_window));
         glfwTerminate();
         spark::log::info("Terminated GLFW, window '{0}' destroyed", m_settings.title);
@@ -413,14 +445,14 @@ namespace spark::core
         glfwPollEvents();
     }
 
-    void Window::onRender()
-    {
-        // TODO: Call renderer here
-    }
-
     math::Vector2<unsigned int> Window::size() const
     {
         return m_settings.size;
+    }
+
+    Renderer2D<render::vk::VulkanBackend>& Window::renderer() const
+    {
+        return *m_renderer;
     }
 
     void* Window::nativeWindow() const

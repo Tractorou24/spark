@@ -17,9 +17,12 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/core/ApplicationBuilder.h
         ${HEADER_DIR}/${SPARK_NAME}/core/EntryPoint.h
         ${HEADER_DIR}/${SPARK_NAME}/core/Input.h
+        ${HEADER_DIR}/${SPARK_NAME}/core/Renderer2D.h
         ${HEADER_DIR}/${SPARK_NAME}/core/SceneManager.h
         ${HEADER_DIR}/${SPARK_NAME}/core/Window.h
+
         ${HEADER_DIR}/${SPARK_NAME}/core/impl/ApplicationBuilder.h
+        ${HEADER_DIR}/${SPARK_NAME}/core/impl/Renderer2D.h
 )
 
 target_link_libraries(${TARGET_NAME}
@@ -31,6 +34,9 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_log
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_math
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_patterns
+        ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_path
+        ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_render
+        ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_render_vk
     PRIVATE
         glfw
         sfml-system

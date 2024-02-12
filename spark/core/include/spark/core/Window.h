@@ -1,10 +1,11 @@
 #pragma once
 
 #include "spark/core/Export.h"
+#include "spark/core/Renderer2D.h"
 
 #include "spark/events/Event.h"
-#include "spark/log/Logger.h"
 #include "spark/math/Vector2.h"
+#include "spark/render/vk/VulkanBackend.h"
 
 #include <functional>
 
@@ -50,15 +51,16 @@ namespace spark::core
         void onUpdate();
 
         /**
-         * \brief Method called every frame to render the window.
-         */
-        void onRender();
-
-        /**
          * \brief Gets the size of the window.
          * \return A 2D vector representing the width and height of the window.
          */
         [[nodiscard]] math::Vector2<unsigned int> size() const;
+
+        /**
+         * \brief Gets the renderer of the window.
+         * \return A reference to the renderer of the window.
+         */
+        [[nodiscard]] Renderer2D<render::vk::VulkanBackend>& renderer() const;
 
         /**
          * \brief Gets a handle to the native platform window.
@@ -67,6 +69,7 @@ namespace spark::core
         [[nodiscard]] void* nativeWindow() const;
 
     private:
+        std::unique_ptr<Renderer2D<render::vk::VulkanBackend>> m_renderer;
         Settings m_settings;
         void* m_window;
     };

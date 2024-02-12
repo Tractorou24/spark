@@ -6,7 +6,9 @@
 
 set(TARGET_NAME ${SPARK_NAME}_assets)
 
-set(ASSET_FOLDERS)
+set(ASSET_FOLDERS 
+    shaders
+)
 
 #########
 # Helper function that setup targets tpo create symbolic links in the given directory

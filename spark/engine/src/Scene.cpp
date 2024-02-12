@@ -49,6 +49,16 @@ namespace spark::engine
         spark::patterns::traverse_tree(m_root, traverser);
     }
 
+    void Scene::onRender()
+    {
+        auto traverser = spark::patterns::make_traverser<GameObject>([](const GameObject* object)
+        {
+            for (const auto* component : object->components())
+                component->render();
+        });
+        spark::patterns::traverse_tree(m_root, traverser);
+    }
+
     void Scene::onUnload()
     {
         if (!m_isLoaded)
