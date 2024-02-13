@@ -19,6 +19,12 @@ namespace spark::path
     std::string SPARK_PATH_EXPORT executable_name();
 
     /**
+     * \brief Gets the path of the engine assets folder
+     * \return A std::filesystem path representing the asset folder of the engine
+     */
+    [[nodiscard]] std::filesystem::path SPARK_PATH_EXPORT engine_assets_path();
+
+    /**
      * \brief Gets the path of the game's assets folder
      * \return A std::filesystem path representing the asset folder of the game
      */

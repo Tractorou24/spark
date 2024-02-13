@@ -44,6 +44,11 @@ namespace spark::path
         return executable_full_path().stem().string();
     }
 
+    std::filesystem::path engine_assets_path()
+    {
+        return executable_path() / "spark_assets";
+    }
+
     [[nodiscard]] std::filesystem::path assets_path()
     {
         return executable_path() / std::format("{}_assets", executable_name());
