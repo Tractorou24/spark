@@ -102,7 +102,6 @@ namespace spark::render::vk
                 // Configure the descriptor set
                 write_descriptor_set.descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
                 write_descriptor_set.descriptorCount = elements_count;
-                write_descriptor_set.pBufferInfo = buffer_infos.data();
 
                 // Create the buffer info
                 buffer_infos.resize(elements_count);
@@ -115,6 +114,8 @@ namespace spark::render::vk
                                               .range = buffer.elementSize()
                                           };
                                       });
+
+                write_descriptor_set.pBufferInfo = buffer_infos.data();
                 break;
             }
         case DescriptorType::Buffer:
