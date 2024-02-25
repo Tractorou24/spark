@@ -219,7 +219,7 @@ namespace spark::render
          *
          * \throws base::BadArgumentException if the command buffer has not used a pipeline yet.
          */
-        void bind(const IDescriptorSet& descriptor_set) { genericBind(descriptor_set); }
+        void bind(const IDescriptorSet& descriptor_set) const { genericBind(descriptor_set); }
 
         /**
          * \brief Binds the \p descriptor_set to the \p pipeline.
