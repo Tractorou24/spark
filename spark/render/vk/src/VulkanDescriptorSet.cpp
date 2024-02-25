@@ -110,7 +110,7 @@ namespace spark::render::vk
                                       {
                                           return VkDescriptorBufferInfo {
                                               .buffer = buffer.handle(),
-                                              .offset = buffer_element * buffer.alignedElementSize() * (buffer_element + i),
+                                              .offset = buffer.alignedElementSize() * (buffer_element + i++),
                                               .range = buffer.elementSize()
                                           };
                                       });
