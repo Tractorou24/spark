@@ -328,7 +328,8 @@ namespace spark::render::vk
         }
 
         // Create the push constants layout.
-        std::vector<std::unique_ptr<VulkanPushConstantsRange>> push_constants_layouts(reflected_push_constants_ranges.size());
+        std::vector<std::unique_ptr<VulkanPushConstantsRange>> push_constants_layouts;
+        push_constants_layouts.reserve(reflected_push_constants_ranges.size());
         for (auto& reflected_push_constant_range : reflected_push_constants_ranges)
         {
             push_constants_layouts.push_back(std::make_unique<VulkanPushConstantsRange>(reflected_push_constant_range.stage,
