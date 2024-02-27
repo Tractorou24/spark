@@ -201,6 +201,7 @@ namespace spark::render::vk
 
             VkPhysicalDeviceVulkan13Features device_features_1_3 = {
                 .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES,
+                .shaderDemoteToHelperInvocation = true,
                 .synchronization2 = true
             };
 
