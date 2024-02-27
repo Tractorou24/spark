@@ -2,6 +2,8 @@
 #include "spark/core/Application.h"
 
 #include "boost/preprocessor/seq/for_each.hpp"
+
+#include "GLFW/glfw3.h"
 #include "SFML/Window/Keyboard.hpp"
 #include "SFML/Window/Mouse.hpp"
 
@@ -52,8 +54,10 @@ namespace spark::core
 
     math::Vector2<float> Input::MousePosition()
     {
-        const auto position = sf::Mouse::getPosition(*static_cast<sf::WindowBase*>(Application::Instance()->window().nativeWindow()));
-        return {static_cast<float>(position.x), static_cast<float>(position.y)};
+        double x_pos = 0, y_pos = 0;
+        glfwGetCursorPos(static_cast<GLFWwindow*>(Application::Instance()->window().nativeWindow()), &x_pos, &y_pos);
+
+        return {static_cast<float>(x_pos), static_cast<float>(y_pos)};
     }
 }
 
