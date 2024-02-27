@@ -24,10 +24,14 @@ namespace pong::ui
 
         void render() const override
         {
-            //const auto window_size = spark::core::Application::Instance()->window().size().castTo<std::size_t>();
+            const auto window_size = spark::core::Application::Instance()->window().size().castTo<std::size_t>();
 
-            //for (std::size_t i = 0; i < window_size.y / (lineLength + verticalOffset); i++)
-            //    spark::core::Renderer2D::DrawQuad({static_cast<float>(m_xOffset), static_cast<float>(i * lineLength + i * verticalOffset)}, {5, lineLength}, {255, 255, 255});
+            for (std::size_t i = 0; i < window_size.y / (lineLength + verticalOffset); i++)
+            {
+                auto transform_matrix = glm::translate(glm::mat4(1.f), {m_xOffset, 20 + i * lineLength + i * verticalOffset, 0})
+                        * glm::scale(glm::mat4(1.f), {5, lineLength, 1});
+                spark::core::Application::Instance()->window().renderer().drawQuad(transform_matrix, {1.f, 1.f, 1.f, 1.f});
+            }
         }
 
     private:
