@@ -25,8 +25,13 @@ namespace spark::engine::components
         {
             Component::render();
 
-            //const auto position = Transform::LocalToWorld(gameObject()->transform());
-            //core::Renderer2D::DrawCircle(position, {255, 255, 255}, radius);
+            // Get the transform matrix for the circle
+            auto transform_matrix = gameObject()->transform()->matrix();
+            transform_matrix = glm::translate(transform_matrix, {radius, radius, 0.0f});
+            transform_matrix = glm::scale(transform_matrix, {radius * 2, radius * 2, 1.0f});
+
+            // Draw the circle
+            core::Application::Instance()->window().renderer().drawCircle(transform_matrix, radius);
         }
     };
 }
