@@ -287,4 +287,14 @@ namespace spark::core
                                         .color = glm::vec4(color.x, color.y, color.z, color.w),
                                     });
     }
+
+    template <typename Backend>
+    void Renderer2D<Backend>::drawCircle(const glm::mat4& transform_matrix, const float radius, const spark::math::Vector4<float>& color)
+    {
+        m_instanceData.emplace_back(InstanceBuffer {
+                                        .transform = transform_matrix,
+                                        .color = glm::vec4(color.x, color.y, color.z, color.w),
+                                        .radius = radius
+                                    });
+    }
 }

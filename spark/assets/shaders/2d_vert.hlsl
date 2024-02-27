@@ -4,6 +4,7 @@ struct VertexData
 {
     float4 Position : SV_POSITION;
     float4 Color : COLOR;
+    float3 Circle : TEXCOORD0; // (x, y, radius)
 };
 
 struct VertexInput
@@ -21,6 +22,7 @@ struct InstanceData
 {
     float4x4 Transform;
     float4 Color;
+    float Circle;
 };
 
 StructuredBuffer<InstanceData> instances[] : register(t0, space0);
@@ -34,5 +36,6 @@ VertexData main(in VertexInput input, uint id : SV_InstanceID)
     float4 position = mul(float4(input.Position, 1.0), instance.Transform);
     vertex.Position = mul(position, camera.ViewProjection);
     vertex.Color = instance.Color;
+    vertex.Circle = float3(instance.Transform._41_42, instance.Circle);
     return vertex;
 }

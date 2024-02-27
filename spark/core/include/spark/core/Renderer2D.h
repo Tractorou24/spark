@@ -77,6 +77,18 @@ namespace spark::core
          */
         void drawQuad(const glm::mat4& transform_matrix, const spark::math::Vector4<float>& color = {1.f, 1.f, 1.f, 1.f});
 
+        /**
+         * \brief Draws a circle with the given @p transformation_matrix and @p radius.
+         * \param transform_matrix The 4x4 matrix describing the transformation of the circle into the final world space.
+         * \param radius The desired radius of the circle.
+         * \param color The color of the circle. Defaults to white.
+         *
+         * Internally, the circle is drawn as a 1x1 quad with the given transformation matrix (in the same batch as the quads).
+         * Then, the radius is passed to the fragment shader, which uses it to calculate the distance of each fragment to the center of the circle.
+         * It discards the fragment if the distance is greater than the radius, effectively clipping the quad into a circle.
+         */
+        void drawCircle(const glm::mat4& transform_matrix, float radius, const spark::math::Vector4<float>& color = {1.f, 1.f, 1.f, 1.f});
+
     private:
         /**
          * \brief Init the geometry and render graph.
@@ -118,6 +130,7 @@ namespace spark::core
         {
             glm::mat4 transform;
             glm::vec4 color;
+            float radius;
         };
 
         SPARK_WARNING_POP
