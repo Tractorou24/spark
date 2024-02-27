@@ -24,8 +24,14 @@ namespace spark::engine::components
         {
             Component::render();
 
-            //const auto position = Transform::LocalToWorld(gameObject()->transform());
-            //core::Renderer2D::DrawQuad(position, size, {255, 255, 255});
+            // Get the transform matrix for the rectangle
+            auto transform_matrix = gameObject()->transform()->matrix();
+
+            transform_matrix = glm::translate(transform_matrix, {size.x / 2.0f, size.y / 2.0f, 0.0f});
+            transform_matrix = glm::scale(transform_matrix, {size.x, size.y, 1.0f});
+
+            // Draw the rectangle
+            core::Application::Instance()->window().renderer().drawQuad(transform_matrix);
         }
     };
 }
