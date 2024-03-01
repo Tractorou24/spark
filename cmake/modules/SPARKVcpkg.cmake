@@ -40,8 +40,11 @@ block()
 	set(VCPKG_TOOLCHAIN_FILE "${VCPKG_DIR}/scripts/buildsystems/vcpkg.cmake")
 	message(STATUS "Using vcpkg toolchain file: ${VCPKG_TOOLCHAIN_FILE}")
 
-	set(CMAKE_TOOLCHAIN_FILE ${VCPKG_TOOLCHAIN_FILE} PARENT_SCOPE)	
+	set(CMAKE_TOOLCHAIN_FILE ${VCPKG_TOOLCHAIN_FILE} PARENT_SCOPE)
 endblock()
+
+# Set the VCPKG options
+set(X_VCPKG_APPLOCAL_DEPS_INSTALL ON)
 
 # Include the toolchain file
 include(${CMAKE_TOOLCHAIN_FILE})

@@ -32,3 +32,5 @@ add_custom_target(${TARGET_NAME}_assets ALL
                   COMMAND ${CMAKE_COMMAND} -E create_symlink 
                   ${CMAKE_CURRENT_SOURCE_DIR}/assets $<TARGET_FILE_DIR:${TARGET_NAME}>/${TARGET_NAME}_assets
 )
+
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/assets/ DESTINATION ${CMAKE_INSTALL_BINDIR}/${TARGET_NAME}_assets)
