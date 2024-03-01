@@ -201,6 +201,17 @@ function(_spark_add_target target)
             EXCLUDE_FROM_DEFAULT_BUILD TRUE
         )
     endif()
+
+    if (NOT TARGET_NO_INSTALL AND NOT "${TARGET_TYPE}" STREQUAL "MODULE")
+        install(TARGETS ${target} RUNTIME LIBRARY ARCHIVE)
+        if (MSVC AND "${TARGET_TYPE}" STREQUAL "SHARED")
+            # Install pdb files for shared libraries on Windows
+            install(FILES $<TARGET_PDB_FILE:${target}>
+                DESTINATION ${CMAKE_INSTALL_BINDIR}
+                CONFIGURATIONS Debug RelWithDebInfo
+            )
+        endif()
+    endif()
 endfunction()
 
 #########
