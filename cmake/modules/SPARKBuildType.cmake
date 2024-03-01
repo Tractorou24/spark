@@ -4,7 +4,7 @@
 include_guard(GLOBAL)
 
 #########
-# This sets the default config for single-config generators
+# This sets the default config for single and multi-config generators
 #########
 block()
     get_property(IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
@@ -16,9 +16,9 @@ block()
 
     # Define acceptable values for build type in mono-config (for CMake GUI)
     if(CMAKE_BUILD_TYPE)
-        set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release")
+        set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo")
     endif()
 
-    # Remove MinSizeRel in multi-config since not really used. We let it in mono-config if someone want to test.
-    set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Build types for multi-config generators")
+    # Define values for multi config builds
+    set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo" CACHE STRING "Build types for multi-config generators")
 endblock()

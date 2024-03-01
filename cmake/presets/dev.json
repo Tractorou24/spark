@@ -59,6 +59,14 @@
       "configurePreset": "dev_vc143"
     },
     {
+      "name": "dev_vc143_relDebInf",
+      "inherits": ["msbuild", "WindowsOnly"],
+      "displayName": "RelWithDebInfo",
+      "description": "Build in Release with Debug Info",
+      "configuration": "RelWithDebInfo",
+      "configurePreset": "dev_vc143"
+    },
+    {
       "name": "dev_vc143_release",
       "inherits": ["msbuild", "WindowsOnly"],
       "displayName": "Release",
@@ -72,6 +80,14 @@
       "displayName": "Debug",
       "description": "Build in Debug",
       "configuration": "Debug",
+      "configurePreset": "dev_vc143_ninja"
+    },
+    {
+      "name": "dev_vc143_ninja_relDebInf",
+      "inherits": ["WindowsOnly"],
+      "displayName": "RelWithDebInfo",
+      "description": "Build in Release with Debug Info",
+      "configuration": "RelWithDebInfo",
       "configurePreset": "dev_vc143_ninja"
     },
     {
@@ -91,6 +107,14 @@
       "configurePreset": "dev_gcc_ninja"
     },
     {
+      "name": "dev_gcc_ninja_relDebInf",
+      "inherits": ["LinuxOnly"],
+      "displayName": "RelWithDebInfo",
+      "description": "Build in Release with Debug Info",
+      "configuration": "RelWithDebInfo",
+      "configurePreset": "dev_gcc_ninja"
+    },
+    {
       "name": "dev_gcc_ninja_release",
       "inherits": ["LinuxOnly"],
       "displayName": "Release",
@@ -103,6 +127,13 @@
       "displayName": "Debug",
       "description": "Build in Debug",
       "configuration": "Debug",
+      "configurePreset": "dev_clang_ninja"
+    },
+    {
+      "name": "dev_clang_ninja_relDebInf",
+      "displayName": "RelWithDebInfo",
+      "description": "Build in Release with Debug Info",
+      "configuration": "RelWithDebInfo",
       "configurePreset": "dev_clang_ninja"
     },
     {
@@ -123,6 +154,14 @@
       "configurePreset": "dev_vc143"
     },
     {
+      "name": "dev_vc143_relDebInf",
+      "inherits": ["common", "WindowsOnly"],
+      "displayName": "All - RelWithDebInfo",
+      "description": "Tests in Release with Debug Info",
+      "configuration": "RelWithDebInfo",
+      "configurePreset": "dev_vc143"
+    },
+    {
       "name": "dev_vc143_release",
       "inherits": ["common", "WindowsOnly"],
       "displayName": "All - Release",
@@ -136,6 +175,14 @@
       "displayName": "All - Debug",
       "description": "Tests in Debug",
       "configuration": "Debug",
+      "configurePreset": "dev_vc143_ninja"
+    },
+    {
+      "name": "dev_vc143_ninja_relDebInf",
+      "inherits": ["common", "WindowsOnly"],
+      "displayName": "All - RelWithDebInfo",
+      "description": "Tests in Release with Debug Info",
+      "configuration": "RelWithDebInfo",
       "configurePreset": "dev_vc143_ninja"
     },
     {
@@ -155,6 +202,14 @@
       "configurePreset": "dev_gcc_ninja"
     },
     {
+      "name": "dev_gcc_ninja_relDebInf",
+      "inherits": ["common", "LinuxOnly"],
+      "displayName": "All - RelWithDebInfo",
+      "description": "Tests in Release with Debug Info",
+      "configuration": "RelWithDebInfo",
+      "configurePreset": "dev_gcc_ninja"
+    },
+    {
       "name": "dev_gcc_ninja_release",
       "inherits": ["common", "LinuxOnly"],
       "displayName": "All - Release",
@@ -168,6 +223,14 @@
       "displayName": "All - Debug",
       "description": "Tests in Debug",
       "configuration": "Debug",
+      "configurePreset": "dev_clang_ninja"
+    },
+    {
+      "name": "dev_clang_ninja_relDebInf",
+      "inherits": ["common"],
+      "displayName": "All - RelWithDebInfo",
+      "description": "Tests in Release with Debug Info",
+      "configuration": "RelWithDebInfo",
       "configurePreset": "dev_clang_ninja"
     },
     {
