@@ -51,14 +51,6 @@
   ],
   "buildPresets": [
     {
-      "name": "dev_vc143_release",
-      "inherits": ["msbuild", "WindowsOnly"],
-      "displayName": "Release",
-      "description": "Build in Release",
-      "configuration": "Release",
-      "configurePreset": "dev_vc143"
-    },
-    {
       "name": "dev_vc143_debug",
       "inherits": ["msbuild", "WindowsOnly"],
       "displayName": "Debug",
@@ -67,12 +59,12 @@
       "configurePreset": "dev_vc143"
     },
     {
-      "name": "dev_vc143_ninja_release",
-      "inherits": ["WindowsOnly"],
+      "name": "dev_vc143_release",
+      "inherits": ["msbuild", "WindowsOnly"],
       "displayName": "Release",
       "description": "Build in Release",
       "configuration": "Release",
-      "configurePreset": "dev_vc143_ninja"
+      "configurePreset": "dev_vc143"
     },
     {
       "name": "dev_vc143_ninja_debug",
@@ -83,12 +75,12 @@
       "configurePreset": "dev_vc143_ninja"
     },
     {
-      "name": "dev_gcc_ninja_release",
-      "inherits": ["LinuxOnly"],
+      "name": "dev_vc143_ninja_release",
+      "inherits": ["WindowsOnly"],
       "displayName": "Release",
       "description": "Build in Release",
       "configuration": "Release",
-      "configurePreset": "dev_gcc_ninja"
+      "configurePreset": "dev_vc143_ninja"
     },
     {
       "name": "dev_gcc_ninja_debug",
@@ -99,30 +91,30 @@
       "configurePreset": "dev_gcc_ninja"
     },
     {
-      "name": "dev_clang_ninja_release",
+      "name": "dev_gcc_ninja_release",
+      "inherits": ["LinuxOnly"],
       "displayName": "Release",
       "description": "Build in Release",
       "configuration": "Release",
-      "configurePreset": "dev_clang_ninja"
+      "configurePreset": "dev_gcc_ninja"
     },
     {
       "name": "dev_clang_ninja_debug",
       "displayName": "Debug",
       "description": "Build in Debug",
       "configuration": "Debug",
+      "configurePreset": "dev_clang_ninja"
+    },
+    {
+      "name": "dev_clang_ninja_release",
+      "displayName": "Release",
+      "description": "Build in Release",
+      "configuration": "Release",
       "configurePreset": "dev_clang_ninja"
     }
   ],
   "testPresets": [
     {
-      "name": "dev_vc143_release",
-      "inherits": ["common", "WindowsOnly"],
-      "displayName": "All - Release",
-      "description": "Tests in Release",
-      "configuration": "Release",
-      "configurePreset": "dev_vc143"
-    },
-    {
       "name": "dev_vc143_debug",
       "inherits": ["common", "WindowsOnly"],
       "displayName": "All - Debug",
@@ -131,12 +123,12 @@
       "configurePreset": "dev_vc143"
     },
     {
-      "name": "dev_vc143_ninja_release",
+      "name": "dev_vc143_release",
       "inherits": ["common", "WindowsOnly"],
       "displayName": "All - Release",
       "description": "Tests in Release",
       "configuration": "Release",
-      "configurePreset": "dev_vc143_ninja"
+      "configurePreset": "dev_vc143"
     },
     {
       "name": "dev_vc143_ninja_debug",
@@ -147,12 +139,12 @@
       "configurePreset": "dev_vc143_ninja"
     },
     {
-      "name": "dev_gcc_ninja_release",
-      "inherits": ["common", "LinuxOnly"],
+      "name": "dev_vc143_ninja_release",
+      "inherits": ["common", "WindowsOnly"],
       "displayName": "All - Release",
       "description": "Tests in Release",
       "configuration": "Release",
-      "configurePreset": "dev_gcc_ninja"
+      "configurePreset": "dev_vc143_ninja"
     },
     {
       "name": "dev_gcc_ninja_debug",
@@ -163,12 +155,12 @@
       "configurePreset": "dev_gcc_ninja"
     },
     {
-      "name": "dev_clang_ninja_release",
-      "inherits": ["common"],
+      "name": "dev_gcc_ninja_release",
+      "inherits": ["common", "LinuxOnly"],
       "displayName": "All - Release",
       "description": "Tests in Release",
       "configuration": "Release",
-      "configurePreset": "dev_clang_ninja"
+      "configurePreset": "dev_gcc_ninja"
     },
     {
       "name": "dev_clang_ninja_debug",
@@ -176,6 +168,14 @@
       "displayName": "All - Debug",
       "description": "Tests in Debug",
       "configuration": "Debug",
+      "configurePreset": "dev_clang_ninja"
+    },
+    {
+      "name": "dev_clang_ninja_release",
+      "inherits": ["common"],
+      "displayName": "All - Release",
+      "description": "Tests in Release",
+      "configuration": "Release",
       "configurePreset": "dev_clang_ninja"
     }
   ]
