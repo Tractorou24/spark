@@ -1,3 +1,5 @@
+find_package(Boost QUIET REQUIRED)
+
 set (TARGET_NAME ${EXPERIMENTAL_NAME}_ser)
 set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set (SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -21,9 +23,9 @@ spark_add_library(${TARGET_NAME}
 )
 
 target_link_libraries(${TARGET_NAME}
-    PRIVATE
+    PUBLIC
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_base
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_mpl
-    PRIVATE
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_rtti
+        Boost::headers
 )

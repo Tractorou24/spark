@@ -1,10 +1,10 @@
 #pragma once
 
-#include "spark/ser/AbstractSerializer.h"
+#include "experimental/ser/AbstractSerializer.h"
 
 #include <string>
 
-namespace spark::ser
+namespace experimental::ser
 {
     /**
      * \brief A serializer that serializes and deserializes objects to and from memory.
@@ -59,4 +59,4 @@ namespace spark::ser
     };
 }
 
-#include "spark/ser/impl/BinarySerializer.h"
+#include "experimental/ser/impl/BinarySerializer.h"

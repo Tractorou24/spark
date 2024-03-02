@@ -1,16 +1,16 @@
 #pragma once
 
-#include "spark/ser/BinarySerializer.h"
-#include "spark/ser/Export.h"
+#include "experimental/ser/BinarySerializer.h"
+#include "experimental/ser/Export.h"
 
 #include <vector>
 
-namespace spark::ser
+namespace experimental::ser
 {
     /**
      * \brief A serializer that stores data in memory.
      */
-    class SPARK_SER_EXPORT MemorySerializer final : public BinarySerializer<MemorySerializer>
+    class EXPERIMENTAL_SER_EXPORT MemorySerializer final : public BinarySerializer<MemorySerializer>
     {
         template <typename SerializerType, typename SerializableType>
         friend struct SerializerScheme;
@@ -45,7 +45,7 @@ namespace spark::ser
          * \brief Gets the content of the serializer.
          * \return A vector of bytes representing the content of the serializer.
          */
-        [[nodiscard]] ContentType getContent();
+        [[nodiscard]] ContentType content();
 
     private:
         /**

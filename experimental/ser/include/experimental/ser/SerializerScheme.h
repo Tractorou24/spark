@@ -1,8 +1,8 @@
 #pragma once
 
-#include "spark/ser/details/SerializerScheme.h"
+#include "experimental/ser/details/SerializerScheme.h"
 
-namespace spark::ser
+namespace experimental::ser
 {
     /**
      * \brief A struct that defines the serialization and deserialization methods for a given type.
@@ -14,13 +14,13 @@ namespace spark::ser
      *      - static void deserialize(SerializerType& serializer, SerializableType& obj);
      */
     template <typename SerializerType, typename SerializableType>
-    struct SerializerScheme { };
+    struct SerializerScheme {};
 }
 
 /**
  * \brief Allows a class private members to be serialized and deserialized.
  */
-#define SPARK_ALLOW_PRIVATE_SERIALIZATION template <typename SerializerType, typename SerializedType> friend struct spark::ser::SerializerScheme;
+#define SPARK_ALLOW_PRIVATE_SERIALIZATION template <typename SerializerType, typename SerializedType> friend struct experimental::ser::SerializerScheme;
 
 /**
  * \brief Generates the serialization scheme for a class not registered into the RTTI system.
@@ -40,4 +40,4 @@ namespace spark::ser
  */
 #define SPARK_SERIALIZE_RTTI_CLASS(ClassName, ...) SPARK_SER_DETAILS_SERIALIZE_RTTI_CLASS(ClassName, __VA_ARGS__)
 
-#include "spark/ser/impl/SerializerScheme.h"
+#include "experimental/ser/impl/SerializerScheme.h"

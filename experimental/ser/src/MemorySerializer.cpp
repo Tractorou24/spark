@@ -1,10 +1,10 @@
-#include "spark/ser/MemorySerializer.h"
+#include "experimental/ser/MemorySerializer.h"
 
 #include "spark/base/Exception.h"
 
 #include <cstring>
 
-namespace spark::ser
+namespace experimental::ser
 {
     MemorySerializer::MemorySerializer()
         : BinarySerializer(false), m_readOffset(0) {}
@@ -12,7 +12,7 @@ namespace spark::ser
     MemorySerializer::MemorySerializer(ContentType buffer)
         : BinarySerializer(true), m_readOffset(0), m_data(std::move(buffer)) {}
 
-    MemorySerializer::ContentType MemorySerializer::getContent()
+    MemorySerializer::ContentType MemorySerializer::content()
     {
         return m_data;
     }

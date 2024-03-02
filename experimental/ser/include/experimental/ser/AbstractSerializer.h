@@ -1,6 +1,6 @@
 #pragma once
 
-namespace spark::ser
+namespace experimental::ser
 {
     /**
      * \brief A base class for all serializers.
@@ -37,4 +37,4 @@ namespace spark::ser
     };
 }
 
-#include "spark/ser/impl/AbstractSerializer.h"
+#include "experimental/ser/impl/AbstractSerializer.h"

@@ -1,15 +1,15 @@
-#include "spark/ser/FileSerializer.h"
+#include "experimental/ser/FileSerializer.h"
 
 #include "spark/base/Exception.h"
 
 #include <format>
 
-namespace spark::ser
+namespace experimental::ser
 {
     FileSerializer::FileSerializer(const std::filesystem::path& filename, const bool is_reading)
         : BinarySerializer(is_reading)
     {
-        m_file.open(filename, isReading ? (std::fstream::in | std::fstream::binary) : (std::fstream::out | std::fstream::trunc | std::fstream::binary));
+        m_file.open(filename, is_reading ? (std::fstream::in | std::fstream::binary) : (std::fstream::out | std::fstream::trunc | std::fstream::binary));
         if (!m_file.is_open())
             throw spark::base::CouldNotOpenFileException(std::format("Can't open file {0} for {1}", filename.string(), is_reading ? "reading" : "writing"));
     }
