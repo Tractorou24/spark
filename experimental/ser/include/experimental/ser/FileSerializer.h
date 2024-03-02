@@ -1,17 +1,17 @@
 #pragma once
 
-#include "spark/ser/BinarySerializer.h"
-#include "spark/ser/Export.h"
+#include "experimental/ser/BinarySerializer.h"
+#include "experimental/ser/Export.h"
 
 #include <filesystem>
 #include <fstream>
 
-namespace spark::ser
+namespace experimental::ser
 {
     /**
      * \brief A serializer that stores data in a file.
      */
-    class SPARK_SER_EXPORT FileSerializer final : public BinarySerializer<FileSerializer>
+    class EXPERIMENTAL_SER_EXPORT FileSerializer final : public BinarySerializer<FileSerializer>
     {
         template <typename SerializerType, typename SerializableType>
         friend struct SerializerScheme;

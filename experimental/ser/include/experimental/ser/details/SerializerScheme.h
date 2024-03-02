@@ -5,14 +5,14 @@
 
 #include "boost/preprocessor/seq/for_each.hpp"
 
-namespace spark::ser::details
+namespace experimental::ser::details
 {
 #define SPARK_SER_DETAILS_SERIALIZE(r, data, elem) serializer << obj.elem;
 #define SPARK_SER_DETAILS_DESERIALIZE(r, data, elem) serializer >> obj.elem;
 
 #define SPARK_SER_DETAILS_SERIALIZE_SIMPLE_CLASS(ClassName, ...)                                            \
     template<typename SerializerType>                                                                       \
-    struct spark::ser::SerializerScheme<SerializerType, ClassName>                                          \
+    struct experimental::ser::SerializerScheme<SerializerType, ClassName>                                   \
     {                                                                                                       \
         static void serialize(SerializerType& serializer, const ClassName& obj)                             \
         {                                                                                                   \
@@ -27,7 +27,7 @@ namespace spark::ser::details
 
 #define SPARK_SER_DETAILS_SERIALIZE_RTTI_CLASS(ClassName, ...)                                                                  \
     template<typename SerializerType>                                                                                           \
-    struct spark::ser::SerializerScheme<SerializerType, ClassName>                                                              \
+    struct experimental::ser::SerializerScheme<SerializerType, ClassName>                                                       \
     {                                                                                                                           \
         static_assert(std::is_base_of_v<spark::rtti::HasRtti, ClassName>, "The class must be registered into the RTTI.");       \
                                                                                                                                 \

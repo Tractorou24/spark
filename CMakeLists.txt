@@ -33,8 +33,8 @@ include(GNUInstallDirs)
 option(BUILD_SHARED_LIBS "Build shared libraries. Static libraries otherwise" ON)
 option(SPARK_EXAMPLES_ENABLED "Build SPARK examples" ON)
 option(SPARK_EXAMPLES_IN_ALL "Build SPARK examples with ALL target" ON)
-option(SPARK_EXPERIMENTAL_ENABLED "Build SPARK experimental features" OFF)
-option(SPARK_EXPERIMENTAL_IN_ALL "Build SPARK experimental features with ALL target" OFF)
+option(SPARK_EXPERIMENTAL_ENABLED "Build SPARK experimental features" ON)
+option(SPARK_EXPERIMENTAL_IN_ALL "Build SPARK experimental features with ALL target" ON)
 
 set(SPARK_OUTPUT_DIR ${CMAKE_BINARY_DIR}/_output)
 
