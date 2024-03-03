@@ -6,8 +6,8 @@
 namespace spark::rtti
 {
     template <typename Type, typename... BaseTypes>
-    Rtti<Type, BaseTypes...>::Rtti()
-        : RttiBase(details::GetClassName<Type>::exec().data()) {}
+    Rtti<Type, BaseTypes...>::Rtti(std::string class_name)
+        : RttiBase(std::move(class_name)) {}
 
     template <typename Type, typename... BaseTypes>
     Rtti<Type, BaseTypes...>& Rtti<Type, BaseTypes...>::instance()
