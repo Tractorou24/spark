@@ -75,6 +75,11 @@ namespace spark::core
         return *m_scene;
     }
 
+    Application::Registries& Application::registries()
+    {
+        return m_registries;
+    }
+
     void Application::setScene(std::shared_ptr<core::Scene> scene)
     {
         if (m_scene)

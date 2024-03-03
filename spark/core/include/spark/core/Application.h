@@ -1,6 +1,7 @@
 #pragma once
 
 #include "spark/core/Export.h"
+#include "spark/core/Registries.h"
 #include "spark/core/Window.h"
 
 #include "spark/core/Scene.h"
@@ -30,6 +31,15 @@ namespace spark::core
         {
             std::string name;
             spark::math::Vector2<unsigned int> size;
+        };
+
+        /**
+         * \brief A struct containing all the registries for the application.
+         */
+        struct Registries
+        {
+            core::GameObjectRegistry gameObject;
+            core::ComponentRegistry component;
         };
 
         /**
@@ -80,6 +90,12 @@ namespace spark::core
          */
         [[nodiscard]] core::Scene& scene();
 
+        /**
+         * \brief Gets a reference to the registries for the application.
+         * \return A \ref Registries struct containing all the registries for the application.
+         */
+        [[nodiscard]] Registries& registries();
+
     private:
         /**
          * \brief Instantiates a new application with the given settings.
@@ -100,6 +116,7 @@ namespace spark::core
         std::unique_ptr<Window> m_window;
         std::shared_ptr<core::Scene> m_scene;
         Settings m_settings;
+        Registries m_registries;
         bool m_isRunning = true;
     };
 }
