@@ -12,6 +12,7 @@ spark_add_library(${TARGET_NAME}
         ${SOURCE_DIR}/Component.cpp
         ${SOURCE_DIR}/GameObject.cpp
         ${SOURCE_DIR}/Input.cpp
+        ${SOURCE_DIR}/Registries.cpp
         ${SOURCE_DIR}/Scene.cpp
         ${SOURCE_DIR}/SceneManager.cpp
         ${SOURCE_DIR}/Window.cpp
@@ -22,6 +23,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/core/EntryPoint.h
         ${HEADER_DIR}/${SPARK_NAME}/core/GameObject.h
         ${HEADER_DIR}/${SPARK_NAME}/core/Input.h
+        ${HEADER_DIR}/${SPARK_NAME}/core/Registries.h
         ${HEADER_DIR}/${SPARK_NAME}/core/Renderer2D.h
         ${HEADER_DIR}/${SPARK_NAME}/core/Scene.h
         ${HEADER_DIR}/${SPARK_NAME}/core/SceneManager.h
