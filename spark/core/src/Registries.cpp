@@ -7,4 +7,10 @@ namespace spark::core
         // Register all core game objects
         registerType<core::GameObject>();
     }
+
+    ComponentRegistry::ComponentRegistry()
+    {
+        // Register all core components
+        registerType<core::Component>();
+    }
 }

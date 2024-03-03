@@ -29,6 +29,27 @@ namespace spark::core
         template <typename T> requires std::derived_from<T, core::GameObject>
         void registerType();
     };
+
+    /**
+      * \brief A registry used to create \ref Component instances from their RTTI.
+      *
+      * This is a factory used to deserialize \link Component components \endlink instances from a game save.
+      */
+    class SPARK_CORE_EXPORT ComponentRegistry final : public patterns::Factory<std::string, core::Component, core::GameObject*>
+    {
+    public:
+        /**
+         * \brief Instantiate a new \ref ComponentRegistry with the default \ref Component types.
+         */
+        explicit ComponentRegistry();
+
+        /**
+         * \brief Registers a new \ref Component into the registry.
+         * \tparam T The type of the \ref Component to register.
+         */
+        template <typename T> requires std::derived_from<T, core::Component>
+        void registerType();
+    };
 }
 
 #include "spark/core/impl/Registries.h"
