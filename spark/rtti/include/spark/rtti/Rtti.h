@@ -18,7 +18,7 @@ namespace spark::rtti
         using ParentTypes = mpl::typelist<BaseTypes...>;
 
     public:
-        explicit Rtti();
+        explicit Rtti(std::string class_name);
 
         /**
          * \return The rtti instance for the current Type and BaseTypes

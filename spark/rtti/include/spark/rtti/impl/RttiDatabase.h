@@ -12,7 +12,7 @@ namespace spark::rtti
 
         auto& storage = dataStorage();
         if (!storage.contains(class_name))
-            storage.insert_or_assign(class_name, std::make_unique<Rtti<Type, BaseTypes...>>());
+            storage.insert_or_assign(class_name, std::make_unique<Rtti<Type, BaseTypes...>>(class_name));
 
         return *static_cast<Rtti<Type, BaseTypes...>*>(storage.at(class_name).get());
     }
