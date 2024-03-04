@@ -8,6 +8,7 @@ spark_add_executable(${TARGET_NAME}
     PUBLIC_HEADERS
         ${HEADER_DIR}/brickbreaker/Ball.h
         ${HEADER_DIR}/brickbreaker/Paddle.h
+        ${HEADER_DIR}/brickbreaker/Brick.h
         ${HEADER_DIR}/brickbreaker/ScreenBorder.h
 )
 
