@@ -10,7 +10,7 @@
 namespace brickbreaker
 {
     /**
-     * \brief A paddle that can be moved up and down.
+     * \brief A paddle that can be moved left and right.
      */
     class Paddle final : public spark::core::GameObject
     {
