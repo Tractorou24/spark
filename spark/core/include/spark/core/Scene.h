@@ -1,15 +1,15 @@
 #pragma once
 
-#include "spark/engine/Export.h"
-#include "spark/engine/GameObject.h"
+#include "spark/core/Export.h"
+#include "spark/core/GameObject.h"
 
 #include "spark/lib/Uuid.h"
 
 #include "spark/rtti/HasRtti.h"
 
-namespace spark::engine
+namespace spark::core
 {
-    class SPARK_ENGINE_EXPORT Scene final : public rtti::HasRtti
+    class SPARK_CORE_EXPORT Scene final : public rtti::HasRtti
     {
         DECLARE_SPARK_RTTI(Scene)
 
@@ -61,4 +61,4 @@ namespace spark::engine
     };
 }
 
-IMPLEMENT_SPARK_RTTI(spark::engine::Scene)
+IMPLEMENT_SPARK_RTTI(spark::core::Scene)

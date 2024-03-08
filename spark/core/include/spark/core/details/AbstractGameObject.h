@@ -2,12 +2,12 @@
 
 #include "spark/patterns/Composite.h"
 
-namespace spark::engine
+namespace spark::core
 {
     class GameObject;
 }
 
-namespace spark::engine::details
+namespace spark::core::details
 {
     template <typename Impl>
     struct GameObjectDeleter;
@@ -19,7 +19,7 @@ namespace spark::engine::details
     template <typename Impl>
     class AbstractGameObject : public patterns::Composite<GameObject, GameObjectDeleter>
     {
-        friend class spark::engine::GameObject;
+        friend class spark::core::GameObject;
 
     public:
         explicit AbstractGameObject(GameObject* parent = nullptr);
@@ -66,4 +66,4 @@ namespace spark::engine::details
     };
 }
 
-#include "spark/engine/impl/AbstractGameObject.h"
+#include "spark/core/impl/AbstractGameObject.h"

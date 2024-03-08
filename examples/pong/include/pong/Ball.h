@@ -3,10 +3,10 @@
 #include "pong/ui/Background.h"
 
 #include "spark/core/Application.h"
-#include "spark/engine/GameObject.h"
-#include "spark/engine/components/Circle.h"
-#include "spark/engine/components/Rectangle.h"
-#include "spark/engine/components/Transform.h"
+#include "spark/core/GameObject.h"
+#include "spark/core/components/Circle.h"
+#include "spark/core/components/Rectangle.h"
+#include "spark/core/components/Transform.h"
 #include "spark/lib/Random.h"
 #include "spark/patterns/Signal.h"
 #include "spark/rtti/HasRtti.h"
@@ -18,7 +18,7 @@ namespace pong
     /**
      * \brief A ball that bounces around the screen.
      */
-    class Ball final : public spark::engine::GameObject
+    class Ball final : public spark::core::GameObject
     {
         DECLARE_SPARK_RTTI(Ball, GameObject)
 
@@ -31,7 +31,7 @@ namespace pong
         explicit Ball(std::string name, GameObject* parent, const float radius)
             : GameObject(std::move(name), parent)
         {
-            addComponent<spark::engine::components::Circle>(radius);
+            addComponent<spark::core::components::Circle>(radius);
         }
 
         void onSpawn() override
@@ -44,7 +44,7 @@ namespace pong
             SPARK_ASSERT(m_rightPaddle != nullptr)
 
             // Set the paddle size (used to calculate the bounce).
-            m_paddleSize = m_leftPaddle->component<spark::engine::components::Rectangle>()->size;
+            m_paddleSize = m_leftPaddle->component<spark::core::components::Rectangle>()->size;
 
             // Randomize the direction of the ball.
             float angle = spark::lib::Random::Number(std::numbers::pi_v<float> / 6, std::numbers::pi_v<float> / 4);
@@ -75,7 +75,7 @@ namespace pong
         [[nodiscard]] std::pair<spark::math::Vector2<float>, spark::math::Vector2<float>> calculateNextFrame(const spark::math::Vector2<float>& next_position)
         {
             const spark::math::Vector2 window_size = spark::core::Application::Instance()->window().size().castTo<float>();
-            const float radius = component<spark::engine::components::Circle>()->radius;
+            const float radius = component<spark::core::components::Circle>()->radius;
 
             // Check if the ball is going to be outside the screen (top, down) boundaries.
             const bool hit_top_wall = next_position.y < 0;
@@ -121,7 +121,7 @@ namespace pong
             const auto window_width = spark::core::Application::Instance()->window().size().castTo<float>().x;
 
             const bool left_wall_hit = next_position.x < 0;
-            const bool right_wall_hit = next_position.x > window_width - component<spark::engine::components::Circle>()->radius * 2;
+            const bool right_wall_hit = next_position.x > window_width - component<spark::core::components::Circle>()->radius * 2;
 
             if (left_wall_hit || right_wall_hit)
                 return true;

@@ -19,7 +19,6 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_audio
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_base
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_core
-        ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_engine
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_events
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_log
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_path

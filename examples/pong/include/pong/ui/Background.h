@@ -1,7 +1,7 @@
 #pragma once
 
 #include "spark/core/Application.h"
-#include "spark/engine/GameObject.h"
+#include "spark/core/GameObject.h"
 #include "spark/math/Vector2.h"
 #include "spark/path/Paths.h"
 #include "spark/patterns/Signal.h"
@@ -11,7 +11,7 @@ namespace pong::ui
     /**
      * \brief A component that draws a vertical dashed line on the screen.
      */
-    class DashedLine final : public spark::engine::Component
+    class DashedLine final : public spark::core::Component
     {
         DECLARE_SPARK_RTTI(DashedLine, Component)
 
@@ -19,7 +19,7 @@ namespace pong::ui
         constexpr static std::size_t lineLength = 20, verticalOffset = 20;
 
     public:
-        explicit DashedLine(spark::engine::GameObject* parent, const std::size_t x_offset)
+        explicit DashedLine(spark::core::GameObject* parent, const std::size_t x_offset)
             : Component(parent), m_xOffset(x_offset) {}
 
         void render() const override
@@ -41,7 +41,7 @@ namespace pong::ui
     /**
      * \brief A component that draws the score on the screen.
      */
-    class Score final : public spark::engine::Component
+    class Score final : public spark::core::Component
     {
         DECLARE_SPARK_RTTI(Score, Component)
 
@@ -49,7 +49,7 @@ namespace pong::ui
         spark::patterns::Signal<std::size_t> incrementScore;
 
     public:
-        explicit Score(spark::engine::GameObject* parent, const spark::math::Vector2<float> position)
+        explicit Score(spark::core::GameObject* parent, const spark::math::Vector2<float> position)
             : Component(parent), m_position(position)
         {
             incrementScore.connect([this](const std::size_t score) { m_currentScore += score; });
@@ -80,7 +80,7 @@ namespace pong::ui
     /**
      * \brief The background of the game with the dashed line and the score.
      */
-    class Background final : public spark::engine::GameObject
+    class Background final : public spark::core::GameObject
     {
         DECLARE_SPARK_RTTI(Background, GameObject)
 

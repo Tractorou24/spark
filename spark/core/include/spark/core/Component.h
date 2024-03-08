@@ -1,12 +1,12 @@
 #pragma once
 
-#include "spark/engine/Export.h"
+#include "spark/core/Export.h"
 
 #include "spark/base/Macros.h"
 #include "spark/lib/Uuid.h"
 #include "spark/rtti/HasRtti.h"
 
-namespace spark::engine
+namespace spark::core
 {
     class GameObject;
 
@@ -15,11 +15,17 @@ namespace spark::engine
      *
      * This class is the base for all components. It should not be used directly but rather inherited from to create a new component.
      */
-    class SPARK_ENGINE_EXPORT Component : public rtti::HasRtti
+    class SPARK_CORE_EXPORT Component : public rtti::HasRtti
     {
         DECLARE_SPARK_RTTI(Component)
 
     public:
+        /**
+         * \brief Instantiates a new Component.
+         * \param parent The GameObject that the component will be attached to.
+         */
+        explicit Component(GameObject* parent);
+
         ~Component() override = default;
 
         Component(const Component& other) = delete;
@@ -66,17 +72,10 @@ namespace spark::engine
          */
         virtual void onDetach() {}
 
-    protected:
-        /**
-         * \brief Instantiates a new Component.
-         * \param parent The GameObject that the component will be attached to.
-         */
-        explicit Component(GameObject* parent);
-
     private:
         lib::Uuid m_uuid;
         GameObject* m_gameObject = nullptr;
     };
 }
 
-IMPLEMENT_SPARK_RTTI(spark::engine::Component)
+IMPLEMENT_SPARK_RTTI(spark::core::Component)

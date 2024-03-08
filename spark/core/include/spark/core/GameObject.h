@@ -1,27 +1,27 @@
 #pragma once
 
-#include "spark/engine/Component.h"
-#include "spark/engine/Export.h"
-#include "spark/engine/details/AbstractGameObject.h"
+#include "spark/core/Component.h"
+#include "spark/core/Export.h"
+#include "spark/core/details/AbstractGameObject.h"
 
 #include "spark/base/Macros.h"
 #include "spark/rtti/HasRtti.h"
 
 #include <vector>
 
-namespace spark::engine::components
+namespace spark::core::components
 {
     class Transform;
 }
 
-namespace spark::engine
+namespace spark::core
 {
     /**
      * \brief A GameObject is any object in the game. It contains a list of components that provides functionality to the GameObject.
      *
      * GameObjects can be parented to other GameObjects. When a GameObject is destroyed, all its children are destroyed as well with their components.
      */
-    class SPARK_ENGINE_EXPORT GameObject : public rtti::HasRtti, public details::AbstractGameObject<GameObject>
+    class SPARK_CORE_EXPORT GameObject : public rtti::HasRtti, public details::AbstractGameObject<GameObject>
     {
         DECLARE_SPARK_RTTI(GameObject)
 
@@ -61,6 +61,15 @@ namespace spark::engine
         static GameObject* FindByName(GameObject* root, const std::string& name);
 
     public:
+        /**
+         * \brief Instantiates a new GameObject.
+         * \param name The name of the GameObject.
+         * \param parent The parent of the GameObject. If nullptr, the GameObject is parented to the root GameObject.
+         *
+         * \details Use \link GameObject::Instantiate \endlink to instantiate a GameObject externally.
+         */
+        explicit GameObject(std::string name, GameObject* parent = nullptr);
+
         GameObject(const GameObject& other) = delete;
         GameObject(GameObject&& other) noexcept = default;
         GameObject& operator=(const GameObject& other) = delete;
@@ -181,22 +190,12 @@ namespace spark::engine
          */
         bool isShown = true;
 
-    protected:
-        /**
-         * \brief Instantiates a new GameObject.
-         * \param name The name of the GameObject.
-         * \param parent The parent of the GameObject. If nullptr, the GameObject is parented to the root GameObject.
-         *
-         * \details Use \link GameObject::Instantiate \endlink to instantiate a GameObject externally.
-         */
-        explicit GameObject(std::string name, GameObject* parent = nullptr);
-
     private:
         lib::Uuid m_uuid;
         std::string m_name;
     };
 }
 
-IMPLEMENT_SPARK_RTTI(spark::engine::GameObject)
+IMPLEMENT_SPARK_RTTI(spark::core::GameObject)
 
-#include "spark/engine/impl/GameObject.h"
+#include "spark/core/impl/GameObject.h"

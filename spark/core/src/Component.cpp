@@ -1,7 +1,8 @@
-#include "spark/engine/Component.h"
+#include "spark/core/Component.h"
+
 #include "spark/base/Exception.h"
 
-namespace spark::engine
+namespace spark::core
 {
     Component::Component(GameObject* parent)
         : m_gameObject(parent)
