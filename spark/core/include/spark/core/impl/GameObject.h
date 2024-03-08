@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace spark::engine
+namespace spark::core
 {
     template <typename T, typename... Args> requires std::is_base_of_v<GameObject, T>
     T* GameObject::Instantiate(std::string name, GameObject* parent, const Args&... args)

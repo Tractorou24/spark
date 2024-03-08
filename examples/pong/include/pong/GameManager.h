@@ -6,9 +6,9 @@
 #include "spark/core/Application.h"
 #include "spark/core/Input.h"
 #include "spark/core/SceneManager.h"
-#include "spark/engine/GameObject.h"
-#include "spark/engine/components/Rectangle.h"
-#include "spark/engine/components/Transform.h"
+#include "spark/core/GameObject.h"
+#include "spark/core/components/Rectangle.h"
+#include "spark/core/components/Transform.h"
 #include "spark/path/Paths.h"
 
 #include <numeric>
@@ -18,7 +18,7 @@ namespace pong
     /**
      * \brief The pong game manager handling the game logic.
      */
-    class GameManager final : public spark::engine::GameObject
+    class GameManager final : public spark::core::GameObject
     {
         DECLARE_SPARK_RTTI(GameManager, GameObject)
 
@@ -114,7 +114,7 @@ namespace pong
          */
         [[nodiscard]] static float newPaddleHeight(const GameObject* paddle, const float next_height)
         {
-            const auto paddle_rect = paddle->component<spark::engine::components::Rectangle>();
+            const auto paddle_rect = paddle->component<spark::core::components::Rectangle>();
             const auto screen_height = spark::core::Application::Instance()->window().size().castTo<float>().y;
 
             if (next_height < 0)

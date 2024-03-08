@@ -1,10 +1,10 @@
 #pragma once
 
-#include "spark/engine/Component.h"
+#include "spark/core/Component.h"
 
 #include <filesystem>
 
-namespace spark::engine::components
+namespace spark::core::components
 {
     /**
      * \brief A simple component to render an image
@@ -28,4 +28,4 @@ namespace spark::engine::components
     };
 }
 
-IMPLEMENT_SPARK_RTTI(spark::engine::components::Image)
+IMPLEMENT_SPARK_RTTI(spark::core::components::Image)

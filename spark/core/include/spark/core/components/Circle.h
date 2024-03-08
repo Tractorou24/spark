@@ -1,11 +1,12 @@
 #pragma once
 
-#include "spark/engine/components/Transform.h"
+#include "spark/core/Application.h"
+#include "spark/core/components/Transform.h"
 
 #include "spark/math/Vector2.h"
 #include "spark/rtti/HasRtti.h"
 
-namespace spark::engine::components
+namespace spark::core::components
 {
     /**
      * \brief A simple component to render a circle.
@@ -36,4 +37,4 @@ namespace spark::engine::components
     };
 }
 
-IMPLEMENT_SPARK_RTTI(spark::engine::components::Circle)
+IMPLEMENT_SPARK_RTTI(spark::core::components::Circle)

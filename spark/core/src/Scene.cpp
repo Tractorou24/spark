@@ -1,9 +1,9 @@
-#include "spark/engine/Scene.h"
+#include "spark/core/Scene.h"
 
 #include "spark/log/Logger.h"
 #include "spark/patterns/Traverser.h"
 
-namespace spark::engine
+namespace spark::core
 {
     Scene::Scene(GameObject* scene_root)
         : m_root(scene_root) {}

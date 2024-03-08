@@ -5,9 +5,9 @@
 
 namespace spark::core
 {
-    std::unordered_map<std::string, std::shared_ptr<engine::Scene>> SceneManager::s_scenes;
+    std::unordered_map<std::string, std::shared_ptr<core::Scene>> SceneManager::s_scenes;
 
-    void SceneManager::RegisterScene(std::string name, std::unique_ptr<engine::Scene> scene)
+    void SceneManager::RegisterScene(std::string name, std::unique_ptr<core::Scene> scene)
     {
         if (s_scenes.contains(name))
             throw base::UnknownException("Can't register 2 scenes with the same name");
@@ -29,7 +29,7 @@ namespace spark::core
         Application::Instance()->setScene(s_scenes.at(name));
     }
 
-    std::shared_ptr<engine::Scene> SceneManager::Scene(const std::string& name, const bool fail)
+    std::shared_ptr<core::Scene> SceneManager::Scene(const std::string& name, const bool fail)
     {
         if (!s_scenes.contains(name))
         {

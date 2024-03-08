@@ -1,8 +1,8 @@
 #pragma once
 
-#include "spark/engine/Component.h"
-#include "spark/engine/Export.h"
-#include "spark/engine/GameObject.h"
+#include "spark/core/Component.h"
+#include "spark/core/Export.h"
+#include "spark/core/GameObject.h"
 
 #include "spark/math/Vector2.h"
 
@@ -10,12 +10,12 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtx/quaternion.hpp"
 
-namespace spark::engine::components
+namespace spark::core::components
 {
     /**
      * \brief A component that stores the position of a game object.
      */
-    class SPARK_ENGINE_EXPORT Transform final : public Component
+    class SPARK_CORE_EXPORT Transform final : public Component
     {
         DECLARE_SPARK_RTTI(Transform, Component)
 
@@ -60,4 +60,4 @@ namespace spark::engine::components
     };
 }
 
-IMPLEMENT_SPARK_RTTI(spark::engine::components::Transform)
+IMPLEMENT_SPARK_RTTI(spark::core::components::Transform)

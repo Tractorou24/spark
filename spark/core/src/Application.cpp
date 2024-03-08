@@ -1,5 +1,4 @@
 #include "spark/core/Application.h"
-
 #include "spark/core/Input.h"
 #include "spark/core/Window.h"
 
@@ -71,12 +70,12 @@ namespace spark::core
     }
 
     // ReSharper disable once CppMemberFunctionMayBeConst
-    engine::Scene& Application::scene()
+    core::Scene& Application::scene()
     {
         return *m_scene;
     }
 
-    void Application::setScene(std::shared_ptr<engine::Scene> scene)
+    void Application::setScene(std::shared_ptr<core::Scene> scene)
     {
         if (m_scene)
             m_scene->onUnload();

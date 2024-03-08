@@ -1,8 +1,7 @@
 #pragma once
 
 #include "spark/core/Export.h"
-
-#include "spark/engine/Scene.h"
+#include "spark/core/Scene.h"
 
 #include <memory>
 #include <string>
@@ -21,7 +20,7 @@ namespace spark::core
          * \param name A string representing the name of the scene.
          * \param scene A unique pointer to the scene to register.
          */
-        static void RegisterScene(std::string name, std::unique_ptr<engine::Scene> scene);
+        static void RegisterScene(std::string name, std::unique_ptr<core::Scene> scene);
 
         /**
          * \brief Unregister a scene. If the scene is not registered, an exception is thrown.
@@ -41,7 +40,7 @@ namespace spark::core
          * \param fail A boolean indicating if an exception should be thrown if the scene is not registered.
          * \return A unique pointer to the scene.
          */
-        static std::shared_ptr<engine::Scene> Scene(const std::string& name, bool fail = true);
+        static std::shared_ptr<core::Scene> Scene(const std::string& name, bool fail = true);
 
         /**
          * \brief Unregister all scenes.
@@ -49,6 +48,6 @@ namespace spark::core
         static void UnregisterAllScenes();
 
     private:
-        static std::unordered_map<std::string, std::shared_ptr<engine::Scene>> s_scenes;
+        static std::unordered_map<std::string, std::shared_ptr<core::Scene>> s_scenes;
     };
 }

@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <ranges>
 
-namespace spark::engine::details
+namespace spark::core::details
 {
     template <typename Impl>
     AbstractGameObject<Impl>::AbstractGameObject(GameObject* parent)

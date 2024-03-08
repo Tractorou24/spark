@@ -1,11 +1,11 @@
-#include "spark/engine/GameObject.h"
-#include "spark/engine/components/Transform.h"
+#include "spark/core/GameObject.h"
+#include "spark/core/components/Transform.h"
 
 #include "spark/patterns/Traverser.h"
 
 #include <ranges>
 
-namespace spark::engine
+namespace spark::core
 {
     void GameObject::Destroy(GameObject* object)
     {

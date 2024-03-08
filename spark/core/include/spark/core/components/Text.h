@@ -1,11 +1,11 @@
 #pragma once
 
-#include "spark/engine/Component.h"
+#include "spark/core/Component.h"
 
 #include "spark/math/Vector2.h"
 #include "spark/rtti/HasRtti.h"
 
-namespace spark::engine::components
+namespace spark::core::components
 {
     class Text final : public Component
     {
@@ -27,4 +27,4 @@ namespace spark::engine::components
     };
 }
 
-IMPLEMENT_SPARK_RTTI(spark::engine::components::Text)
+IMPLEMENT_SPARK_RTTI(spark::core::components::Text)

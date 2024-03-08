@@ -3,7 +3,7 @@
 #include "spark/core/Export.h"
 #include "spark/core/Window.h"
 
-#include "spark/engine/Scene.h"
+#include "spark/core/Scene.h"
 
 #include <filesystem>
 #include <string>
@@ -70,15 +70,15 @@ namespace spark::core
 
         /**
          * \brief Sets the scene to render.
-         * \param scene A shared pointer to the \link spark::engine::Scene \endlink to render.
+         * \param scene A shared pointer to the \link spark::core::Scene \endlink to render.
          */
-        void setScene(std::shared_ptr<engine::Scene> scene);
+        void setScene(std::shared_ptr<core::Scene> scene);
 
         /**
          * \brief Gets the scene to render.
-         * \return A \link spark::engine::Scene \endlink to render.
+         * \return A \link spark::core::Scene \endlink to render.
          */
-        [[nodiscard]] engine::Scene& scene();
+        [[nodiscard]] core::Scene& scene();
 
     private:
         /**
@@ -98,7 +98,7 @@ namespace spark::core
 
     private:
         std::unique_ptr<Window> m_window;
-        std::shared_ptr<engine::Scene> m_scene;
+        std::shared_ptr<core::Scene> m_scene;
         Settings m_settings;
         bool m_isRunning = true;
     };
