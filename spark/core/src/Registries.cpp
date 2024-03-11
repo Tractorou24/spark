@@ -1,4 +1,5 @@
 #include "spark/core/Registries.h"
+#include "spark/core/details/SerializationSchemes.h"
 
 namespace spark::core
 {
