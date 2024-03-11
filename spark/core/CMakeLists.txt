@@ -37,6 +37,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/core/components/Transform.h
 
         ${HEADER_DIR}/${SPARK_NAME}/core/details/AbstractGameObject.h
+        ${HEADER_DIR}/${SPARK_NAME}/core/details/SerializationSchemes.h
         ${HEADER_DIR}/${SPARK_NAME}/core/impl/AbstractGameObject.h
         ${HEADER_DIR}/${SPARK_NAME}/core/impl/ApplicationBuilder.h
         ${HEADER_DIR}/${SPARK_NAME}/core/impl/GameObject.h
