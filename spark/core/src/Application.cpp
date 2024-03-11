@@ -1,5 +1,6 @@
 #include "spark/core/Application.h"
 #include "spark/core/Input.h"
+#include "spark/core/Scene.h"
 #include "spark/core/Window.h"
 
 #include "spark/events/EventDispatcher.h"
