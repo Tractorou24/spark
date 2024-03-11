@@ -4,14 +4,13 @@
 #include "spark/core/Registries.h"
 #include "spark/core/Window.h"
 
-#include "spark/core/Scene.h"
-
 #include <filesystem>
 #include <string>
 
 namespace spark::core
 {
     class SceneManager;
+    class Scene;
 
     /**
      * \brief A class representing a SPARK application.
