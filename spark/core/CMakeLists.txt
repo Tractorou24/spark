@@ -55,6 +55,7 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_path
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_render
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_render_vk
+        experimental_ser
     PRIVATE
         glfw
         sfml-system

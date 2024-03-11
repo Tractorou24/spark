@@ -3,8 +3,8 @@
 #include "spark/core/Export.h"
 #include "spark/core/GameObject.h"
 
+#include "experimental/ser/SerializerScheme.h"
 #include "spark/lib/Uuid.h"
-
 #include "spark/rtti/HasRtti.h"
 
 namespace spark::core
@@ -12,6 +12,7 @@ namespace spark::core
     class SPARK_CORE_EXPORT Scene final : public rtti::HasRtti
     {
         DECLARE_SPARK_RTTI(Scene)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
         explicit Scene(GameObject* scene_root);
