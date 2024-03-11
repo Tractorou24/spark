@@ -1,5 +1,6 @@
 #pragma once
 
+#include "experimental/ser/SerializerScheme.h"
 #include "spark/patterns/Composite.h"
 
 namespace spark::core
@@ -20,6 +21,7 @@ namespace spark::core::details
     class AbstractGameObject : public patterns::Composite<GameObject, GameObjectDeleter>
     {
         friend class spark::core::GameObject;
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
         explicit AbstractGameObject(GameObject* parent = nullptr);

@@ -4,6 +4,7 @@
 #include "spark/core/Export.h"
 #include "spark/core/details/AbstractGameObject.h"
 
+#include "experimental/ser/SerializerScheme.h"
 #include "spark/base/Macros.h"
 #include "spark/rtti/HasRtti.h"
 
@@ -24,6 +25,7 @@ namespace spark::core
     class SPARK_CORE_EXPORT GameObject : public rtti::HasRtti, public details::AbstractGameObject<GameObject>
     {
         DECLARE_SPARK_RTTI(GameObject)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
         /**

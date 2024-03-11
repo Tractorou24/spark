@@ -2,6 +2,7 @@
 
 #include "spark/core/Export.h"
 
+#include "experimental/ser/SerializerScheme.h"
 #include "spark/base/Macros.h"
 #include "spark/lib/Uuid.h"
 #include "spark/rtti/HasRtti.h"
@@ -18,6 +19,7 @@ namespace spark::core
     class SPARK_CORE_EXPORT Component : public rtti::HasRtti
     {
         DECLARE_SPARK_RTTI(Component)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
         /**
