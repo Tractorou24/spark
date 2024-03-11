@@ -23,6 +23,18 @@ namespace experimental::ser
 #define SPARK_ALLOW_PRIVATE_SERIALIZATION template <typename SerializerType, typename SerializedType> friend struct experimental::ser::SerializerScheme;
 
 /**
+ * \brief Generates an empty serialization scheme for the given class.
+ * \param ClassName The name of the class for which the serialization scheme will be generated.
+ */
+#define SPARK_DEFINE_EMPTY_SERIALIZER_SCHEME(ClassName)                     \
+    template <typename SerializerType>                                      \
+    struct experimental::ser::SerializerScheme<SerializerType, ClassName>   \
+    {                                                                       \
+        static void serialize(SerializerType&, const ClassName&) {}         \
+        static void deserialize(SerializerType&, ClassName&) {}             \
+    };
+
+/**
  * \brief Generates the serialization scheme for a class not registered into the RTTI system.
  * \param TypeName The name of the class for which the serialization scheme will be generated.
  * \param ... The list of members of the class that will be serialized.
