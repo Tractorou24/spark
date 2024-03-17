@@ -6,9 +6,51 @@
 #include "spark/core/Scene.h"
 #include "spark/core/components/Circle.h"
 #include "spark/core/components/Collider.h"
+#include "spark/core/components/Image.h"
 #include "spark/core/components/Transform.h"
 
 #include "spark/math/Vector2.h"
+
+template <typename SerializerType>
+struct experimental::ser::SerializerScheme<SerializerType, std::filesystem::path>
+{
+    static void serialize(SerializerType& serializer, const std::filesystem::path& obj)
+    {
+        serializer << obj.generic_string();
+    }
+
+    static void deserialize(SerializerType& deserializer, std::filesystem::path& obj)
+    {
+        std::string str;
+        deserializer >> str;
+        obj = str;
+    }
+};
+
+template <typename SerializerType, typename T>
+struct experimental::ser::SerializerScheme<SerializerType, std::optional<T>>
+{
+    static void serialize(SerializerType& serializer, const std::optional<T>& obj)
+    {
+        serializer << obj.has_value();
+        if (obj.has_value())
+            serializer << obj.value();
+    }
+
+    static void deserialize(SerializerType& deserializer, std::optional<T>& obj)
+    {
+        bool has_value = false;
+        deserializer >> has_value;
+        if (has_value)
+        {
+            T value;
+            deserializer >> value;
+            obj = value;
+        }
+        else
+            obj = std::nullopt;
+    }
+};
 
 template <typename SerializerType, typename T>
 struct experimental::ser::SerializerScheme<SerializerType, spark::math::Vector2<T>>
@@ -46,6 +88,7 @@ SPARK_DEFINE_EMPTY_SERIALIZER_SCHEME(spark::core::Component)
 
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Circle, radius)
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Collider, m_rectangle)
+SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Image, m_path, m_size)
 
 template <typename SerializerType>
 struct experimental::ser::SerializerScheme<SerializerType, spark::core::GameObject>

@@ -12,8 +12,12 @@ namespace spark::core::components
     class Image final : public Component
     {
         DECLARE_SPARK_RTTI(Image, Component)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
+        explicit Image(GameObject* parent)
+            : Component(parent) {}
+
         explicit Image(GameObject* parent, std::filesystem::path path)
             : Component(parent), m_path(std::move(path)) {}
 
