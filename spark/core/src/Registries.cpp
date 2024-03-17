@@ -16,5 +16,6 @@ namespace spark::core
         registerType<core::components::Circle>();
         registerType<core::components::Collider>();
         registerType<core::components::Image>();
+        registerType<core::components::Rectangle>();
     }
 }
