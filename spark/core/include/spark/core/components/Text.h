@@ -10,8 +10,12 @@ namespace spark::core::components
     class Text final : public Component
     {
         DECLARE_SPARK_RTTI(Text, Component)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
+        explicit Text(GameObject* parent)
+            : Component(parent) {}
+
         explicit Text(GameObject* parent, std::string content, const math::Vector2<float> offset, std::filesystem::path font_path = "")
             : Component(parent), m_content(std::move(content)), m_offset(offset), m_fontPath(std::move(font_path)) {}
 
