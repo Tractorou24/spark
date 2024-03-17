@@ -1,20 +1,22 @@
 #pragma once
 
-#include "spark/core/Export.h"
 #include "spark/core/Component.h"
+#include "spark/core/Export.h"
 #include "spark/core/GameObject.h"
 
+#include "experimental/ser/FileSerializer.h"
+#include "experimental/ser/SerializationRegistry.h"
 #include "spark/patterns/Factory.h"
-#include "spark/rtti/Rtti.h"
 
 namespace spark::core
 {
     /**
-     * \brief A registry used to create \ref GameObject instances from their RTTI.
+     * \brief A registry used to create \ref GameObject instances and get serialization objects for it.
      *
      * This is a factory used to deserialize \link GameObject game objects \endlink instances from a game save.
      */
-    class SPARK_CORE_EXPORT GameObjectRegistry final : public patterns::Factory<std::string, core::GameObject, std::string, core::GameObject*>
+    class SPARK_CORE_EXPORT GameObjectRegistry final : public patterns::Factory<std::string, core::GameObject, std::string, core::GameObject*>,
+                                                       public experimental::ser::SerializationRegistry<experimental::ser::FileSerializer, std::string, core::GameObject>
     {
     public:
         /**
@@ -31,11 +33,12 @@ namespace spark::core
     };
 
     /**
-      * \brief A registry used to create \ref Component instances from their RTTI.
+      * \brief A registry used to create \ref Component instances and get serialization objects for it.
       *
       * This is a factory used to deserialize \link Component components \endlink instances from a game save.
       */
-    class SPARK_CORE_EXPORT ComponentRegistry final : public patterns::Factory<std::string, core::Component, core::GameObject*>
+    class SPARK_CORE_EXPORT ComponentRegistry final : public patterns::Factory<std::string, core::Component, core::GameObject*>,
+                                                      public experimental::ser::SerializationRegistry<experimental::ser::FileSerializer, std::string, core::Component>
     {
     public:
         /**
