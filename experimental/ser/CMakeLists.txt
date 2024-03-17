@@ -13,10 +13,12 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${EXPERIMENTAL_NAME}/ser/BinarySerializer.h
         ${HEADER_DIR}/${EXPERIMENTAL_NAME}/ser/FileSerializer.h
         ${HEADER_DIR}/${EXPERIMENTAL_NAME}/ser/MemorySerializer.h
+        ${HEADER_DIR}/${EXPERIMENTAL_NAME}/ser/SerializationRegistry.h
         ${HEADER_DIR}/${EXPERIMENTAL_NAME}/ser/SerializerScheme.h
 
         ${HEADER_DIR}/${EXPERIMENTAL_NAME}/ser/impl/SerializerScheme.h
         ${HEADER_DIR}/${EXPERIMENTAL_NAME}/ser/impl/BinarySerializer.h
+        ${HEADER_DIR}/${EXPERIMENTAL_NAME}/ser/impl/SerializationRegistry.h
         ${HEADER_DIR}/${EXPERIMENTAL_NAME}/ser/impl/SerializerScheme.h
 
         ${HEADER_DIR}/${EXPERIMENTAL_NAME}/ser/details/SerializerScheme.h
