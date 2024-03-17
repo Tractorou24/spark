@@ -7,6 +7,7 @@
 #include "spark/core/components/Circle.h"
 #include "spark/core/components/Collider.h"
 #include "spark/core/components/Image.h"
+#include "spark/core/components/Rectangle.h"
 #include "spark/core/components/Transform.h"
 
 #include "spark/math/Vector2.h"
@@ -89,6 +90,7 @@ SPARK_DEFINE_EMPTY_SERIALIZER_SCHEME(spark::core::Component)
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Circle, radius)
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Collider, m_rectangle)
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Image, m_path, m_size)
+SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Rectangle, size)
 
 template <typename SerializerType>
 struct experimental::ser::SerializerScheme<SerializerType, spark::core::GameObject>
