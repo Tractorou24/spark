@@ -16,9 +16,21 @@ namespace spark::core::components
         DECLARE_SPARK_RTTI(Circle, Component)
 
     public:
-        float radius;
+        float radius = 25;
 
     public:
+        /**
+         * \brief Creates a new @link Circle circle component @endlink. Defaults to a radius of 25.
+         * \param parent The parent game object.
+         */
+        explicit Circle(GameObject* parent)
+            : Component(parent) {}
+
+        /**
+         * \brief Creates a new @link Circle circle component @endlink.
+         * \param radius The radius of the circle. (in pixels)
+         * \param parent The parent game object.
+         */
         explicit Circle(GameObject* parent, const float radius)
             : Component(parent), radius(radius) {}
 
