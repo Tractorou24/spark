@@ -4,6 +4,7 @@
 #include "spark/core/Component.h"
 #include "spark/core/GameObject.h"
 #include "spark/core/Scene.h"
+#include "spark/core/components/Circle.h"
 #include "spark/core/components/Transform.h"
 
 #include "spark/math/Vector2.h"
@@ -25,6 +26,8 @@ struct experimental::ser::SerializerScheme<SerializerType, spark::math::Vector2<
 };
 
 SPARK_DEFINE_EMPTY_SERIALIZER_SCHEME(spark::core::Component)
+
+SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Circle, radius)
 
 template <typename SerializerType>
 struct experimental::ser::SerializerScheme<SerializerType, spark::core::GameObject>
