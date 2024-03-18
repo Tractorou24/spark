@@ -28,6 +28,7 @@ spark_add_library(${TARGET_NAME}
         ${HEADER_DIR}/${SPARK_NAME}/core/Window.h
 
         ${HEADER_DIR}/${SPARK_NAME}/core/components/Circle.h
+        ${HEADER_DIR}/${SPARK_NAME}/core/components/Collider.h
         ${HEADER_DIR}/${SPARK_NAME}/core/components/Image.h
         ${HEADER_DIR}/${SPARK_NAME}/core/components/Rectangle.h
         ${HEADER_DIR}/${SPARK_NAME}/core/components/Text.h
