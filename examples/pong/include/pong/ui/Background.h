@@ -14,12 +14,13 @@ namespace pong::ui
     class DashedLine final : public spark::core::Component
     {
         DECLARE_SPARK_RTTI(DashedLine, Component)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
-        constexpr static std::size_t lineLength = 20, verticalOffset = 20;
+        std::size_t lineLength = 20, verticalOffset = 20;
 
     public:
-        explicit DashedLine(spark::core::GameObject* parent, const std::size_t x_offset)
+        explicit DashedLine(spark::core::GameObject* parent, const std::size_t x_offset = 0)
             : Component(parent), m_xOffset(x_offset) {}
 
         void render() const override
@@ -44,13 +45,14 @@ namespace pong::ui
     class Score final : public spark::core::Component
     {
         DECLARE_SPARK_RTTI(Score, Component)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
         spark::patterns::Signal<std::size_t> incrementScore;
 
     public:
-        explicit Score(spark::core::GameObject* parent, const spark::math::Vector2<float> position)
-            : Component(parent), m_position(position)
+        explicit Score(spark::core::GameObject* parent, spark::math::Vector2<float> position = {0, 0})
+            : Component(parent), m_position(std::move(position))
         {
             incrementScore.connect([this](const std::size_t score) { m_currentScore += score; });
         }
@@ -105,6 +107,12 @@ namespace pong::ui
 
 IMPLEMENT_SPARK_RTTI(pong::ui::DashedLine)
 
+SPARK_SERIALIZE_RTTI_CLASS(pong::ui::DashedLine, lineLength, verticalOffset, m_xOffset)
+
 IMPLEMENT_SPARK_RTTI(pong::ui::Score)
 
+SPARK_SERIALIZE_RTTI_CLASS(pong::ui::Score, m_currentScore, m_position)
+
 IMPLEMENT_SPARK_RTTI(pong::ui::Background)
+
+SPARK_SERIALIZE_RTTI_CLASS(pong::ui::Background)

@@ -7,13 +7,22 @@
 #include "spark/core/Application.h"
 #include "spark/core/ApplicationBuilder.h"
 #include "spark/core/EntryPoint.h"
-#include "spark/core/SceneManager.h"
 #include "spark/core/GameObject.h"
 #include "spark/core/Scene.h"
+#include "spark/core/SceneManager.h"
 
 std::unique_ptr<spark::core::Application> spark_main(const std::vector<std::string>& /*args*/)
 {
     auto app = spark::core::ApplicationBuilder().setName("Pong").setSize(1280, 720).build();
+
+    // Register the types into the registries
+    app->registries().gameObject.registerType<pong::GameManager>();
+    app->registries().gameObject.registerType<pong::ui::Background>();
+    app->registries().gameObject.registerType<pong::Paddle>();
+    app->registries().gameObject.registerType<pong::Ball>();
+
+    app->registries().component.registerType<pong::ui::DashedLine>();
+    app->registries().component.registerType<pong::ui::Score>();
 
     // Create the main menu scene
     {

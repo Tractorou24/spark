@@ -2,13 +2,16 @@
 
 #include "pong/ui/Background.h"
 
+#include "experimental/ser/FileSerializer.h"
 #include "spark/audio/Sound.h"
 #include "spark/core/Application.h"
+#include "spark/core/GameObject.h"
 #include "spark/core/Input.h"
 #include "spark/core/SceneManager.h"
-#include "spark/core/GameObject.h"
 #include "spark/core/components/Rectangle.h"
 #include "spark/core/components/Transform.h"
+#include "spark/lib/UuidGenerator.h"
+#include "spark/log/Logger.h"
 #include "spark/path/Paths.h"
 
 #include <numeric>
@@ -21,11 +24,12 @@ namespace pong
     class GameManager final : public spark::core::GameObject
     {
         DECLARE_SPARK_RTTI(GameManager, GameObject)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
         explicit GameManager(std::string name, GameObject* parent)
             : GameObject(std::move(name), parent), m_hitSound(spark::path::assets_path() / "hit.ogg"), m_looseSound(spark::path::assets_path() / "loose.ogg"),
-              m_menuSound(spark::path::assets_path() / "menu.ogg") { }
+              m_menuSound(spark::path::assets_path() / "menu.ogg") {}
 
         void onSpawn() override
         {
@@ -41,6 +45,57 @@ namespace pong
             {
                 m_looseSound.play();
                 spark::core::SceneManager::LoadScene("MainMenu");
+            });
+            m_loadGameSlotId = spark::core::Input::keyPressedEvents[spark::base::KeyCodes::O].connect([]
+            {
+                // Get last game file
+                const auto saves_path = spark::path::assets_path() / "saves";
+
+                if (!std::filesystem::exists(saves_path))
+                {
+                    spark::log::info("Saves directory not found, creating it.");
+                    std::filesystem::create_directory(saves_path);
+                }
+
+                std::set<std::filesystem::path, decltype([](const std::filesystem::path& lhs, const std::filesystem::path& rhs)
+                {
+                    return std::filesystem::last_write_time(lhs) > std::filesystem::last_write_time(rhs);
+                })> files;
+                for (const auto& entry : std::filesystem::directory_iterator(saves_path))
+                    if (entry.is_regular_file())
+                        files.insert(entry.path());
+
+                if (files.empty())
+                {
+                    spark::log::error("No save found in {}", saves_path.generic_string());
+                    return;
+                }
+
+                spark::log::info("Loading save {}", files.begin()->filename().string());
+
+                // Load the game scene
+                spark::core::SceneManager::LoadScene("Game");
+
+                // Deserialize it into the loaded scene (so it does not call reset())
+                experimental::ser::FileSerializer deserializer(*files.begin(), true);
+                deserializer >> *spark::core::SceneManager::Scene("Game").get();
+            });
+            m_saveSlotKey = spark::core::Input::keyPressedEvents[spark::base::KeyCodes::P].connect([]
+            {
+                // Generate the save file
+                const auto saves_path = spark::path::assets_path() / "saves";
+                if (!std::filesystem::exists(saves_path))
+                {
+                    spark::log::info("Saves directory not found, creating it.");
+                    std::filesystem::create_directory(saves_path);
+                }
+
+                const auto file_path = saves_path / spark::lib::UuidGenerator().generate().str();
+                spark::log::info("Saving game to {}", file_path.filename().string());
+
+                // Write it
+                experimental::ser::FileSerializer serializer(file_path, false);
+                serializer << *spark::core::SceneManager::Scene("Game").get();
             });
 
             m_menuSound.play();
@@ -87,6 +142,8 @@ namespace pong
         void onDestroyed() override
         {
             m_ball->onLoose.disconnect(m_looseSlotKey);
+            spark::core::Input::keyPressedEvents[spark::base::KeyCodes::O].disconnect(m_loadGameSlotId);
+            spark::core::Input::keyPressedEvents[spark::base::KeyCodes::P].disconnect(m_saveSlotKey);
             m_menuSound.stop();
         }
 
@@ -141,7 +198,7 @@ namespace pong
         }
 
     private:
-        std::size_t m_looseSlotKey = 0;
+        std::size_t m_looseSlotKey = 0, m_loadGameSlotId = 0, m_saveSlotKey = 0;
         float m_lastScore = 0;
         GameObject *m_leftPaddle = nullptr, *m_rightPaddle = nullptr;
         spark::audio::Sound m_hitSound, m_looseSound, m_menuSound;
@@ -150,3 +207,5 @@ namespace pong
 }
 
 IMPLEMENT_SPARK_RTTI(pong::GameManager)
+
+SPARK_SERIALIZE_RTTI_CLASS(pong::GameManager, m_lastScore)
