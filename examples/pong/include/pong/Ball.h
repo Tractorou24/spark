@@ -21,6 +21,7 @@ namespace pong
     class Ball final : public spark::core::GameObject
     {
         DECLARE_SPARK_RTTI(Ball, GameObject)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
         spark::math::Vector2<float> direction = {};
@@ -28,7 +29,7 @@ namespace pong
         spark::patterns::Signal<> onLoose;
 
     public:
-        explicit Ball(std::string name, GameObject* parent, const float radius)
+        explicit Ball(std::string name, GameObject* parent, const float radius = 25)
             : GameObject(std::move(name), parent)
         {
             addComponent<spark::core::components::Circle>(radius);
@@ -135,3 +136,5 @@ namespace pong
 }
 
 IMPLEMENT_SPARK_RTTI(pong::Ball)
+
+SPARK_SERIALIZE_RTTI_CLASS(pong::Ball, direction, velocity, m_paddleSize)
