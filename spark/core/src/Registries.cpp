@@ -14,5 +14,6 @@ namespace spark::core
         // Register all core components
         registerType<core::Component>();
         registerType<core::components::Circle>();
+        registerType<core::components::Collider>();
     }
 }

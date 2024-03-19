@@ -20,11 +20,15 @@ namespace spark::core::components
     class Collider final : public Component
     {
         DECLARE_SPARK_RTTI(Collider, Component)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
         patterns::Signal<> onCollision;
 
     public:
+        explicit Collider(GameObject* parent)
+            : Component(parent) {}
+
         explicit Collider(GameObject* parent, math::Rectangle<float> rectangle)
             : Component(parent), m_rectangle(std::move(rectangle)) {}
 
