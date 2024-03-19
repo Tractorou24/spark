@@ -5,6 +5,7 @@
 #include "spark/core/GameObject.h"
 #include "spark/core/Scene.h"
 #include "spark/core/components/Circle.h"
+#include "spark/core/components/Collider.h"
 #include "spark/core/components/Transform.h"
 
 #include "spark/math/Vector2.h"
@@ -25,9 +26,26 @@ struct experimental::ser::SerializerScheme<SerializerType, spark::math::Vector2<
     }
 };
 
+template <typename SerializerType, typename T>
+struct experimental::ser::SerializerScheme<SerializerType, spark::math::Rectangle<T>>
+{
+    static void serialize(SerializerType& serializer, const spark::math::Rectangle<T>& obj)
+    {
+        serializer << obj.position;
+        serializer << obj.extent;
+    }
+
+    static void deserialize(SerializerType& deserializer, spark::math::Rectangle<T>& obj)
+    {
+        deserializer >> obj.position;
+        deserializer >> obj.extent;
+    }
+};
+
 SPARK_DEFINE_EMPTY_SERIALIZER_SCHEME(spark::core::Component)
 
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Circle, radius)
+SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Collider, m_rectangle)
 
 template <typename SerializerType>
 struct experimental::ser::SerializerScheme<SerializerType, spark::core::GameObject>
