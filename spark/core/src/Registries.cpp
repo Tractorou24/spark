@@ -18,5 +18,6 @@ namespace spark::core
         registerType<core::components::Image>();
         registerType<core::components::Rectangle>();
         registerType<core::components::Text>();
+        registerType<core::components::Transform>();
     }
 }
