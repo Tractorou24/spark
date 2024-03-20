@@ -308,13 +308,13 @@ namespace spark::core
         glfwSetWindowSizeCallback(PRIVATE_TO_WINDOW(m_window),
                                   [](GLFWwindow* window, const int width, const int height)
                                   {
-                                      Window & data = *static_cast<Window*>(glfwGetWindowUserPointer(window));
-                                      data.m_settings.size.x = std::max(1, width);
-                                      data.m_settings.size.y = std::max(1, height);
+                                      Window& data = *static_cast<Window*>(glfwGetWindowUserPointer(window));
+                                      data.m_settings.size = { static_cast<unsigned int>(width), static_cast<unsigned int>(height) };
 
                                       events::WindowResizeEvent event(width, height);
                                       data.m_settings.eventCallback(event);
-                                      data.m_renderer->recreateSwapChain(data.m_settings.size);
+                                      if(!data.isMinimized())
+                                        data.m_renderer->recreateSwapChain(data.m_settings.size);
                                   });
 
         glfwSetWindowCloseCallback(PRIVATE_TO_WINDOW(m_window),
@@ -452,6 +452,11 @@ namespace spark::core
     void Window::onUpdate()
     {
         glfwPollEvents();
+    }
+
+    bool Window::isMinimized() const
+    {
+        return m_settings.size.x <= 1 && m_settings.size.y <= 1;
     }
 
     math::Vector2<unsigned int> Window::size() const

@@ -74,8 +74,12 @@ namespace spark::core
         while (m_isRunning)
         {
             const float dt = update_timer.restart<std::chrono::seconds>();
+
             // Update
             m_window->onUpdate();
+            if (m_window->isMinimized())
+                continue;
+
             m_scene->onUpdate(dt);
 
             // Render
