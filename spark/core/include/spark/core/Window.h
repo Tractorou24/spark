@@ -51,6 +51,12 @@ namespace spark::core
         void onUpdate();
 
         /**
+         * \brief Checks if the window is minimized.
+         * \return `true` if the window is minimized, `false` otherwise.
+         */
+        bool isMinimized() const;
+
+        /**
          * \brief Gets the size of the window.
          * \return A 2D vector representing the width and height of the window.
          */
