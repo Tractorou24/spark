@@ -79,6 +79,8 @@ namespace spark::imgui
         const std::size_t fence = vk_device.graphicsQueue().submit(cmd_buffer);
         vk_device.graphicsQueue().waitFor(fence);
         ImGui_ImplVulkan_DestroyFontUploadObjects();
+
+        log::info("ImGui initialized");
     }
 
     void* context()
@@ -113,5 +115,7 @@ namespace spark::imgui
 
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
+
+        log::info("ImGui shutdown");
     }
 }
