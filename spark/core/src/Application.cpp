@@ -43,6 +43,7 @@ namespace spark::core
             m_scene->onUpdate(dt);
 
             // Render
+            imgui::new_frame();
             m_scene->onRender();
             m_window->renderer().render();
         }

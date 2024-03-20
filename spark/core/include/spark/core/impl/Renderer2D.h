@@ -1,6 +1,7 @@
 #pragma once
 
 #include "spark/base/Exception.h"
+#include "spark/imgui/ImGui.h"
 #include "spark/lib/Pointers.h"
 #include "spark/log/Logger.h"
 #include "spark/path/Paths.h"
@@ -273,6 +274,8 @@ namespace spark::core
 
         // Draw the object and present the frame by ending the render pass
         command_buffer->drawIndexed(index_buffer.elements(), static_cast<unsigned>(m_instanceData.size()));
+        // TODO: Render ImGui on another render pass (so this can be ordered as we want)
+        imgui::render(*command_buffer);
         render_pass.end();
 
         // Clean up the instance data for the next frame
