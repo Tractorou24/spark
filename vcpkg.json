@@ -18,6 +18,11 @@
     "vulkan-memory-allocator",
     "spirv-reflect",
     "glfw3",
-    "glm"
+    "glm",
+    {
+        "name": "imgui",
+        "default-features": false,
+        "features": [ "glfw-binding", "vulkan-binding" ]
+    }
   ]
 }
