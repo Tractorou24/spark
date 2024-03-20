@@ -20,6 +20,8 @@ namespace spark::core
     template <typename Backend>
     class Renderer2D
     {
+        friend class Window;
+
     public:
         using backend_type = Backend;
         using device_type = typename backend_type::device_type;

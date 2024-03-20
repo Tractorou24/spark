@@ -6,10 +6,12 @@
 #include "spark/events/KeyEvents.h"
 #include "spark/events/MouseEvents.h"
 #include "spark/events/WindowEvents.h"
+#include "spark/imgui/ImGui.h"
 #include "spark/log/Logger.h"
 #include "spark/math/Vector2.h"
 #include "spark/render/vk/VulkanBackend.h"
 
+#include "imgui.h"
 #define GLFW_INCLUDE_VULKAN
 #include "GLFW/glfw3.h"
 
@@ -422,10 +424,17 @@ namespace spark::core
                                                          return vk_surface;
                                                      },
                                                      required_extensions);
+
+        // Init ImGui
+        imgui::init(PRIVATE_TO_WINDOW(m_window), *m_renderer->m_renderBackend, *m_renderer->m_device, m_renderer->m_device->state().renderPass("Opaque"));
+        ImGui::SetCurrentContext(static_cast<ImGuiContext*>(imgui::context()));
     }
 
     Window::~Window()
     {
+        // Shutdown ImGui
+        imgui::shutdown(*m_renderer->m_device);
+
         // Renderer2D must be destroyed before the window
         m_renderer.reset();
 
