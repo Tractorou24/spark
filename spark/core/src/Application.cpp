@@ -10,6 +10,42 @@
 #include "spark/lib/Clock.h"
 #include "spark/log/Logger.h"
 
+#include "imgui.h"
+
+#include <numeric>
+
+namespace
+{
+    /**
+     * \brief Draws a graph of the frames per second using ImGui
+     * \param dt The delta time between the last frame and the current one
+     */
+    void draw_fps_graph(const float dt)
+    {
+        static std::vector<float> fps_values(100);
+        static float min_fps = 1000.0f;
+        static float max_fps = 0.0f;
+        static float avg_fps = 0.0f;
+
+        const float fps = 1.0f / dt;
+        max_fps = std::max(max_fps, fps);
+        min_fps = std::min(min_fps, fps);
+        avg_fps = std::accumulate(fps_values.begin(), fps_values.end(), 0.f) / 100;
+        fps_values.push_back(fps);
+
+        if (fps_values.size() >= 100)
+            fps_values.erase(fps_values.begin());
+
+        ImGui::Begin("Frame Data");
+        ImGui::Text("FPS: %.2f", fps);
+        ImGui::Text("Max FPS: %.2f", max_fps);
+        ImGui::Text("Min FPS: %.2f", min_fps);
+        ImGui::Text("Avg FPS: %.2f", avg_fps);
+        ImGui::PlotLines("##FPS", fps_values.data(), static_cast<int>(fps_values.size()), 0, nullptr, 0.0f, 3000.f, ImVec2(0, 80));
+        ImGui::End();
+    }
+}
+
 namespace spark::core
 {
     Application* Application::s_instance = nullptr;
@@ -44,6 +80,7 @@ namespace spark::core
 
             // Render
             imgui::new_frame();
+            draw_fps_graph(dt);
             m_scene->onRender();
             m_window->renderer().render();
         }
