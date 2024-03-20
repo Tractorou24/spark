@@ -1,6 +1,7 @@
 find_package(SFML COMPONENTS system window graphics QUIET REQUIRED)
 find_package(Vulkan QUIET REQUIRED)
 find_package(glfw3 QUIET REQUIRED)
+find_package(imgui QUIET REQUIRED)
 
 set (TARGET_NAME ${SPARK_NAME}_core)
 set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -60,6 +61,7 @@ target_link_libraries(${TARGET_NAME}
         experimental_ser
     PRIVATE
         glfw
+        imgui::imgui
         sfml-system
         sfml-window
         sfml-graphics
