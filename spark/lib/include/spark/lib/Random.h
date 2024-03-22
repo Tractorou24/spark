@@ -15,6 +15,9 @@ namespace spark::lib
         template <typename T> requires std::is_floating_point_v<T>
         static T Number(T min, T max);
 
+        template <typename C> requires std::ranges::range<C>
+        static typename C::value_type ElementInRange(const C& range);
+
     private:
         static std::random_device s_randomDevice;
         static std::mt19937 s_generator;
