@@ -16,6 +16,7 @@ namespace spark::core::components
 
     public:
         math::Vector2<float> size = {50, 50};
+        math::Vector4<float> color = {1.f, 1.f, 1.f, 1.f};
 
     public:
         explicit Rectangle(GameObject* parent)
@@ -32,7 +33,7 @@ namespace spark::core::components
             transform_matrix = glm::scale(transform_matrix, {size.x, size.y, 1.0f});
 
             // Draw the rectangle
-            core::Application::Instance()->window().renderer().drawQuad(transform_matrix);
+            core::Application::Instance()->window().renderer().drawQuad(transform_matrix, color);
         }
     };
 }
