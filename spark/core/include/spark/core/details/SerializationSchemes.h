@@ -90,6 +90,8 @@ SPARK_DEFINE_EMPTY_SERIALIZER_SCHEME(spark::core::Component)
 
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Circle, radius)
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Collider, m_rectangle)
+SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::StaticCollider)
+SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::DynamicCollider)
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Image, m_path, m_size)
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Rectangle, size)
 SPARK_SERIALIZE_RTTI_CLASS(spark::core::components::Text, m_content, m_offset, m_fontPath)

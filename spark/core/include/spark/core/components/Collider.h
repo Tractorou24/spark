@@ -8,30 +8,22 @@
 #include "spark/math/Vector4.h"
 #include "spark/patterns/Signal.h"
 #include "spark/patterns/Traverser.h"
+#include "spark/rtti/HasRtti.h"
+
+#include "glm/gtc/matrix_transform.hpp"
 
 namespace spark::core::components
 {
     /**
      * \brief A component representing a square collider.
-     *
-     * Checks for collision with all other colliders in the scene at every frame and emits a signal on collision.
-     * This is not efficient, but works for now. A better solution would be to use a quad-tree to store all colliders.
+     * \note This component is not meant to be used directly, use @ref StaticCollider or @ref DynamicCollider instead.
      */
-    class Collider final : public Component
+    class Collider : public Component
     {
         DECLARE_SPARK_RTTI(Collider, Component)
         SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
-        patterns::Signal<const Collider&> onCollision;
-
-    public:
-        explicit Collider(GameObject* parent)
-            : Component(parent) {}
-
-        explicit Collider(GameObject* parent, math::Rectangle<float> rectangle)
-            : Component(parent), m_rectangle(std::move(rectangle)) {}
-
         /**
          * \brief Gets the bounds of the rectangle in screen space.
          * \return A @ref spark::math::Vector4<float> containing the bounds of the rectangle. [xMin, yMin, xMax, yMax]
@@ -66,6 +58,47 @@ namespace spark::core::components
             return false;
         }
 
+    protected:
+        explicit Collider(GameObject* parent, math::Rectangle<float> rectangle)
+            : Component(parent), m_rectangle(std::move(rectangle)) {}
+
+    private:
+        math::Rectangle<float> m_rectangle;
+    };
+
+    /**
+     * \brief A square collider that does not move and is only used for collision detection.
+     */
+    class StaticCollider final : public Collider
+    {
+        DECLARE_SPARK_RTTI(StaticCollider, Collider)
+
+    public:
+        explicit StaticCollider(GameObject* parent)
+            : Collider(parent, {}) {}
+
+        explicit StaticCollider(GameObject* parent, math::Rectangle<float> rectangle)
+            : Collider(parent, std::move(rectangle)) {}
+    };
+
+    /**
+     * \brief A square collider that moves and checks for collisions with other colliders.
+     */
+    class DynamicCollider final : public Collider
+    {
+        DECLARE_SPARK_RTTI(DynamicCollider, Collider)
+
+    public:
+        /// \brief Signal emitted when a collision is detected.
+        patterns::Signal<const Collider&> onCollision;
+
+    public:
+        explicit DynamicCollider(GameObject* parent)
+            : Collider(parent, {}) {}
+
+        explicit DynamicCollider(GameObject* parent, math::Rectangle<float> rectangle)
+            : Collider(parent, std::move(rectangle)) {}
+
         void onUpdate(float /*dt*/) override
         {
             // Check for collision with each collider and trigger the onCollision signal if a collision is detected
@@ -85,16 +118,18 @@ namespace spark::core::components
             std::vector<const Collider*> colliders;
             auto traverser = patterns::make_traverser<GameObject>([&](const GameObject* obj)
             {
-                if (obj->hasComponent<Collider>())
-                    colliders.push_back(obj->component<Collider>());
+                for (const auto* component : obj->components())
+                    if (&component->rttiInstance() == &StaticCollider::classRtti() || &component->rttiInstance() == &DynamicCollider::classRtti())
+                        colliders.push_back(static_cast<const Collider*>(component));
             });
             patterns::traverse_tree(gameObject()->root(), traverser);
             return colliders;
         }
-
-    private:
-        math::Rectangle<float> m_rectangle;
     };
 }
 
 IMPLEMENT_SPARK_RTTI(spark::core::components::Collider)
+
+IMPLEMENT_SPARK_RTTI(spark::core::components::StaticCollider)
+
+IMPLEMENT_SPARK_RTTI(spark::core::components::DynamicCollider)
