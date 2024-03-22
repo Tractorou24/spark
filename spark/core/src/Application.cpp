@@ -87,6 +87,8 @@ namespace spark::core
             draw_fps_graph(dt);
             m_scene->onRender();
             m_window->renderer().render();
+
+            details::GameObjectDeleter<GameObject>::DeleteMarkedObjects();
         }
 
         // Unload scene and close window (app is not running anymore, close() was called)
