@@ -60,10 +60,19 @@ namespace spark::core::details
     template <typename Impl>
     struct GameObjectDeleter
     {
+        inline static std::vector<AbstractGameObject<GameObject>*> objectsToDestroy;
+
+        static void DeleteMarkedObjects()
+        {
+            for (std::size_t i = 0; i < objectsToDestroy.size(); i++)
+                delete objectsToDestroy[i];
+            objectsToDestroy.clear();
+        }
+
         void operator()(Impl* ptr) const
         {
             static_cast<AbstractGameObject<GameObject>*>(ptr)->onDestroyed();
-            delete ptr;
+            objectsToDestroy.push_back(ptr);
         }
     };
 }
