@@ -17,7 +17,7 @@ namespace brickbreaker
         DECLARE_SPARK_RTTI(Paddle, GameObject)
 
     public:
-        float speed = 500.0f;
+        float speed = 700.0f;
 
     public:
         explicit Paddle(std::string name, GameObject* parent, spark::math::Vector2<float> size)
