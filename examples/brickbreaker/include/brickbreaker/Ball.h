@@ -28,6 +28,12 @@ namespace brickbreaker
         spark::math::Vector2<float> direction = {};
         float velocity = 400.0f;
         spark::patterns::Signal<> onLoose;
+        bool goingUp = false;
+        bool goingDown = false;
+        bool goingLeft = false;
+        bool goingRight = false;
+        bool gameStarted = false;
+
 
     public:
         explicit Ball(std::string name, GameObject* parent, const float radius)
@@ -43,25 +49,40 @@ namespace brickbreaker
                     const auto bounds = component<spark::core::components::DynamicCollider>()->bounds();
                     const auto other_bounds = other.bounds();
 
+                    /*  
+                    * check if the ball hit the brick from the top, bottom, left or right
+                    * and check if the center of the ball is near the center of the brick
+                    */                     
+
                     const bool top = bounds.w - other_bounds.y > 0;
-                    const bool bottom = bounds.y - other_bounds.w > 0;
+                    const bool bottom = bounds.y - other_bounds.w  > 0;
                     const bool left = bounds.x - other_bounds.z > 0;
                     const bool right = bounds.z - other_bounds.x > 0;
 
-                    if (top || bottom)
-                        direction = {direction.x, -direction.y};
-                    else if (left || right)
-                        direction = {-direction.x, direction.y};
-                    else if (top && left)
-                        direction = {-abs(direction.x), -abs(direction.y)};
-                    else if (top && right)
-                        direction = {abs(direction.x), -abs(direction.y)};
-                    else if (bottom && left)
-                        direction = {-abs(direction.x), abs(direction.y)};
-                    else if (bottom && right)
-                        direction = {abs(direction.x), abs(direction.y)};
-                    else
-                        direction = {-direction.x, -direction.y};
+                    if (top && !goingUp)
+                    {
+                        direction = { direction.x, -direction.y };
+                        
+                        goingUp = true;
+                    }
+                    else if (bottom && goingUp) 
+                    {
+                        direction = { direction.x, -direction.y };
+                        goingUp = false;
+         
+                    }
+                    else if (left && !goingLeft)
+                    {
+                        direction = { -direction.x, direction.y };
+                        goingLeft = true;
+                    }
+                    else if (right && goingLeft) 
+                    {
+                        direction = { -direction.x, direction.y };
+                        goingLeft = false;
+                        
+                    }
+                    
 
                     // Increase the velocity by 0.1%.
                     velocity *= 1.001f;
@@ -71,13 +92,64 @@ namespace brickbreaker
                 }
                 else if (&other.gameObject()->rttiInstance() == &Paddle::classRtti())
                 {
-                    direction = {direction.x, -direction.y};
+                    /* we get a % of the paddle to know where the ball hit and change the direction accordingly to that %
+                     * but from 45% to 55% angle is 0, from 0% to 45% angle is change proportionally to the % of the paddle on the left side
+                     * and from 55% to 100% angle is change proportionally to the % of the paddle on the right side
+                    */
+                    float paddle_Size = m_paddle->component<spark::core::components::Rectangle>()->size.x;
+                    float paddle_Position = m_paddle->transform()->position.x;
+                    float ball_Position = transform()->position.x + component < spark::core::components::Circle>()->radius;
+                    float paddle_Percentage = (ball_Position - paddle_Position) / paddle_Size;
+
+                    if (paddle_Percentage < 0.40f) // 0% to 40%
+                    {
+                        //the more the ball is on the left side the more the angle is negative
+                        float angle = std::numbers::pi_v<float> * paddle_Percentage;
+                        direction = {-std::cos(angle), -std::sin(angle)};
+
+                        
+                        goingLeft = true;
+                    }
+                    else if (paddle_Percentage > 0.60f) // 60% to 100%
+                    {
+                        //the more the ball is on the right side the more the angle is positive
+                        float angle = std::numbers::pi_v<float> * (1 - paddle_Percentage);
+                        direction = { std::cos(angle), -std::sin(angle) };
+
+                        goingLeft = false;
+                        
+                    }
+                    else if(paddle_Percentage > 0.40f && paddle_Percentage < 0.60f) // 40% to 60%
+                    {
+                        direction = {0, -direction.y};
+
+                        goingLeft = false;
+                        
+                    }
+                    
+                    // Increase the velocity by 0.1%.
+                    velocity *= 1.001f;
+
                 } else if(&other.gameObject()->rttiInstance() == &ScreenBorder::classRtti())
                 {
-                    if (other.gameObject()->name() == "Top Border")
-                        direction = {direction.x, -direction.y};
-                    else if (other.gameObject()->name() == "Left Border" || other.gameObject()->name() == "Right Border")
-                        direction = {-direction.x, direction.y};
+                    if (other.gameObject()->name() == "Top Border") 
+                    {
+                        direction = { direction.x, -direction.y };
+                        
+                        goingUp = false;
+                    }                        
+                    else if (other.gameObject()->name() == "Left Border") 
+                    {
+                        direction = { -direction.x, direction.y };
+                        
+                        goingLeft = false;
+                    } 
+                    else if (other.gameObject()->name() == "Right Border") 
+                    {
+                        direction = { -direction.x, direction.y };
+                        goingLeft = true;
+                        
+                    }  
                 }
             });
         }
@@ -86,23 +158,49 @@ namespace brickbreaker
         {
             // Set the ball in the middle of the screen.
             const auto window_size = spark::core::Application::Instance()->window().size().castTo<float>();
-            transform()->position = { window_size.x / 2, window_size.y * 0.6f };
+            transform()->position = { window_size.x / 2, window_size.y * 0.85f };
 
-            // Randomize the direction of the ball.
-            float angle = spark::lib::Random::Number(std::numbers::pi_v<float> / 6, std::numbers::pi_v<float> / 4);
-            if (spark::lib::Random::Number(0.0f, 1.0f) > 0.5f) // 50% chance to flip the angle up/down.
-                angle = -angle;
-            if (spark::lib::Random::Number(0.0f, 1.0f) > 0.5f) // 50% chance to flip the angle left/right.
-                angle = std::numbers::pi_v<float> - angle;
+            m_paddle = FindByName(root(), "Paddle");
 
-            direction = {std::cos(angle), std::sin(angle)};
+            
+
+            
         }
 
         void onUpdate(const float dt) override
         {
-            transform()->position += direction * velocity * dt;
+            
             if (checkLoose(transform()->position))
                 onLoose.emit();
+
+            if(transform()->position.y > m_paddle->transform()->position.y + 15.0f)
+            {
+                m_health--;
+                if(m_health == 0)
+                    onLoose.emit();
+                else
+                    onSpawn();
+            }
+
+            if(!gameStarted)
+            {
+                const float next_position = spark::core::Input::MousePosition().x;
+                transform()->position.x = next_position;
+            }
+
+            if (spark::core::Input::IsMousePressed() && !gameStarted)
+            {
+                direction = { 0, -1 };
+                transform()->position += direction * velocity * dt;
+                gameStarted = true;
+                goingUp = true;
+            }
+            else
+            {
+                transform()->position += direction * velocity * dt;
+            }
+                
+                
         }
 
     private:
@@ -118,6 +216,12 @@ namespace brickbreaker
                 return true;
             return false;
         }
+
+    private :
+        GameObject* m_paddle = nullptr;
+
+        //health of the ball
+        int m_health = 3;
     };
 }
 
