@@ -157,6 +157,8 @@ namespace brickbreaker
 
             m_paddle = FindByName(root(), "Paddle");
             SPARK_ASSERT(m_paddle != nullptr);
+
+            reset();
         }
 
         void onUpdate(const float dt) override
@@ -175,12 +177,24 @@ namespace brickbreaker
                 return;
             }
 
-            transform()->position += direction * velocity * dt;
             if (checkLoose(transform()->position))
-                onLoose.emit();
+            {
+                m_remainingHealth--;
+                if (m_remainingHealth == 0)
+                    onLoose.emit();
+                else
+                    reset();
+            }
+            transform()->position += direction * velocity * dt;
         }
 
     private:
+        void reset()
+        {
+            m_gameStarted = false;
+            direction = {0, 0};
+        }
+
         /**
          * \brief Checks if the ball is going to be outside the screen boundaries.
          * \param next_position The desired position of the ball calculated from the current position and direction for the next frame.
@@ -201,6 +215,7 @@ namespace brickbreaker
         bool m_goingDown = false;
         bool m_goingLeft = false;
         bool m_goingRight = false;
+        std::size_t m_remainingHealth = 3;
     };
 }
 
