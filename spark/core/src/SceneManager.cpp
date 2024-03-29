@@ -42,6 +42,8 @@ namespace spark::core
 
     void SceneManager::UnregisterAllScenes()
     {
+        // TODO: Think about using std::weak_ptr in the application to avoid this.
+        Application::Instance()->setScene(nullptr);
         s_scenes.clear();
     }
 }

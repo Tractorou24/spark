@@ -7,9 +7,9 @@
 
 namespace spark::core
 {
-    void GameObject::Destroy(GameObject* object)
+    void GameObject::Destroy(GameObject* object, const bool immediate)
     {
-        details::GameObjectDeleter<GameObject>()(object);
+        details::GameObjectDeleter<GameObject>()(object, immediate);
     }
 
     GameObject* GameObject::FindById(GameObject* root, const lib::Uuid& uuid)
