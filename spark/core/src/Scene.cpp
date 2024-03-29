@@ -11,7 +11,7 @@ namespace spark::core
     Scene::~Scene()
     {
         onUnload();
-        GameObject::Destroy(m_root);
+        GameObject::Destroy(m_root, true);
     }
 
     const lib::Uuid& Scene::uuid() const

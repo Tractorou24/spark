@@ -43,8 +43,10 @@ namespace spark::core
 
         /**
          * \brief Destroys the current GameObject and all its children from the current scene.
+         * \param object The object to destroy.
+         * \param immediate `true` to destroy the object immediately, `false` to destroy it at the end of the frame. Default is `false`.
          */
-        static void Destroy(GameObject* object);
+        static void Destroy(GameObject* object, bool immediate = false);
 
         /**
          * \brief Finds a GameObject by its UUID.

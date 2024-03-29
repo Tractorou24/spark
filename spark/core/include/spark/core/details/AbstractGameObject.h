@@ -69,10 +69,18 @@ namespace spark::core::details
             objectsToDestroy.clear();
         }
 
-        void operator()(Impl* ptr) const
+        void operator()(Impl* ptr, const bool immediate) const
         {
             static_cast<AbstractGameObject<GameObject>*>(ptr)->onDestroyed();
-            objectsToDestroy.push_back(ptr);
+            if (immediate)
+                delete ptr;
+            else
+                objectsToDestroy.push_back(ptr);
+        }
+
+        void operator()(Impl* ptr) const
+        {
+            operator()(ptr, true);
         }
     };
 }

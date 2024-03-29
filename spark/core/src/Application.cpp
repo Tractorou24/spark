@@ -130,7 +130,8 @@ namespace spark::core
         if (m_scene)
             m_scene->onUnload();
         m_scene = std::move(scene);
-        m_scene->onLoad();
+        if (m_scene)
+            m_scene->onLoad();
     }
 
     void Application::onEvent(events::Event& event)
