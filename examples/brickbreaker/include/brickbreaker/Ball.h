@@ -1,6 +1,8 @@
 #pragma once
 
+#include "brickbreaker/Brick.h"
 #include "brickbreaker/Paddle.h"
+#include "brickbreaker/ScreenBorder.h"
 
 #include "spark/core/Application.h"
 #include "spark/core/GameObject.h"
@@ -36,21 +38,47 @@ namespace brickbreaker
 
             component<spark::core::components::DynamicCollider>()->onCollision.connect([this](const spark::core::components::Collider& other)
             {
-                const bool is_paddle = &other.gameObject()->rttiInstance() == &Paddle::classRtti();
-                const bool is_top_wall = other.gameObject()->name().find("Top") != std::string::npos;
-
-                // Direction is inverted in the y-axis if the ball collides with the paddle or the top wall.
-                if (is_paddle || is_top_wall)
+                if (&other.gameObject()->rttiInstance() == &Brick::classRtti())
                 {
-                    direction.y = -direction.y;
-                    return;
+                    const auto bounds = component<spark::core::components::DynamicCollider>()->bounds();
+                    const auto other_bounds = other.bounds();
+
+                    const bool top = bounds.w - other_bounds.y > 0;
+                    const bool bottom = bounds.y - other_bounds.w > 0;
+                    const bool left = bounds.x - other_bounds.z > 0;
+                    const bool right = bounds.z - other_bounds.x > 0;
+
+                    if (top || bottom)
+                        direction = {direction.x, -direction.y};
+                    else if (left || right)
+                        direction = {-direction.x, direction.y};
+                    else if (top && left)
+                        direction = {-abs(direction.x), -abs(direction.y)};
+                    else if (top && right)
+                        direction = {abs(direction.x), -abs(direction.y)};
+                    else if (bottom && left)
+                        direction = {-abs(direction.x), abs(direction.y)};
+                    else if (bottom && right)
+                        direction = {abs(direction.x), abs(direction.y)};
+                    else
+                        direction = {-direction.x, -direction.y};
+
+                    // Increase the velocity by 0.1%.
+                    velocity *= 1.001f;
+
+                    // Destroy the brick.
+                    Destroy(const_cast<GameObject*>(other.gameObject()));
                 }
-
-                // Else, the direction is inverted in the x-axis.
-                direction.x = -direction.x;
-
-                // Increase the velocity by 10%.
-                velocity *= 1.1f;
+                else if (&other.gameObject()->rttiInstance() == &Paddle::classRtti())
+                {
+                    direction = {direction.x, -direction.y};
+                } else if(&other.gameObject()->rttiInstance() == &ScreenBorder::classRtti())
+                {
+                    if (other.gameObject()->name() == "Top Border")
+                        direction = {direction.x, -direction.y};
+                    else if (other.gameObject()->name() == "Left Border" || other.gameObject()->name() == "Right Border")
+                        direction = {-direction.x, direction.y};
+                }
             });
         }
 
