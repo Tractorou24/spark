@@ -23,7 +23,7 @@ namespace spark::core::components
         SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
-        patterns::Signal<> onCollision;
+        patterns::Signal<const Collider&> onCollision;
 
     public:
         explicit Collider(GameObject* parent)
@@ -69,10 +69,10 @@ namespace spark::core::components
         void onUpdate(float /*dt*/) override
         {
             // Check for collision with each collider and trigger the onCollision signal if a collision is detected
-            for (const auto& collider : allColliders())
+            for (const auto* collider : allColliders())
                 if (collider != this)
                     if (collidesWith(*collider))
-                        onCollision.emit();
+                        onCollision.emit(*collider);
         }
 
     private:
