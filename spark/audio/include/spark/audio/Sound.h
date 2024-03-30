@@ -69,6 +69,12 @@ namespace spark::audio
         [[nodiscard]] float pitch() const;
 
         /**
+         * \brief Checks if the sound is currently playing.
+         * \return `true` if the sound is currently playing, `false` otherwise.
+         */
+        [[nodiscard]] bool isPlaying() const;
+
+        /**
          * \brief Sets the sound to loop or not.
          * \param loop A boolean indicating whether the sound should loop or not.
          */
