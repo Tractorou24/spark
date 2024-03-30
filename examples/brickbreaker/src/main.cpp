@@ -1,6 +1,8 @@
 #include "brickbreaker/Ball.h"
 #include "brickbreaker/Brick.h"
+#include "brickbreaker/BrickContainer.h"
 #include "brickbreaker/Paddle.h"
+#include "brickbreaker/SavesManager.h"
 #include "brickbreaker/ScreenBorder.h"
 
 #include "spark/core/Application.h"
@@ -17,6 +19,12 @@ std::unique_ptr<spark::core::Application> spark_main(const std::vector<std::stri
     static constexpr spark::math::Vector2 brick_size = {100.f, 40.f};
 
     auto app = spark::core::ApplicationBuilder().setName("BrickBreaker").setSize(window_size.x, window_size.y).build();
+    app->registries().gameObject.registerType<brickbreaker::Ball>();
+    app->registries().gameObject.registerType<brickbreaker::Brick>();
+    app->registries().gameObject.registerType<brickbreaker::Paddle>();
+    app->registries().gameObject.registerType<brickbreaker::SavesManager>();
+    app->registries().gameObject.registerType<brickbreaker::ScreenBorder>();
+    app->registries().gameObject.registerType<brickbreaker::BrickContainer>();
 
     {
         auto* root = spark::core::GameObject::Instantiate("Scene Root", nullptr);
@@ -29,8 +37,9 @@ std::unique_ptr<spark::core::Application> spark_main(const std::vector<std::stri
         // Add the game objects
         spark::core::GameObject::Instantiate<brickbreaker::Paddle>("Paddle", root, spark::math::Vector2<float> {150, 25});
         spark::core::GameObject::Instantiate<brickbreaker::Ball>("Ball", root, 15.0f);
+        spark::core::GameObject::Instantiate<brickbreaker::SavesManager>("Saves Manager", root);
 
-        auto* brick_container = spark::core::GameObject::Instantiate<spark::core::GameObject>("Brick Container", root);
+        auto* brick_container = spark::core::GameObject::Instantiate<brickbreaker::BrickContainer>("Brick Container", root);
         for (unsigned row = 0; row < brick_count.x; row++)
         {
             for (unsigned column = 0; column < brick_count.y; column++)

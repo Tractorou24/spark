@@ -20,6 +20,9 @@ namespace brickbreaker
         float speed = 700.0f;
 
     public:
+        explicit Paddle(std::string name, GameObject* parent)
+            : Paddle(std::move(name), parent, spark::math::Vector2<float>(100, 20)) {}
+
         explicit Paddle(std::string name, GameObject* parent, spark::math::Vector2<float> size)
             : GameObject(std::move(name), parent)
         {
@@ -62,3 +65,5 @@ namespace brickbreaker
 }
 
 IMPLEMENT_SPARK_RTTI(brickbreaker::Paddle)
+
+SPARK_SERIALIZE_RTTI_CLASS(brickbreaker::Paddle, speed)
