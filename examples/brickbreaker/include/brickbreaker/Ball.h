@@ -6,12 +6,14 @@
 #include "brickbreaker/Paddle.h"
 #include "brickbreaker/ScreenBorder.h"
 
+#include "spark/audio/Sound.h"
 #include "spark/core/Application.h"
 #include "spark/core/GameObject.h"
 #include "spark/core/components/Circle.h"
 #include "spark/core/components/Collider.h"
 #include "spark/core/components/Transform.h"
 #include "spark/lib/Random.h"
+#include "spark/path/Paths.h"
 #include "spark/patterns/Signal.h"
 #include "spark/rtti/HasRtti.h"
 
@@ -33,7 +35,8 @@ namespace brickbreaker
 
     public:
         explicit Ball(std::string name, GameObject* parent, const float radius)
-            : GameObject(std::move(name), parent)
+            : GameObject(std::move(name), parent), m_music(spark::path::assets_path() / "music.ogg"), m_hitSound(spark::path::assets_path() / "hit.ogg"),
+              m_damageSound(spark::path::assets_path() / "dmg.ogg")
         {
             addComponent<spark::core::components::Circle>(radius);
             addComponent<spark::core::components::DynamicCollider>(spark::math::Rectangle<float> {{0, 0}, {radius * 2, radius * 2}});
@@ -42,6 +45,8 @@ namespace brickbreaker
             {
                 if (&other.gameObject()->rttiInstance() == &Brick::classRtti())
                 {
+                    m_hitSound.play();
+
                     const auto bounds = component<spark::core::components::DynamicCollider>()->bounds();
                     const auto other_bounds = other.bounds();
 
@@ -161,6 +166,13 @@ namespace brickbreaker
             reset();
         }
 
+        void onDestroyed() override
+        {
+            m_damageSound.stop();
+            m_hitSound.stop();
+            m_music.stop();
+        }
+
         void onUpdate(const float dt) override
         {
             // Start the game when conditions are met
@@ -181,9 +193,14 @@ namespace brickbreaker
             {
                 m_remainingHealth--;
                 if (m_remainingHealth == 0)
+                {
                     onLoose.emit();
-                else
+                    m_music.stop();
+                } else
+                {
+                    m_damageSound.play();
                     reset();
+                }
             }
             transform()->position += direction * velocity * dt;
         }
@@ -193,6 +210,8 @@ namespace brickbreaker
         {
             m_gameStarted = false;
             direction = {0, 0};
+            m_music.play();
+            transform()->position.y = spark::core::Application::Instance()->window().size().castTo<float>().y * 0.85f;
         }
 
         /**
@@ -210,6 +229,8 @@ namespace brickbreaker
 
     private:
         GameObject* m_paddle = nullptr;
+        spark::audio::Sound m_music, m_hitSound, m_damageSound;
+
         bool m_gameStarted = false;
         bool m_goingUp = false;
         bool m_goingDown = false;
