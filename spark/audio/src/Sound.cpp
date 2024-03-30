@@ -73,6 +73,11 @@ namespace spark::audio
         return m_sound.getPitch();
     }
 
+    bool Sound::isPlaying() const
+    {
+        return m_sound.getStatus() == sf::Sound::Playing;
+    }
+
     void Sound::setLoop(const bool loop)
     {
         m_sound.setLoop(loop);
