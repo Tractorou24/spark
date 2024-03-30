@@ -294,6 +294,7 @@ namespace spark::core
 
         // Create window
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
         m_window = glfwCreateWindow(static_cast<int>(settings.size.x), static_cast<int>(settings.size.y), settings.title.c_str(), nullptr, nullptr);
         if (m_window == nullptr)
         {
@@ -309,12 +310,12 @@ namespace spark::core
                                   [](GLFWwindow* window, const int width, const int height)
                                   {
                                       Window& data = *static_cast<Window*>(glfwGetWindowUserPointer(window));
-                                      data.m_settings.size = { static_cast<unsigned int>(width), static_cast<unsigned int>(height) };
+                                      data.m_settings.size = {static_cast<unsigned int>(width), static_cast<unsigned int>(height)};
 
                                       events::WindowResizeEvent event(width, height);
                                       data.m_settings.eventCallback(event);
-                                      if(!data.isMinimized())
-                                        data.m_renderer->recreateSwapChain(data.m_settings.size);
+                                      if (!data.isMinimized())
+                                          data.m_renderer->recreateSwapChain(data.m_settings.size);
                                   });
 
         glfwSetWindowCloseCallback(PRIVATE_TO_WINDOW(m_window),
