@@ -155,21 +155,26 @@ namespace brickbreaker
             const auto window_size = spark::core::Application::Instance()->window().size().castTo<float>();
             transform()->position = {window_size.x / 2, window_size.y * 0.6f};
 
-            // Randomize the direction of the ball.
-            float angle = spark::lib::Random::Number(std::numbers::pi_v<float> / 6, std::numbers::pi_v<float> / 4);
-            if (spark::lib::Random::Number(0.0f, 1.0f) > 0.5f) // 50% chance to flip the angle up/down.
-                angle = -angle;
-            if (spark::lib::Random::Number(0.0f, 1.0f) > 0.5f) // 50% chance to flip the angle left/right.
-                angle = std::numbers::pi_v<float> - angle;
-
-            direction = {std::cos(angle), std::sin(angle)};
-
             m_paddle = FindByName(root(), "Paddle");
             SPARK_ASSERT(m_paddle != nullptr);
         }
 
         void onUpdate(const float dt) override
         {
+            // Start the game when conditions are met
+            if (!m_gameStarted)
+            {
+                if (spark::core::Input::IsMousePressed())
+                {
+                    direction = {0, -1};
+                    m_gameStarted = true;
+                    m_goingUp = true;
+                }
+                transform()->position.x = m_paddle->transform()->position.x + m_paddle->component<spark::core::components::Rectangle>()->size.x / 2 - component<
+                    spark::core::components::Circle>()->radius;
+                return;
+            }
+
             transform()->position += direction * velocity * dt;
             if (checkLoose(transform()->position))
                 onLoose.emit();
@@ -191,6 +196,7 @@ namespace brickbreaker
 
     private:
         GameObject* m_paddle = nullptr;
+        bool m_gameStarted = false;
         bool m_goingUp = false;
         bool m_goingDown = false;
         bool m_goingLeft = false;
