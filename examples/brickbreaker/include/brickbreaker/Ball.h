@@ -42,7 +42,7 @@ namespace brickbreaker
 
         explicit Ball(std::string name, GameObject* parent, const float radius)
             : GameObject(std::move(name), parent), m_music(spark::path::assets_path() / "music.ogg"), m_hitSound(spark::path::assets_path() / "hit.ogg"),
-              m_damageSound(spark::path::assets_path() / "dmg.ogg")
+              m_damageSound(spark::path::assets_path() / "dmg.ogg"), m_loseSound(spark::path::assets_path() / "lose.ogg")
         {
             addComponent<spark::core::components::Circle>(radius);
             addComponent<spark::core::components::DynamicCollider>(spark::math::Rectangle<float> {{0, 0}, {radius * 2, radius * 2}});
@@ -201,11 +201,16 @@ namespace brickbreaker
                 if (m_remainingHealth == 0)
                 {
                     onLoose.emit();
+                    m_loseSound.play();
                     m_music.stop();
-                } else
+                } else if (m_remainingHealth > 0)
                 {
                     m_damageSound.play();
                     reset();
+                } else
+                {
+                    if (!m_loseSound.isPlaying())
+                        spark::core::Application::Instance()->close();
                 }
             }
             transform()->position += direction * velocity * dt;
@@ -235,14 +240,14 @@ namespace brickbreaker
 
     private:
         GameObject* m_paddle = nullptr;
-        spark::audio::Sound m_music, m_hitSound, m_damageSound;
+        spark::audio::Sound m_music, m_hitSound, m_damageSound, m_loseSound;
 
         bool m_gameStarted = false;
         bool m_goingUp = false;
         bool m_goingDown = false;
         bool m_goingLeft = false;
         bool m_goingRight = false;
-        std::size_t m_remainingHealth = 3;
+        int m_remainingHealth = 3;
     };
 }
 
