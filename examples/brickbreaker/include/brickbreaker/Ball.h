@@ -6,9 +6,11 @@
 #include "brickbreaker/Paddle.h"
 #include "brickbreaker/ScreenBorder.h"
 
+#include "experimental/ser/SerializerScheme.h"
 #include "spark/audio/Sound.h"
 #include "spark/core/Application.h"
 #include "spark/core/GameObject.h"
+#include "spark/core/Input.h"
 #include "spark/core/components/Circle.h"
 #include "spark/core/components/Collider.h"
 #include "spark/core/components/Transform.h"
@@ -27,6 +29,7 @@ namespace brickbreaker
     class Ball final : public spark::core::GameObject
     {
         DECLARE_SPARK_RTTI(Ball, GameObject)
+        SPARK_ALLOW_PRIVATE_SERIALIZATION
 
     public:
         spark::math::Vector2<float> direction = {};
@@ -34,6 +37,9 @@ namespace brickbreaker
         spark::patterns::Signal<> onLoose;
 
     public:
+        explicit Ball(std::string name, GameObject* parent)
+            : Ball(std::move(name), parent, 10.0f) {}
+
         explicit Ball(std::string name, GameObject* parent, const float radius)
             : GameObject(std::move(name), parent), m_music(spark::path::assets_path() / "music.ogg"), m_hitSound(spark::path::assets_path() / "hit.ogg"),
               m_damageSound(spark::path::assets_path() / "dmg.ogg")
@@ -241,3 +247,5 @@ namespace brickbreaker
 }
 
 IMPLEMENT_SPARK_RTTI(brickbreaker::Ball)
+
+SPARK_SERIALIZE_RTTI_CLASS(brickbreaker::Ball, direction, velocity, m_gameStarted, m_goingUp, m_goingDown, m_goingLeft, m_goingRight, m_remainingHealth)

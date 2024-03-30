@@ -17,6 +17,9 @@ namespace brickbreaker
         DECLARE_SPARK_RTTI(Brick, GameObject)
 
     public:
+        explicit Brick(std::string name, GameObject* parent)
+            : Brick(std::move(name), parent, {50, 20}) {}
+
         explicit Brick(std::string name, GameObject* parent, const spark::math::Vector2<float>& size)
             : GameObject(std::move(name), parent)
         {
@@ -52,3 +55,5 @@ namespace brickbreaker
 }
 
 IMPLEMENT_SPARK_RTTI(brickbreaker::Brick)
+
+SPARK_SERIALIZE_RTTI_CLASS(brickbreaker::Brick)

@@ -15,6 +15,9 @@ namespace brickbreaker
         DECLARE_SPARK_RTTI(ScreenBorder, GameObject)
 
     public:
+        explicit ScreenBorder(std::string name, spark::core::GameObject* parent)
+            : ScreenBorder(std::move(name), parent, {0, 0}, {0, 0}) {}
+
         /**
          * \brief Creates a new collision border at the bottom of the screen.
          * \param name The name of the game object.
@@ -78,3 +81,5 @@ namespace brickbreaker
 }
 
 IMPLEMENT_SPARK_RTTI(brickbreaker::ScreenBorder)
+
+SPARK_SERIALIZE_RTTI_CLASS(brickbreaker::ScreenBorder)
