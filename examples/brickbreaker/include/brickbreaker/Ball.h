@@ -41,9 +41,19 @@ namespace brickbreaker
             : Ball(std::move(name), parent, 10.0f) {}
 
         explicit Ball(std::string name, GameObject* parent, const float radius)
-            : GameObject(std::move(name), parent), m_music(spark::path::assets_path() / "music.ogg"), m_hitSound(spark::path::assets_path() / "hit.ogg"),
-              m_damageSound(spark::path::assets_path() / "dmg.ogg"), m_loseSound(spark::path::assets_path() / "lose.ogg")
+            : GameObject(std::move(name), parent)
         {
+            try
+            {
+                m_music = spark::audio::Sound(spark::path::assets_path() / "music.ogg");
+                m_hitSound = spark::audio::Sound(spark::path::assets_path() / "hit.ogg");
+                m_damageSound = spark::audio::Sound(spark::path::assets_path() / "dmg.ogg");
+                m_loseSound = spark::audio::Sound(spark::path::assets_path() / "lose.ogg");
+            } catch (const spark::base::CouldNotOpenFileException& ex)
+            {
+                spark::log::error(ex.what());
+            }
+
             addComponent<spark::core::components::Circle>(radius);
             addComponent<spark::core::components::DynamicCollider>(spark::math::Rectangle<float> {{0, 0}, {radius * 2, radius * 2}});
 

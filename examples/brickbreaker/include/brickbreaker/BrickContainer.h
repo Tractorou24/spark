@@ -12,7 +12,17 @@ namespace brickbreaker
 
     public:
         BrickContainer(const std::string& name, spark::core::GameObject* parent)
-            : spark::core::GameObject(name, parent), m_winSound(spark::path::assets_path() / "win.ogg") {}
+            : spark::core::GameObject(name, parent)
+        {
+            try
+            {
+                m_winSound = spark::audio::Sound(spark::path::assets_path() / "win.ogg");
+            }
+            catch (const spark::base::CouldNotOpenFileException& ex)
+            {
+                spark::log::error(ex.what());
+            }
+        }
 
         void onUpdate(float /*dt*/) override
         {

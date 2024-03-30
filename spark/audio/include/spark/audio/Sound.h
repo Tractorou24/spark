@@ -18,6 +18,8 @@ namespace spark::audio
         static const std::vector<std::string_view> supportedExtensions;
 
     public:
+        explicit Sound();
+
         /**
          * \brief Instantiates a new playable sound.
          * \param file The path to the sound file.
@@ -26,9 +28,9 @@ namespace spark::audio
         ~Sound();
 
         Sound(const Sound& other);
-        Sound(Sound&& other) noexcept = default;
+        Sound(Sound&& other) noexcept;
         Sound& operator=(const Sound& other);
-        Sound& operator=(Sound&& other) noexcept = default;
+        Sound& operator=(Sound&& other) noexcept;
 
         /**
          * \brief Starts playing the sound.

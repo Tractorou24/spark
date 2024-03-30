@@ -8,6 +8,8 @@ namespace spark::audio
 {
     const std::vector<std::string_view> Sound::supportedExtensions = {".wav", ".ogg"};
 
+    Sound::Sound() = default;
+
     Sound::Sound(const std::filesystem::path& file)
     {
         if (std::ranges::find(supportedExtensions, file.extension()) == supportedExtensions.end())
@@ -26,13 +28,38 @@ namespace spark::audio
 
     Sound::Sound(const Sound& other)
     {
+        if (this == &other)
+            return;
+
         m_buffer = other.m_buffer;
+        m_sound.setBuffer(m_buffer);
+    }
+
+    Sound::Sound(Sound&& other) noexcept
+    {
+        if (this == &other)
+            return;
+
+        m_buffer = std::move(other.m_buffer);
         m_sound.setBuffer(m_buffer);
     }
 
     Sound& Sound::operator=(const Sound& other)
     {
+        if (this == &other)
+            return *this;
+
         m_buffer = other.m_buffer;
+        m_sound.setBuffer(m_buffer);
+        return *this;
+    }
+
+    Sound& Sound::operator=(Sound&& other) noexcept
+    {
+        if (this == &other)
+            return *this;
+
+        m_buffer = std::move(other.m_buffer);
         m_sound.setBuffer(m_buffer);
         return *this;
     }
