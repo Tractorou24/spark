@@ -20,8 +20,9 @@ namespace
      * \brief Draws a graph of the frames per second using ImGui
      * \param dt The delta time between the last frame and the current one
      */
-    void draw_fps_graph(const float dt)
+    void draw_fps_graph([[maybe_unused]] const float dt)
     {
+#ifndef SPARK_RELEASE
         static std::vector<float> fps_values(100);
         static float min_fps = 1000.0f;
         static float max_fps = 0.0f;
@@ -43,6 +44,7 @@ namespace
         ImGui::Text("Avg FPS: %.2f", avg_fps);
         ImGui::PlotLines("##FPS", fps_values.data(), static_cast<int>(fps_values.size()), 0, nullptr, 0.0f, 3000.f, ImVec2(0, 80));
         ImGui::End();
+#endif
     }
 }
 
