@@ -202,6 +202,16 @@ function(_spark_add_target target)
         )
     endif()
 
+    # Add the config macros
+    if(NOT "${TARGET_TYPE}" STREQUAL "INTERFACE")
+        target_compile_definitions(${target}
+            PRIVATE
+                $<$<CONFIG:DEBUG>:SPARK_DEBUG>
+                $<$<CONFIG:RELWITHDEBINFO>:SPARK_RELWITHDEBINFO>
+                $<$<CONFIG:RELEASE>:SPARK_RELEASE>
+        )
+    endif()
+
     if (NOT TARGET_NO_INSTALL AND NOT "${TARGET_TYPE}" STREQUAL "MODULE")
         install(TARGETS ${target} RUNTIME LIBRARY ARCHIVE)
         if (MSVC AND "${TARGET_TYPE}" STREQUAL "SHARED")

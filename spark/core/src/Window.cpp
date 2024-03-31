@@ -428,7 +428,9 @@ namespace spark::core
 
         // Init ImGui
         imgui::init(PRIVATE_TO_WINDOW(m_window), *m_renderer->m_renderBackend, *m_renderer->m_device, m_renderer->m_device->state().renderPass("Opaque"));
+#ifndef SPARK_RELEASE
         ImGui::SetCurrentContext(static_cast<ImGuiContext*>(imgui::context()));
+#endif
     }
 
     Window::~Window()

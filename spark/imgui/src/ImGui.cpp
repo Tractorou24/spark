@@ -10,6 +10,7 @@
 #include "imgui_impl_vulkan.h"
 #include "GLFW/glfw3.h"
 
+#ifndef SPARK_RELEASE
 namespace
 {
     constexpr VkDescriptorPoolSize IMGUI_POOL_SIZES[] =
@@ -94,7 +95,7 @@ namespace spark::imgui
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
     }
-    
+
     void render(const render::ICommandBuffer& command_buffer)
     {
         const auto& vk_command_buffer = dynamic_cast<const render::vk::VulkanCommandBuffer&>(command_buffer);
@@ -119,3 +120,13 @@ namespace spark::imgui
         log::info("ImGui shutdown");
     }
 }
+#else
+namespace spark::imgui
+{
+    void init(GLFWwindow* /*window*/, render::IRenderBackend& /*backend*/, render::IGraphicsDevice& /*device*/, render::IRenderPass& /*render_pass*/) {}
+    void* context() { return nullptr; }
+    void new_frame() {}
+    void render(const render::ICommandBuffer& /*command_buffer*/) {}
+    void shutdown(const render::IGraphicsDevice& /*device*/) {}
+}
+#endif
