@@ -46,6 +46,8 @@ namespace brickbreaker
             try
             {
                 m_music = spark::audio::Sound(spark::path::assets_path() / "music.ogg");
+                m_music.setLoop(true);
+
                 m_hitSound = spark::audio::Sound(spark::path::assets_path() / "hit.ogg");
                 m_damageSound = spark::audio::Sound(spark::path::assets_path() / "dmg.ogg");
                 m_loseSound = spark::audio::Sound(spark::path::assets_path() / "lose.ogg");
