@@ -10,6 +10,75 @@ namespace spark::render
     class IShaderProgram;
 
     /**
+     * Defines pipeline stages as points where synchronization may occur.
+     */
+    enum class PipelineStage
+    {
+        /// \brief Represents no-blocking behavior.
+        /// Translates to `VK_PIPELINE_STAGE_NONE` in Vulkan.
+        None = 0x00000000,
+
+        /// \brief Waits for all previous commands to be finished, or blocks all following commands until the barrier is executed.
+        /// Translates to `VK_PIPELINE_STAGE_ALL_COMMANDS_BIT` in Vulkan.
+        /// This stage flag is special, as it cannot be combined with other stage flags.
+        All = 0x00000001,
+
+        /// \brief Waits for previous commands to finish all graphics stages, or blocks following commands until the graphics stages has finished.
+        /// Translates to `VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT` in Vulkan.
+        /// This stage flag is special, as it cannot be combined with other stage flags.
+        Draw = 0x00000002,
+
+        /// \brief Waits for previous commands to finish the input assembly stage, or blocks following commands until the input assembly stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_VERTEX_INPUT_BIT` in Vulkan.
+        InputAssembly = 0x00000004,
+
+        /// \brief Waits for previous commands to finish the vertex shader stage, or blocks following commands until the vertex shader stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_VERTEX_SHADER_BIT` in Vulkan.
+        Vertex = 0x00000006,
+
+        /// \brief Waits for previous commands to finish the tessellation control/hull shader stage, or blocks following commands until the tessellation control/hull shader stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_TESSELLATION_CONTROL_SHADER_BIT` in Vulkan.
+        TessellationControl = 0x00000008,
+
+        /// \brief Waits for previous commands to finish the tessellation evaluation/domain shader stage, or blocks following commands until the tessellation evaluation/domain shader stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_TESSELLATION_EVALUATION_SHADER_BIT` in Vulkan.
+        TessellationEvaluation = 0x00000010,
+
+        /// \brief Waits for previous commands to finish the geometry shader stage, or blocks following commands until the geometry shader stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_GEOMETRY_SHADER_BIT` in Vulkan.
+        Geometry = 0x00000020,
+
+        /// \brief Waits for previous commands to finish the fragment/pixel shader stage, or blocks following commands until the fragment/pixel shader stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT` in Vulkan.
+        Fragment = 0x00000040,
+
+        /// \brief Waits for previous commands to finish the depth/stencil stage, or blocks following commands until the depth/stencil stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT` in Vulkan.
+        DepthStencil = 0x00000080,
+
+        /// \brief Waits for previous commands to finish the draw indirect stage, or blocks following commands until the draw indirect stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_DRAW_INDIRECT_BIT` in Vulkan.
+        Indirect = 0x00000100,
+
+        /// \brief Waits for previous commands to finish the output merger stage, or blocks following commands until the output merger stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT` in Vulkan.
+        RenderTarget = 0x00000200,
+
+        /// \brief Waits for previous commands to finish the compute shader stage, or blocks following commands until the compute shader stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT` in Vulkan.
+        /// This stage flag is special, as it cannot be combined with other stage flags.
+        Compute = 0x00000400,
+
+        /// \brief Waits for previous commands to finish the transfer stage, or blocks following commands until the transfer stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_TRANSFER_BIT` in Vulkan.
+        Transfer = 0x00000800,
+
+        /// \brief Waits for previous commands to finish the multi-sampling resolution stage, or blocks following commands until the multi-sampling resolution stage has finished.
+        /// Translates to `VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT` in Vulkan.
+        Resolve = 0x00001000
+    };
+
+    /**
      * \brief Interface for pipeline layouts.
      */
     class SPARK_RENDER_EXPORT IPipelineLayout
