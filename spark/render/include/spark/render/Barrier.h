@@ -72,4 +72,109 @@ namespace spark::render
         /// This access mode translates to `VK_ACCESS_MEMORY_READ_BIT | VK_ACCESS_MEMORY_WRITE_BIT` in Vulkan.
         Common = 0x00002000
     };
+
+    /**
+     * \brief The interface for a barrier.
+     *
+     * Barriers are used to synchronize the GPU with itself in a command buffer. They are basically used to control the GPU command flow and ensure that resources are in
+     * he right state before using them. Generally speaking, there are two related types of barriers:
+     *
+     * - **Execution barriers** are enforcing command order by telling the GPU to wait for certain pipeline stages or which stages to block until an operation has finished.
+     * - **Memory barriers** are used to transition resources between states and are a subset of execution barriers. Each memory barrier is always also an execution barrier,
+     *   but the opposite is not true.
+     *
+     * An execution barrier is simply a barrier without any *resource transitions* happening. The only properties that are set for an execution barrier are two pipeline stages
+     * defined by \ref IBarrier::syncBefore and \ref IBarrier::syncAfter. The first value defines the pipeline stages, all *previous* commands in a command buffer need to
+     * finish before execution is allowed to continue. Similarly, the second value defines the stage, all *subsequent* commands need to wait for, before they are allowed to
+     * continue execution. For example, setting `syncBefore` to `Compute` and `syncAfter` to `Vertex` logically translates to: *All subsequent  commands that want to pass
+     * the vertex stage need to wait there before all previous commands passed the compute stage*. To synchronize reads in previous commands with writes in subsequent commands,
+     * this is sufficient. However, in order to do the opposite, this is not enough. Instead, resource memory needs to be *transitioned* by specifying the desired \ref ResourceAccess,
+     * alongside the \ref ImageLayout for images (note that buffers always share a *common* layout that can not be changed). This is done using memory barriers.
+     * There are two types of memory barriers used for state transitions:
+     *
+     * - **Global barriers** apply to all resource memory.
+     * - **Image and buffer barriers** apply to individual images or buffers or a sub-resource of those.
+     *
+     * Any `IBarrier` can contain an arbitrary mix of one or more global and/or image/buffer barriers. A global barrier is inserted by calling \ref IBarrier::wait.
+     * This method accepts two parameters: a `before` and an `after` access mode. Those parameters specify the \ref ResourceAccess for the previous and subsequent
+     * commands. This makes it possible to describe scenarios like *wait for certain writes to finish before continuing with certain reads*. Note that a resource can be
+     * accessed in different ways at the same time (for example as copy source and shader resource) and specifying an access state will only wait for the specified subset.
+     * As a rule of thumb, you should always specify as little access as possible in order to leave most room for optimization.
+     *
+     * Image and buffer barriers additionally describe which (sub-)resources to apply the barrier to. For buffers this only applies to individual elements in a buffer array.
+     * Currently, buffers are always transitioned as a whole. This is different from image resources, which have addressable sub-resources (mip levels, planes and array elements).
+     * For images, it is possible to transition individual sub-resources into different \ref ImageLayouts to indicate when and how a texture is used. An image in a certain
+     * layout poses restrictions on how it can be accessed. For example, a `ReadWrite` image written by a compute shader must be transitioned into a proper layout to be read by
+     * a graphics shader. To facilitate such a transition, a barrier is required. Image barriers can be inserted by calling one of the overloads of \ref IBarrier::transition that
+     * accepts an \ref IImage parameter.
+     */
+    class SPARK_RENDER_EXPORT IBarrier
+    {
+    public:
+        virtual ~IBarrier() = default;
+
+        /**
+         * \brief Gets the stage that all previous commands need to reach before continuing execution.
+         * \return The stage that all previous commands need to reach before continuing execution.
+         */
+        constexpr virtual PipelineStage syncBefore() const noexcept = 0;
+
+        /**
+         * \brief Gets the stage all subsequent commands need to wait for before continuing execution.
+         * \return The stage all subsequent commands need to wait for before continuing execution.
+         */
+        constexpr virtual PipelineStage syncAfter() const noexcept = 0;
+
+        /**
+         * \brief Inserts a global barrier that waits for previous commands to finish.
+         * \param accessBefore The access types previous commands have to finish.
+         * \param accessAfter The access types that subsequent commands continue with.
+         */
+        constexpr virtual void wait(ResourceAccess accessBefore, ResourceAccess accessAfter) noexcept = 0;
+
+        /**
+         * \brief Inserts a buffer barrier that blocks access to \p "buffer.
+         * \param buffer The buffer resource to transition.
+         * \param accessBefore The access types previous commands have to finish.
+         * \param accessAfter The access types that subsequent commands continue with.
+         */
+        constexpr void transition(IBuffer& buffer, ResourceAccess accessBefore, ResourceAccess accessAfter)
+        {
+            genericTransition(buffer, accessBefore, accessAfter);
+        }
+
+        /**
+         * \brief Inserts an image barrier that blocks access to all sub-resources of \p image of the types contained and transitions all sub-resources into \p layout.
+         * \param image The image resource to transition.
+         * \param accessBefore The access types previous commands have to finish.
+         * \param accessAfter The access types that subsequent commands continue with.
+         * \param layout The image layout to transition into.
+         */
+        constexpr void transition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout)
+        {
+            genericTransition(image, accessBefore, accessAfter, layout);
+        }
+
+        /**
+         * \brief Inserts an image barrier that blocks access to a sub-resource range of \p image and transitions the sub-resource into \p layout.
+         * \param image The image resource to transition.
+         * \param level The base mip-map level of the sub-resource range.
+         * \param levels The number of mip-map levels of the sub-resource range.
+         * \param layer The base array layer of the sub-resource range.
+         * \param layers The number of array layer of the sub-resource range.
+         * \param plane The plane of the sub-resource.
+         * \param accessBefore The access types previous commands have to finish.
+         * \param accessAfter The access types that subsequent commands continue with.
+         * \param layout The image layout to transition into.
+        */
+        constexpr void transition(IImage& image, unsigned level, unsigned levels, unsigned layer, unsigned layers, unsigned plane, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout)
+        {
+            genericTransition(image, level, levels, layer, layers, plane, accessBefore, accessAfter, layout);
+        }
+
+    private:
+        constexpr virtual void genericTransition(IBuffer& buffer, ResourceAccess accessBefore, ResourceAccess accessAfter) = 0;
+        constexpr virtual void genericTransition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout) = 0;
+        constexpr virtual void genericTransition(IImage& image, unsigned level, unsigned levels, unsigned layer, unsigned layers, unsigned plane, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout) = 0;
+    };
 }
