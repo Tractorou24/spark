@@ -1,6 +1,8 @@
 #pragma once
 
+#include "spark/render/Buffer.h"
 #include "spark/render/Export.h"
+#include "spark/render/Image.h"
 #include "spark/render/Pipeline.h"
 
 namespace spark::render
@@ -173,9 +175,9 @@ namespace spark::render
         }
 
     private:
-        constexpr virtual void genericTransition(IBuffer& buffer, ResourceAccess accessBefore, ResourceAccess accessAfter) = 0;
-        constexpr virtual void genericTransition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout) = 0;
-        constexpr virtual void genericTransition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout fromLayout, ImageLayout toLayout) = 0;
+        constexpr virtual void genericTransition(IBuffer& buffer, ResourceAccess access_before, ResourceAccess access_after) = 0;
+        constexpr virtual void genericTransition(IImage& image, ResourceAccess access_before, ResourceAccess access_after, ImageLayout layout) = 0;
+        constexpr virtual void genericTransition(IImage& image, ResourceAccess access_before, ResourceAccess access_after, ImageLayout from_layout, ImageLayout to_layout) = 0;
     };
 
     /**
