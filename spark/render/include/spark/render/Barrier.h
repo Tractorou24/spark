@@ -167,14 +167,51 @@ namespace spark::render
          * \param accessAfter The access types that subsequent commands continue with.
          * \param layout The image layout to transition into.
         */
-        constexpr void transition(IImage& image, unsigned level, unsigned levels, unsigned layer, unsigned layers, unsigned plane, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout)
+        constexpr void transition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout fromLayout, ImageLayout toLayout)
         {
-            genericTransition(image, level, levels, layer, layers, plane, accessBefore, accessAfter, layout);
+            genericTransition(image, accessBefore, accessAfter, fromLayout, toLayout);
         }
 
     private:
         constexpr virtual void genericTransition(IBuffer& buffer, ResourceAccess accessBefore, ResourceAccess accessAfter) = 0;
         constexpr virtual void genericTransition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout) = 0;
-        constexpr virtual void genericTransition(IImage& image, unsigned level, unsigned levels, unsigned layer, unsigned layers, unsigned plane, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout) = 0;
+        constexpr virtual void genericTransition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout fromLayout, ImageLayout toLayout) = 0;
+    };
+
+    /**
+     * \brief A barrier used to synchronize the GPU with itself.
+     * \tparam BufferType The type of the buffer resource.
+     * \tparam ImageType The type of the image resource.
+     */
+    template<typename BufferType, typename ImageType>
+    class SPARK_RENDER_EXPORT Barrier : public IBarrier
+    {
+    public:
+        using buffer_type = BufferType;
+        using image_type = ImageType;
+
+    public:
+        /// \copydoc IBarrier::transition
+        constexpr inline virtual void transition(buffer_type& buffer, ResourceAccess accessBefore, ResourceAccess accessAfter) = 0;
+
+        /// \copydoc IBarrier::transition
+        constexpr inline virtual void transition(image_type& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout) = 0;
+
+        /// \copydoc IBarrier::transition
+        constexpr inline virtual void transition(image_type& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout fromLayout, ImageLayout toLayout) = 0;
+
+    private:
+        constexpr void genericTransition(IBuffer& buffer, ResourceAccess accessBefore, ResourceAccess accessAfter) override
+        {
+            transition(dynamic_cast<buffer_type&>(buffer), accessBefore, accessAfter);
+        }
+        constexpr void genericTransition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout) override
+        {
+            transition(dynamic_cast<image_type&>(image), accessBefore, accessAfter, layout);
+        }
+        constexpr void genericTransition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout fromLayout, ImageLayout toLayout) override
+        {
+            transition(dynamic_cast<image_type&>(image), accessBefore, accessAfter, fromLayout, toLayout);
+        }
     };
 }
