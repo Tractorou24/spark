@@ -119,59 +119,55 @@ namespace spark::render
          * \brief Gets the stage that all previous commands need to reach before continuing execution.
          * \return The stage that all previous commands need to reach before continuing execution.
          */
-        constexpr virtual PipelineStage syncBefore() const noexcept = 0;
+        [[nodiscard]] constexpr virtual PipelineStage syncBefore() const noexcept = 0;
 
         /**
          * \brief Gets the stage all subsequent commands need to wait for before continuing execution.
          * \return The stage all subsequent commands need to wait for before continuing execution.
          */
-        constexpr virtual PipelineStage syncAfter() const noexcept = 0;
+        [[nodiscard]] constexpr virtual PipelineStage syncAfter() const noexcept = 0;
 
         /**
          * \brief Inserts a global barrier that waits for previous commands to finish.
-         * \param accessBefore The access types previous commands have to finish.
-         * \param accessAfter The access types that subsequent commands continue with.
+         * \param access_before The access types previous commands have to finish.
+         * \param access_after The access types that subsequent commands continue with.
          */
-        constexpr virtual void wait(ResourceAccess accessBefore, ResourceAccess accessAfter) noexcept = 0;
+        constexpr virtual void wait(ResourceAccess access_before, ResourceAccess access_after) noexcept = 0;
 
         /**
          * \brief Inserts a buffer barrier that blocks access to \p "buffer.
          * \param buffer The buffer resource to transition.
-         * \param accessBefore The access types previous commands have to finish.
-         * \param accessAfter The access types that subsequent commands continue with.
+         * \param access_before The access types previous commands have to finish.
+         * \param access_after The access types that subsequent commands continue with.
          */
-        constexpr void transition(IBuffer& buffer, ResourceAccess accessBefore, ResourceAccess accessAfter)
+        constexpr void transition(IBuffer& buffer, ResourceAccess access_before, ResourceAccess access_after)
         {
-            genericTransition(buffer, accessBefore, accessAfter);
+            genericTransition(buffer, access_before, access_after);
         }
 
         /**
          * \brief Inserts an image barrier that blocks access to all sub-resources of \p image of the types contained and transitions all sub-resources into \p layout.
          * \param image The image resource to transition.
-         * \param accessBefore The access types previous commands have to finish.
-         * \param accessAfter The access types that subsequent commands continue with.
+         * \param access_before The access types previous commands have to finish.
+         * \param access_after The access types that subsequent commands continue with.
          * \param layout The image layout to transition into.
          */
-        constexpr void transition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout)
+        constexpr void transition(IImage& image, ResourceAccess access_before, ResourceAccess access_after, ImageLayout layout)
         {
-            genericTransition(image, accessBefore, accessAfter, layout);
+            genericTransition(image, access_before, access_after, layout);
         }
 
         /**
          * \brief Inserts an image barrier that blocks access to a sub-resource range of \p image and transitions the sub-resource into \p layout.
          * \param image The image resource to transition.
-         * \param level The base mip-map level of the sub-resource range.
-         * \param levels The number of mip-map levels of the sub-resource range.
-         * \param layer The base array layer of the sub-resource range.
-         * \param layers The number of array layer of the sub-resource range.
-         * \param plane The plane of the sub-resource.
-         * \param accessBefore The access types previous commands have to finish.
-         * \param accessAfter The access types that subsequent commands continue with.
-         * \param layout The image layout to transition into.
+         * \param access_before The access types previous commands have to finish.
+         * \param access_after The access types that subsequent commands continue with.
+         * \param from_layout The image layout to transition from.
+         * \param to_layout The image layout to transition into.
         */
-        constexpr void transition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout fromLayout, ImageLayout toLayout)
+        constexpr void transition(IImage& image, ResourceAccess access_before, ResourceAccess access_after, ImageLayout from_layout, ImageLayout to_layout)
         {
-            genericTransition(image, accessBefore, accessAfter, fromLayout, toLayout);
+            genericTransition(image, access_before, access_after, from_layout, to_layout);
         }
 
     private:
@@ -185,7 +181,7 @@ namespace spark::render
      * \tparam BufferType The type of the buffer resource.
      * \tparam ImageType The type of the image resource.
      */
-    template<typename BufferType, typename ImageType>
+    template <typename BufferType, typename ImageType>
     class SPARK_RENDER_EXPORT Barrier : public IBarrier
     {
     public:
@@ -194,26 +190,28 @@ namespace spark::render
 
     public:
         /// \copydoc IBarrier::transition
-        constexpr inline virtual void transition(buffer_type& buffer, ResourceAccess accessBefore, ResourceAccess accessAfter) = 0;
+        constexpr virtual void transition(buffer_type& buffer, ResourceAccess access_before, ResourceAccess access_after) = 0;
 
         /// \copydoc IBarrier::transition
-        constexpr inline virtual void transition(image_type& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout) = 0;
+        constexpr virtual void transition(image_type& image, ResourceAccess access_before, ResourceAccess access_after, ImageLayout layout) = 0;
 
         /// \copydoc IBarrier::transition
-        constexpr inline virtual void transition(image_type& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout fromLayout, ImageLayout toLayout) = 0;
+        constexpr virtual auto transition(image_type& image, ResourceAccess access_before, ResourceAccess access_after, ImageLayout from_layout, ImageLayout to_layout) -> void = 0;
 
     private:
-        constexpr void genericTransition(IBuffer& buffer, ResourceAccess accessBefore, ResourceAccess accessAfter) override
+        constexpr void genericTransition(IBuffer& buffer, ResourceAccess access_before, ResourceAccess access_after) override
         {
-            transition(dynamic_cast<buffer_type&>(buffer), accessBefore, accessAfter);
+            transition(dynamic_cast<buffer_type&>(buffer), access_before, access_after);
         }
-        constexpr void genericTransition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout layout) override
+
+        constexpr void genericTransition(IImage& image, ResourceAccess access_before, ResourceAccess access_after, ImageLayout layout) override
         {
-            transition(dynamic_cast<image_type&>(image), accessBefore, accessAfter, layout);
+            transition(dynamic_cast<image_type&>(image), access_before, access_after, layout);
         }
-        constexpr void genericTransition(IImage& image, ResourceAccess accessBefore, ResourceAccess accessAfter, ImageLayout fromLayout, ImageLayout toLayout) override
+
+        constexpr void genericTransition(IImage& image, ResourceAccess access_before, ResourceAccess access_after, ImageLayout from_layout, ImageLayout to_layout) override
         {
-            transition(dynamic_cast<image_type&>(image), accessBefore, accessAfter, fromLayout, toLayout);
+            transition(dynamic_cast<image_type&>(image), access_before, access_after, from_layout, to_layout);
         }
     };
 }
