@@ -3,6 +3,7 @@
 #include "spark/log/Level.h"
 
 #include "spark/base/Platforms.h"
+#include "spark/base/Macros.h"
 #include "spark/path/Paths.h"
 
 #include "gtest/gtest.h"
@@ -37,10 +38,15 @@ namespace spark::log::testing
         const std::string cmd = std::format("{0}/spark_log_executor", spark::path::executable_path().string());
 #endif
 
+        SPARK_WARNING_PUSH
+        SPARK_DISABLE_GCC_WARNING(-Wignored-attributes)
+
         const char* level_str = spdlog::level::level_string_views[static_cast<int>(level)].data();
         const std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(std::format("{0} {1} \"{2}\"", cmd, level_str, message).c_str(), "r"), pclose);
         if (!pipe)
             throw std::runtime_error("pipe open failed !");
+
+        SPARK_WARNING_POP
 
         while (std::fgets(buffer.data(), static_cast<int>(buffer.size()), pipe.get()) != nullptr)
             result += buffer.data();

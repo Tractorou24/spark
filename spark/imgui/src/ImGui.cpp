@@ -63,23 +63,19 @@ namespace spark::imgui
             .Device = vk_device.handle(),
             .QueueFamily = vk_device.graphicsQueue().familyId(),
             .Queue = vk_device.graphicsQueue().handle(),
-            .PipelineCache = g_pipeline_cache,
             .DescriptorPool = g_imgui_descriptor_pool,
-            .Subpass = 0,
+            .RenderPass = vk_render_pass.handle(),
             .MinImageCount = 3,
             .ImageCount = 3,
             .MSAASamples = VK_SAMPLE_COUNT_1_BIT,
+            .PipelineCache = g_pipeline_cache,
+            .Subpass = 0,
             .Allocator = nullptr,
             .CheckVkResultFn = nullptr
         };
 
-        ImGui_ImplVulkan_Init(&init_info, vk_render_pass.handle());
-
-        const auto cmd_buffer = vk_device.graphicsQueue().createCommandBuffer(true, false);
-        ImGui_ImplVulkan_CreateFontsTexture(std::as_const(*cmd_buffer).handle());
-        const std::size_t fence = vk_device.graphicsQueue().submit(cmd_buffer);
-        vk_device.graphicsQueue().waitFor(fence);
-        ImGui_ImplVulkan_DestroyFontUploadObjects();
+        ImGui_ImplVulkan_Init(&init_info);
+        ImGui_ImplVulkan_CreateFontsTexture();
 
         log::info("ImGui initialized");
     }

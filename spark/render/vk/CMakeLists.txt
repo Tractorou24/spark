@@ -80,7 +80,7 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_render
     PRIVATE
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_patterns
-        unofficial::spirv-reflect::spirv-reflect
+        unofficial::spirv-reflect
         Vulkan::Vulkan
         GPUOpen::VulkanMemoryAllocator
 )
