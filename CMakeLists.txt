@@ -15,7 +15,7 @@ include(SPARKVcpkg)
 project(SPARK VERSION 0.1.0 LANGUAGES CXX)
 
 # Set the C++ version used throughout the project
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 # Enforce C++ standard as required for the compiler
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Disable C++ compiler extension (like gnu) to ensure portable code
