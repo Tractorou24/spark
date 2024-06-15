@@ -1,4 +1,4 @@
-FROM ubuntu:mantic
+FROM ubuntu:noble
 
 RUN export DEBIAN_FRONTEND=noninteractive;                              \
     export DEBCONF_NONINTERACTIVE_SEEN=true;                            \
