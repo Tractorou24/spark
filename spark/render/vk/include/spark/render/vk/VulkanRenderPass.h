@@ -6,6 +6,7 @@
 #include "spark/render/vk/Helpers.h"
 #include "spark/render/vk/VulkanFrameBuffer.h"
 #include "spark/render/vk/VulkanRenderPipeline.h"
+#include "spark/render/vk/VulkanInputAttachmentMapping.h"
 
 #include <span>
 
@@ -14,7 +15,6 @@ SPARK_FWD_DECLARE_VK_HANDLE(VkRenderPass)
 namespace spark::render::vk
 {
     class VulkanDescriptorSet;
-    class VulkanInputAttachmentMapping;
     class VulkanDevice;
 
     SPARK_WARNING_PUSH
