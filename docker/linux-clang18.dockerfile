@@ -1,4 +1,4 @@
-FROM ubuntu:mantic
+FROM ubuntu:noble
 
 RUN export DEBIAN_FRONTEND=noninteractive;                              \
     export DEBCONF_NONINTERACTIVE_SEEN=true;                            \
@@ -18,9 +18,10 @@ RUN export DEBIAN_FRONTEND=noninteractive;                              \
     python3-pip                                                         \
     python-is-python3                                                   \
     software-properties-common                                          \
-    gcc-13                                                              \
-    g++-13                                                              \
-    lld-16                                                              \
+    clang-18                                                            \
+    libstdc++-14-dev                                                    \
+    lld-18                                                              \
+    clang-tools-18                                                      \
     # Install packages required by dependencies
     autoconf                                                            \
     libtool                                                             \
@@ -91,10 +92,10 @@ RUN apt-get update &&           \
     rm -rf /var/lib/apt/lists/*
 
 # Setup alternatives
-RUN update-alternatives --install /usr/bin/lld lld /usr/bin/lld-16 10 &&            \
-    update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-16 10 &&   \
-    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 10 &&            \
-    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 10
+RUN update-alternatives --install /usr/bin/lld lld /usr/bin/lld-18 10 &&            \
+    update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-18 10 &&   \
+    update-alternatives --install /usr/bin/clang clang /usr/bin/clang-18 10 &&      \
+    update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-18 10
 
 # Install CMake
 RUN pip3 install --no-cache --break-system-packages cmake

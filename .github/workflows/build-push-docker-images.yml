@@ -28,9 +28,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./docker/linux-gcc13.dockerfile
+          file: ./docker/linux-gcc14.dockerfile
           push: ${{ github.ref == 'refs/heads/main' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spark-linux-gcc13:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spark-linux-gcc14:latest
           
 ###############################################################
 #################### Linux CLANG-16 Image #####################
@@ -54,9 +54,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./docker/linux-clang16.dockerfile
+          file: ./docker/linux-clang18.dockerfile
           push: ${{ github.ref == 'refs/heads/main' }}
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spark-linux-clang16:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/spark-linux-clang18:latest
 
 ###############################################################
 ##################### Python Tools Image ######################

@@ -31,7 +31,7 @@ jobs:
         # Build and test in Debug
       - uses: ilammy/msvc-dev-cmd@v1
         with:
-          toolset: 14.38
+          toolset: 14.40
       - name: Build & Test in Debug
         run: |
           cmake --preset dev_clang_ninja
@@ -66,7 +66,7 @@ jobs:
         # Build and test in Release
       - uses: ilammy/msvc-dev-cmd@v1
         with:
-          toolset: 14.38
+          toolset: 14.40
       - name: Build & Test in Release
         run: |
           cmake --preset dev_vc143_ninja
@@ -79,7 +79,7 @@ jobs:
   linux-debug:
     runs-on: ubuntu-latest
     container:
-      image: tracto/spark-linux-clang16:latest
+      image: tracto/spark-linux-clang18:latest
       credentials:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -110,7 +110,7 @@ jobs:
   linux-release:
     runs-on: ubuntu-latest
     container:
-      image: tracto/spark-linux-gcc13:latest
+      image: tracto/spark-linux-gcc14:latest
       credentials:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
