@@ -7,6 +7,8 @@
 
 namespace pathfinding
 {
+    class Cell;
+
     /**
      * \brief The manager responsible for holding global settings 
      */
@@ -41,8 +43,17 @@ namespace pathfinding
         void onUpdate(float dt) override;
 
     private:
+        /**
+         * \brief Sets the input or output cell depending on \p is_input to \p cell. 
+         * \param cell The cell to set as IO.
+         * \param is_input `true` if the cell should be an input, `false` if it should be an output.
+         */
+        void setIo(Cell& cell, bool is_input);
+
+    private:
         Grid* m_grid = nullptr;
-        class Cell* m_selectedCell = nullptr;
+        Cell* m_selectedCell = nullptr;
+        Cell *m_inputCell = nullptr, *m_outputCell = nullptr;
     };
 }
 

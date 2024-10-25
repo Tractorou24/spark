@@ -22,6 +22,8 @@ namespace pathfinding
         {
             None,
             Obstacle,
+            Input,
+            Output,
         };
 
     public:
