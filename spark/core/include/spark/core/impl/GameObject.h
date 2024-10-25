@@ -10,7 +10,7 @@ namespace spark::core
         T* object = new T(std::move(name), parent, args...);
         if (parent)
             if (parent->m_initialized)
-                object->onSpawn();
+                static_cast<AbstractGameObject*>(object)->onSpawn();
         return object;
     }
 
