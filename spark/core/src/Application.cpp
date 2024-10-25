@@ -76,6 +76,7 @@ namespace spark::core
         while (m_isRunning)
         {
             const float dt = update_timer.restart<std::chrono::seconds>();
+            imgui::new_frame();
 
             // Update
             m_window->onUpdate();
@@ -85,7 +86,6 @@ namespace spark::core
             m_scene->onUpdate(dt);
 
             // Render
-            imgui::new_frame();
             draw_fps_graph(dt);
             m_scene->onRender();
             m_window->renderer().render();
