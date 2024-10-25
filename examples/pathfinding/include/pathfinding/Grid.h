@@ -4,6 +4,7 @@
 
 #include "spark/core/GameObject.h"
 #include "spark/math/Vector2.h"
+#include "spark/patterns/Signal.h"
 
 namespace pathfinding
 {
@@ -13,6 +14,10 @@ namespace pathfinding
     class Grid final : public spark::core::GameObject
     {
         DECLARE_SPARK_RTTI(Grid, GameObject)
+
+    public:
+        /// \brief he signal emitted when a cell on the grid is clicked
+        spark::patterns::Signal<Cell&> onCellClicked;
 
     public:
         /**

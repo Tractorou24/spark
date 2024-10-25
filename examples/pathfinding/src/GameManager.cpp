@@ -1,7 +1,9 @@
 #include "pathfinding/GameManager.h"
 #include "pathfinding/Grid.h"
 
+#include "spark/base/KeyCodes.h"
 #include "spark/core/GameObject.h"
+#include "spark/core/Input.h"
 
 #include "imgui.h"
 
@@ -14,6 +16,13 @@ namespace pathfinding
         : spark::core::GameObject(std::move(name), parent), m_grid(grid)
     {
         m_grid->resize(gridSize, cellSize, cellBorderSize);
+        m_grid->onCellClicked.connect([this](Cell& cell)
+        {
+            if (!spark::core::Input::IsKeyPressed(spark::base::KeyCodes::LControl))
+                return;
+
+            m_selectedCell = &cell;
+        });
     }
 
     void GameManager::onUpdate(const float dt)
@@ -24,6 +33,9 @@ namespace pathfinding
 
         bool should_resize = false;
 
+        // Doc
+        ImGui::Text("LCtrl+Click on a cell to see its data");
+
         // Grid settings
         ImGui::SeparatorText("Grid");
         should_resize |= ImGui::SliderInt2("Size", reinterpret_cast<int*>(&gridSize.x), 1, 50);
@@ -31,9 +43,19 @@ namespace pathfinding
         should_resize |= ImGui::SliderInt("Cell Offset:", reinterpret_cast<int*>(&cellBorderSize), 1, 10);
         ImGui::Text("Cell Count: %u", gridSize.x * gridSize.y);
 
+        // Cell data
+        ImGui::SeparatorText("Current cell data");
+        if (m_selectedCell != nullptr)
+            ImGui::Text("Position: %zu, %zu", m_selectedCell->position().x, m_selectedCell->position().y);
+        else
+            ImGui::Text("No cell selected");
+
         ImGui::End();
 
         if (should_resize)
+        {
+            m_selectedCell = nullptr; // Reset the selection, since it can be deleted (dangling ptr)
             m_grid->resize(gridSize, cellSize, cellBorderSize);
+        }
     }
 }
