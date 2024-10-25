@@ -28,6 +28,7 @@ namespace pathfinding
                 auto* cell = Instantiate<Cell>(std::format("Cell {}x{}", j, i), this, cell_size);
                 cell->position() = {j, i};
                 cell->transform()->position = {static_cast<float>(j * cell_size + j * cell_offset), static_cast<float>(i * cell_size + i * cell_offset)};
+                cell->onClicked.connect([this](Cell& c) { onCellClicked.emit(c); });
             }
         }
     }

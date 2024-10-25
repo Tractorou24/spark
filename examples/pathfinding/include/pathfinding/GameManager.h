@@ -42,6 +42,7 @@ namespace pathfinding
 
     private:
         Grid* m_grid = nullptr;
+        class Cell* m_selectedCell = nullptr;
     };
 }
 
