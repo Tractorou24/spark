@@ -1,8 +1,10 @@
 #pragma once
 
+#include "spark/core/Application.h"
 #include "spark/core/components/Transform.h"
 
 #include "spark/math/Vector2.h"
+#include "spark/math/Vector4.h"
 #include "spark/rtti/HasRtti.h"
 
 namespace spark::core::components
