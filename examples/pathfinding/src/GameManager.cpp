@@ -1,4 +1,5 @@
 #include "pathfinding/GameManager.h"
+#include "pathfinding/Cell.h"
 #include "pathfinding/Grid.h"
 
 #include "spark/base/KeyCodes.h"
@@ -18,10 +19,14 @@ namespace pathfinding
         m_grid->resize(gridSize, cellSize, cellBorderSize);
         m_grid->onCellClicked.connect([this](Cell& cell)
         {
-            if (!spark::core::Input::IsKeyPressed(spark::base::KeyCodes::LControl))
-                return;
-
-            m_selectedCell = &cell;
+            if (!spark::core::Input::IsKeyPressed(spark::base::KeyCodes::LControl)) // Obstacle mode (Simple click)
+            {
+                if (cell.status() == Cell::Status::None)
+                    cell.setStatus(Cell::Status::Obstacle);
+                else if (cell.status() == Cell::Status::Obstacle)
+                    cell.setStatus(Cell::Status::None);
+            } else // Selection mode (LCtrl + Click)
+                m_selectedCell = &cell;
         });
     }
 
@@ -34,6 +39,7 @@ namespace pathfinding
         bool should_resize = false;
 
         // Doc
+        ImGui::Text("Click on a cell to set it as an obstacle");
         ImGui::Text("LCtrl+Click on a cell to see its data");
 
         // Grid settings
@@ -46,8 +52,10 @@ namespace pathfinding
         // Cell data
         ImGui::SeparatorText("Current cell data");
         if (m_selectedCell != nullptr)
+        {
             ImGui::Text("Position: %zu, %zu", m_selectedCell->position().x, m_selectedCell->position().y);
-        else
+            ImGui::Text("Type: %s", to_string(m_selectedCell->status()).data());
+        } else
             ImGui::Text("No cell selected");
 
         ImGui::End();

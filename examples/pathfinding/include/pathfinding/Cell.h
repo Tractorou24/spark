@@ -5,6 +5,8 @@
 #include "spark/patterns/Signal.h"
 #include "spark/patterns/Traverser.h"
 
+#include <string_view>
+
 namespace pathfinding
 {
     /**
@@ -13,6 +15,14 @@ namespace pathfinding
     class Cell final : public spark::core::GameObject
     {
         DECLARE_SPARK_RTTI(Cell, GameObject)
+
+    public:
+        /// \brief The status of the cell (defining shown color)
+        enum class Status : std::uint8_t
+        {
+            None,
+            Obstacle,
+        };
 
     public:
         /// \brief The signal emitted when the cell is clicked.
@@ -36,10 +46,26 @@ namespace pathfinding
          */
         [[nodiscard]] spark::math::Vector2<std::size_t>& position();
 
+        /**
+         * \brief Sets the new status of the cell.
+         * \param status The new status of the cell.
+         */
+        void setStatus(Status status);
+
+        /**
+         * \brief Gets the status of the cell.
+         * \return The cell status.
+         */
+        [[nodiscard]] Status status() const;
+
     private:
         std::size_t m_mousePressedHandle = 0;
         spark::math::Vector2<std::size_t> m_position;
+        Status m_status = Status::None;
     };
 }
+
+/// \brief Converts the given cell \p status to a \ref std::string_view.
+std::string_view to_string(pathfinding::Cell::Status status);
 
 IMPLEMENT_SPARK_RTTI(pathfinding::Cell)
