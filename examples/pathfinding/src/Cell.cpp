@@ -68,6 +68,12 @@ namespace pathfinding
         case Status::Obstacle:
             rectangle->color = {0.f, 0.f, 0.f, 1.f};
             break;
+        case Status::Input:
+            rectangle->color = {246.f / 255.f, 250.f / 255.f, 150.f / 255.f, 1.f};
+            break;
+        case Status::Output:
+            rectangle->color = {169.f / 255.f, 201.f / 255.f, 196.f / 255.f, 1.f};
+            break;
         default:
             rectangle->color = {1.f, 1.f, 1.f, 1.f};
         }
@@ -85,6 +91,10 @@ std::string_view to_string(const pathfinding::Cell::Status status)
     {
     case pathfinding::Cell::Status::Obstacle:
         return "Obstacle";
+    case pathfinding::Cell::Status::Input:
+        return "Input";
+    case pathfinding::Cell::Status::Output:
+        return "Output";
     default:
         break;
     }

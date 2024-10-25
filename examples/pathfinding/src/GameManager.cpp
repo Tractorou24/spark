@@ -19,14 +19,19 @@ namespace pathfinding
         m_grid->resize(gridSize, cellSize, cellBorderSize);
         m_grid->onCellClicked.connect([this](Cell& cell)
         {
-            if (!spark::core::Input::IsKeyPressed(spark::base::KeyCodes::LControl)) // Obstacle mode (Simple click)
-            {
-                if (cell.status() == Cell::Status::None)
-                    cell.setStatus(Cell::Status::Obstacle);
-                else if (cell.status() == Cell::Status::Obstacle)
-                    cell.setStatus(Cell::Status::None);
-            } else // Selection mode (LCtrl + Click)
+            if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::LShift)) // Input mode (LShift + Click)
+                setIo(cell, true);
+            else if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::LAlt)) // Output mode (LCtrl + Click)
+                setIo(cell, false);
+            else if (spark::core::Input::IsKeyPressed(spark::base::KeyCodes::LControl)) // Selection mode (LCtrl + Click)
                 m_selectedCell = &cell;
+            else // Obstacle mode (Simple click)
+            {
+                if (cell.status() != Cell::Status::Obstacle)
+                    cell.setStatus(Cell::Status::Obstacle);
+                else
+                    cell.setStatus(Cell::Status::None);
+            }
         });
     }
 
@@ -41,6 +46,8 @@ namespace pathfinding
         // Doc
         ImGui::Text("Click on a cell to set it as an obstacle");
         ImGui::Text("LCtrl+Click on a cell to see its data");
+        ImGui::Text("LShift+Click on a cell to set it as an input");
+        ImGui::Text("LAlt+Click on a cell to set it as an output");
 
         // Grid settings
         ImGui::SeparatorText("Grid");
@@ -62,8 +69,33 @@ namespace pathfinding
 
         if (should_resize)
         {
-            m_selectedCell = nullptr; // Reset the selection, since it can be deleted (dangling ptr)
+            // Reset all, since it can be deleted (dangling ptr)
+            m_selectedCell = nullptr;
+            m_inputCell = nullptr;
+            m_outputCell = nullptr;
+
+            // Resize the grid
             m_grid->resize(gridSize, cellSize, cellBorderSize);
         }
+    }
+
+    void GameManager::setIo(Cell& cell, const bool is_input)
+    {
+        Cell** local_cell = is_input ? &m_inputCell : &m_outputCell;
+        Cell** other_cell = is_input ? &m_outputCell : &m_inputCell;
+
+        // Opposite IO is already on the same cell
+        if (*other_cell == &cell)
+        {
+            (*other_cell)->setStatus(Cell::Status::None);
+            *other_cell = nullptr;
+        }
+
+        // The right IO type is already placed on the grid
+        if (*local_cell != nullptr)
+            (*local_cell)->setStatus(Cell::Status::None);
+
+        cell.setStatus(is_input ? Cell::Status::Input : Cell::Status::Output);
+        *local_cell = &cell;
     }
 }
