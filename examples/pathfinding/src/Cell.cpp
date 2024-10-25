@@ -58,4 +58,35 @@ namespace pathfinding
     {
         return m_position;
     }
+
+    void Cell::setStatus(const Status status)
+    {
+        m_status = status;
+        auto* rectangle = component<spark::core::components::Rectangle>();
+        switch (m_status)
+        {
+        case Status::Obstacle:
+            rectangle->color = {0.f, 0.f, 0.f, 1.f};
+            break;
+        default:
+            rectangle->color = {1.f, 1.f, 1.f, 1.f};
+        }
+    }
+
+    Cell::Status Cell::status() const
+    {
+        return m_status;
+    }
+}
+
+std::string_view to_string(const pathfinding::Cell::Status status)
+{
+    switch (status)
+    {
+    case pathfinding::Cell::Status::Obstacle:
+        return "Obstacle";
+    default:
+        break;
+    }
+    return "None";
 }
