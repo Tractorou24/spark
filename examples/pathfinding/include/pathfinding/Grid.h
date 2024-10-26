@@ -34,6 +34,17 @@ namespace pathfinding
          * \param cell_offset The new offset between each cell.
          */
         void resize(const spark::math::Vector2<unsigned>& size, unsigned cell_size, unsigned cell_offset);
+
+        /**
+         * \brief Gets all the cells in the grid arranged as a 2D array.
+         * \return A 2D array of cells.
+         *
+         * \todo Use std::mdspan when available to avoid copying.
+         */
+        std::vector<std::vector<Cell*>> cells();
+
+    private:
+        spark::math::Vector2<unsigned> m_gridSize = {0, 0};
     };
 }
 

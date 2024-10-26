@@ -31,5 +31,21 @@ namespace pathfinding
                 cell->onClicked.connect([this](Cell& c) { onCellClicked.emit(c); });
             }
         }
+        m_gridSize = size;
+    }
+
+    std::vector<std::vector<Cell*>> Grid::cells()
+    {
+        std::vector<std::vector<Cell*>> cells(m_gridSize.x);
+        for (std::size_t i = 0; i < m_gridSize.x; ++i)
+            cells[i].resize(m_gridSize.y);
+
+        for (auto* obj : GameObject::children())
+        {
+            const auto cell = static_cast<Cell*>(obj);
+            cells[cell->position().x][cell->position().y] = cell;
+        }
+
+        return cells;
     }
 }
