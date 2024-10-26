@@ -3,6 +3,7 @@
 #include "spark/core/GameObject.h"
 #include "spark/math/Vector2.h"
 
+#include <optional>
 #include <string>
 
 namespace pathfinding
@@ -49,6 +50,19 @@ namespace pathfinding
          * \param is_input `true` if the cell should be an input, `false` if it should be an output.
          */
         void setIo(Cell& cell, bool is_input);
+
+        /**
+         * \brief Checks if the grid is in a state that can be computed.
+         * \return `std::nullopt` if the grid is valid, otherwise a vector of strings with the errors (ready to be shown).
+         *
+         * To have a valid grid, it must have an input and an output cell.
+         */
+        [[nodiscard]] std::optional<std::vector<std::string>> canCompute() const;
+
+        /**
+         * \brief Computes the path from the input to the output cell using the A* algorithm.
+         */
+        void compute();
 
     private:
         Grid* m_grid = nullptr;

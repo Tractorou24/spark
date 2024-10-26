@@ -24,6 +24,7 @@ namespace pathfinding
             Obstacle,
             Input,
             Output,
+            Path
         };
 
     public:
@@ -43,6 +44,11 @@ namespace pathfinding
         void onDestroyed() override;
 
         /**
+         * \brief Resets a cell to a valid status before a computation. (weights & status)
+         */
+        void reset();
+
+        /**
          * \brief Gets the coordinates of the cell in its associated grid.
          * \return The `[X, Y]` position of the cell.
          */
@@ -60,10 +66,31 @@ namespace pathfinding
          */
         [[nodiscard]] Status status() const;
 
+        /**
+         * \brief Get all neighbors of this cell (left, right, top, bottom + diagonals).
+         * \param cells The list of all cells arranged in a 2D array (where `cells[position().x][position().y] == this`).
+         * \return A \ref std::vector with all neighbors.
+         */
+        [[nodiscard]] std::vector<Cell*> neighbors(const std::vector<std::vector<Cell*>>& cells);
+
+        /**
+         * \brief Sets the weights of the cell.
+         * \param start The weight from the start node.
+         * \param dest The weight from the destination node.
+         */
+        void setWeights(std::size_t start, std::size_t dest);
+
+        /**
+         * \brief Gets all the weights of the current cell.
+         * \return The start, destination and total weights of the cell.
+         */
+        [[nodiscard]] std::tuple<std::size_t, std::size_t, std::size_t> weights() const;
+
     private:
         std::size_t m_mousePressedHandle = 0;
         spark::math::Vector2<std::size_t> m_position;
         Status m_status = Status::None;
+        std::size_t m_startWeight = 0, m_destWeight = 0;
     };
 }
 

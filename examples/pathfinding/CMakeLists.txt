@@ -6,11 +6,13 @@ set (SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 spark_add_executable(${TARGET_NAME}
     CXX_SOURCES
+        ${SOURCE_DIR}/AStar.cpp
         ${SOURCE_DIR}/Cell.cpp
         ${SOURCE_DIR}/Grid.cpp
         ${SOURCE_DIR}/GameManager.cpp
         ${SOURCE_DIR}/main.cpp
     PUBLIC_HEADERS
+        ${HEADER_DIR}/pathfinding/AStar.h
         ${HEADER_DIR}/pathfinding/Cell.h
         ${HEADER_DIR}/pathfinding/Grid.h
         ${HEADER_DIR}/pathfinding/GameManager.h

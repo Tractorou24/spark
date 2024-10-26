@@ -1,4 +1,5 @@
 #include "pathfinding/GameManager.h"
+#include "pathfinding/AStar.h"
 #include "pathfinding/Cell.h"
 #include "pathfinding/Grid.h"
 
@@ -62,8 +63,28 @@ namespace pathfinding
         {
             ImGui::Text("Position: %zu, %zu", m_selectedCell->position().x, m_selectedCell->position().y);
             ImGui::Text("Type: %s", to_string(m_selectedCell->status()).data());
+
+            const auto [startWeight, destWeight, totalWeight] = m_selectedCell->weights();
+            ImGui::Text("Weights: start=%zu, destination=%zu, total=%zu", startWeight, destWeight, totalWeight);
         } else
             ImGui::Text("No cell selected");
+
+        // Computation status
+        ImGui::SeparatorText("Computation Status");
+        const auto errors = canCompute();
+        ImGui::Text("%s", std::format("Computing: {}", errors.has_value() ? "No" : "Yes").c_str());
+        if (errors.has_value())
+        {
+            ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 165, 0, 255));
+            ImGui::Text("Errors:");
+            for (const auto& error : errors.value())
+                ImGui::Text("%s", error.c_str());
+            ImGui::PopStyleColor();
+        } else
+        {
+            if (ImGui::Button("Compute"))
+                compute();
+        }
 
         ImGui::End();
 
@@ -97,5 +118,21 @@ namespace pathfinding
 
         cell.setStatus(is_input ? Cell::Status::Input : Cell::Status::Output);
         *local_cell = &cell;
+    }
+
+    void GameManager::compute()
+    {
+        AStar algorithm(m_grid->cells());
+        algorithm.compute(*m_inputCell, *m_outputCell);
+    }
+
+    std::optional<std::vector<std::string>> GameManager::canCompute() const
+    {
+        std::vector<std::string> errors;
+        if (m_inputCell == nullptr)
+            errors.emplace_back("- No input cell set");
+        if (m_outputCell == nullptr)
+            errors.emplace_back("- No output cell set");
+        return errors.empty() ? std::nullopt : std::make_optional(errors);
     }
 }

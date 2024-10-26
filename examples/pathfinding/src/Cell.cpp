@@ -54,6 +54,13 @@ namespace pathfinding
         spark::core::Input::mousePressedEvents[spark::base::MouseCodes::Left].disconnect(m_mousePressedHandle);
     }
 
+    void Cell::reset()
+    {
+        setWeights(0, 0);
+        if (m_status == Status::Path)
+            setStatus(Status::None);
+    }
+
     spark::math::Vector2<std::size_t>& Cell::position()
     {
         return m_position;
@@ -74,6 +81,9 @@ namespace pathfinding
         case Status::Output:
             rectangle->color = {169.f / 255.f, 201.f / 255.f, 196.f / 255.f, 1.f};
             break;
+        case Status::Path:
+            rectangle->color = {0.f, 0.f, 1.f, 1.f};
+            break;
         default:
             rectangle->color = {1.f, 1.f, 1.f, 1.f};
         }
@@ -82,6 +92,45 @@ namespace pathfinding
     Cell::Status Cell::status() const
     {
         return m_status;
+    }
+
+    std::vector<Cell*> Cell::neighbors(const std::vector<std::vector<Cell*>>& cells)
+    {
+        std::vector<Cell*> result;
+        const auto coordinates = position();
+
+        // Define relative positions of all 8 possible neighbors as a constexpr std::array
+        constexpr std::array<std::pair<int, int>, 8> directions = {
+            {
+                {-1, 0}, {1, 0}, {0, -1}, {0, 1},
+                {-1, -1}, {1, 1}, {-1, 1}, {1, -1}
+            }
+        };
+
+        // Iterate through each direction and add if it exists
+        for (const auto& [dx, dy] : directions)
+        {
+            if ((dx < 0 && coordinates.x == 0) || (dy < 0 && coordinates.y == 0))
+                continue;
+
+            const std::size_t nx = coordinates.x + dx;
+            const std::size_t ny = coordinates.y + dy;
+
+            if (nx < cells.size() && ny < cells[0].size())
+                result.push_back(cells[nx][ny]);
+        }
+        return result;
+    }
+
+    void Cell::setWeights(const std::size_t start, const std::size_t dest)
+    {
+        m_startWeight = start;
+        m_destWeight = dest;
+    }
+
+    std::tuple<std::size_t, std::size_t, std::size_t> Cell::weights() const
+    {
+        return std::make_tuple(m_startWeight, m_destWeight, m_startWeight + m_destWeight);
     }
 }
 
@@ -95,6 +144,8 @@ std::string_view to_string(const pathfinding::Cell::Status status)
         return "Input";
     case pathfinding::Cell::Status::Output:
         return "Output";
+    case pathfinding::Cell::Status::Path:
+        return "Path";
     default:
         break;
     }
