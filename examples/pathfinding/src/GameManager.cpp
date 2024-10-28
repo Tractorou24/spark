@@ -32,6 +32,7 @@ namespace pathfinding
                     cell.setStatus(Cell::Status::Obstacle);
                 else
                     cell.setStatus(Cell::Status::None);
+                compute();
             }
         });
     }
@@ -72,7 +73,7 @@ namespace pathfinding
         // Computation status
         ImGui::SeparatorText("Computation Status");
         const auto errors = canCompute();
-        ImGui::Text("%s", std::format("Computing: {}", errors.has_value() ? "No" : "Yes").c_str());
+        ImGui::Text("%s", std::format("Can compute: {}", errors.has_value() ? "No" : "Yes").c_str());
         if (errors.has_value())
         {
             ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 165, 0, 255));
@@ -80,10 +81,6 @@ namespace pathfinding
             for (const auto& error : errors.value())
                 ImGui::Text("%s", error.c_str());
             ImGui::PopStyleColor();
-        } else
-        {
-            if (ImGui::Button("Compute"))
-                compute();
         }
 
         ImGui::End();
@@ -118,10 +115,16 @@ namespace pathfinding
 
         cell.setStatus(is_input ? Cell::Status::Input : Cell::Status::Output);
         *local_cell = &cell;
+
+        // Recompute since I/O changed
+        compute();
     }
 
     void GameManager::compute()
     {
+        if (canCompute().has_value())
+            return;
+
         AStar algorithm(m_grid->cells());
         algorithm.compute(*m_inputCell, *m_outputCell);
     }
