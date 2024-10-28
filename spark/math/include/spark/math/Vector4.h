@@ -47,3 +47,12 @@ namespace spark::math
 }
 
 #include "spark/math/impl/Vector4.h"
+
+template <typename T>
+struct std::hash<spark::math::Vector4<T>>
+{
+    std::size_t operator()(const spark::math::Vector4<T>& vec) const
+    {
+        return std::hash<T> {}(vec.x) ^ std::hash<T> {}(vec.y) ^ std::hash<T> {}(vec.z) ^ std::hash<T> {}(vec.w);
+    }
+};

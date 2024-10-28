@@ -45,3 +45,12 @@ namespace spark::math
 }
 
 #include "spark/math/impl/Vector3.h"
+
+template <typename T>
+struct std::hash<spark::math::Vector3<T>>
+{
+    std::size_t operator()(const spark::math::Vector3<T>& vec) const
+    {
+        return std::hash<T> {}(vec.x) ^ std::hash<T> {}(vec.y) ^ std::hash<T> {}(vec.z);
+    }
+};
