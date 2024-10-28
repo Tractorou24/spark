@@ -137,7 +137,7 @@ namespace spark::core
 
         SPARK_WARNING_POP
 
-        inline static constexpr std::size_t s_maxInstances = 1024;
+        inline static constexpr std::size_t s_maxInstances = 1024 * 8;
         std::vector<InstanceBuffer> m_instanceData;
     };
 }
