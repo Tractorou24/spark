@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 
-#include <numbers>
+#include <cmath>
 
 namespace spark::math::testing
 {
@@ -161,6 +161,13 @@ namespace spark::math::testing
         EXPECT_EQ(v2.x, -1);
         EXPECT_EQ(v2.y, -2);
         EXPECT_EQ(v2.z, -3);
+    }
+
+    TEST(Vector3Should, computeNorm)
+    {
+        const Vector3<float> v(3, 4, 5);
+        const auto norm = v.norm();
+        EXPECT_FLOAT_EQ(norm, std::sqrt(50.f));
     }
 
     TEST(Vector3Should, beSwappable)
