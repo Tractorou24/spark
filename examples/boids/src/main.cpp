@@ -1,4 +1,4 @@
-#include "boids/Bird.h"
+#include "boids/BoidsManager.h"
 
 #include "spark/core/Application.h"
 #include "spark/core/ApplicationBuilder.h"
@@ -13,12 +13,12 @@
 std::unique_ptr<spark::core::Application> spark_main(const std::vector<std::string>& /*args*/)
 {
     auto app = spark::core::ApplicationBuilder().setName("Boids").setSize(1280, 720).build();
+    ImGui::SetCurrentContext(static_cast<ImGuiContext*>(spark::imgui::context()));
 
     // Create the game scene
     {
         auto* root = spark::core::GameObject::Instantiate("Root", nullptr);
-        auto* bird = spark::core::GameObject::Instantiate<boids::Bird>("Bird", root);
-        bird->transform()->position = spark::math::Vector2<float> {640, 360};
+        spark::core::GameObject::Instantiate<boids::BoidsManager>("BoidsManager", root);
 
         // Set the scene
         auto scene = std::make_unique<spark::core::Scene>(root);
