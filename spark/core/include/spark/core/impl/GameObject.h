@@ -15,9 +15,9 @@ namespace spark::core
     }
 
     template <typename T, typename... Args> requires std::is_base_of_v<Component, T>
-    void GameObject::addComponent(const Args&... args)
+    void GameObject::addComponent(Args&&... args)
     {
-        addComponent(new T(this, args...), true);
+        addComponent(new T(this, std::forward<Args>(args)...), true);
     }
 
     template <typename T> requires std::is_base_of_v<Component, T>
