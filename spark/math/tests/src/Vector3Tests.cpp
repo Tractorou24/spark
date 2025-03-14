@@ -170,6 +170,15 @@ namespace spark::math::testing
         EXPECT_FLOAT_EQ(norm, std::sqrt(50.f));
     }
 
+    TEST(Vector3Should, computeNormalized)
+    {
+        const Vector3<float> v(3, 4, 5);
+        const auto normalized = v.normalized();
+        EXPECT_FLOAT_EQ(normalized.x, 3.f / std::sqrt(50.f));
+        EXPECT_FLOAT_EQ(normalized.y, 4.f / std::sqrt(50.f));
+        EXPECT_FLOAT_EQ(normalized.z, 5.f / std::sqrt(50.f));
+    }
+
     TEST(Vector3Should, beSwappable)
     {
         Vector3<int> v(1, 2, 3);
