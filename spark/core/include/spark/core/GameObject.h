@@ -39,7 +39,7 @@ namespace spark::core
          * \details This method should only be called during the game runtime, not in editor. Use \link GameObject::GameObject \endlink for this.
          */
         template <typename T = GameObject, typename... Args> requires std::is_base_of_v<GameObject, T>
-        static T* Instantiate(std::string name, GameObject* parent, const Args&... args);
+        static T* Instantiate(std::string name, GameObject* parent, Args&&... args);
 
         /**
          * \brief Destroys the current GameObject and all its children from the current scene.

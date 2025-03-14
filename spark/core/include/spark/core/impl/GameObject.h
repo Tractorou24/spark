@@ -5,9 +5,9 @@
 namespace spark::core
 {
     template <typename T, typename... Args> requires std::is_base_of_v<GameObject, T>
-    T* GameObject::Instantiate(std::string name, GameObject* parent, const Args&... args)
+    T* GameObject::Instantiate(std::string name, GameObject* parent, Args&&... args)
     {
-        T* object = new T(std::move(name), parent, args...);
+        T* object = new T(std::move(name), parent, std::forward<Args>(args)...);
         if (parent)
             if (parent->m_initialized)
                 static_cast<AbstractGameObject*>(object)->onSpawn();
