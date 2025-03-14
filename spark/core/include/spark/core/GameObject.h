@@ -111,7 +111,7 @@ namespace spark::core
          * \param args The arguments to pass to the constructor of the component.
          */
         template <typename T, typename... Args> requires std::is_base_of_v<Component, T>
-        void addComponent(const Args&... args);
+        void addComponent(Args&&... args);
 
         /**
          * \brief Removes a component from the GameObject.
