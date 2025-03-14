@@ -185,6 +185,16 @@ namespace spark::math::testing
         EXPECT_FLOAT_EQ(norm, std::sqrt(1 + 4 + 9 + 16.f));
     }
 
+    TEST(Vector4Should, beNormalizable)
+    {
+        const Vector4<float> v(1, 2, 3, 4);
+        const Vector4<float> v2 = v.normalized();
+        EXPECT_FLOAT_EQ(v2.x, 1.0f / std::sqrt(1 + 4 + 9 + 16.f));
+        EXPECT_FLOAT_EQ(v2.y, 2.0f / std::sqrt(1 + 4 + 9 + 16.f));
+        EXPECT_FLOAT_EQ(v2.z, 3.0f / std::sqrt(1 + 4 + 9 + 16.f));
+        EXPECT_FLOAT_EQ(v2.w, 4.0f / std::sqrt(1 + 4 + 9 + 16.f));
+    }
+
     TEST(Vector4Should, beSwappable)
     {
         Vector4<int> v(1, 2, 3, 4);

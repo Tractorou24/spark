@@ -191,6 +191,15 @@ namespace spark::math::details
         }
 
         /**
+         * \brief Gets the normalized \ref Vector. (v / ||v||)
+         * \return The normalized \ref Vector.
+         */
+        [[nodiscard]] constexpr Impl<T> normalized() const noexcept
+        {
+            return *this / norm();
+        }
+
+        /**
          * \brief Swaps two \ref Vector.
          * \param lhs The first vector.
          * \param rhs The second vector.
