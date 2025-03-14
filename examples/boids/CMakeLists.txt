@@ -1,3 +1,5 @@
+find_package(imgui QUIET REQUIRED)
+
 set (TARGET_NAME boids)
 set (HEADER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set (SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -7,6 +9,7 @@ spark_add_executable(${TARGET_NAME}
         ${SOURCE_DIR}/main.cpp
     PUBLIC_HEADERS
         ${HEADER_DIR}/boids/Bird.h
+        ${HEADER_DIR}/boids/BoidsManager.h
 )
 
 target_link_libraries(${TARGET_NAME} 
@@ -16,4 +19,6 @@ target_link_libraries(${TARGET_NAME}
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_core
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_events
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_rtti
+    PRIVATE
+        imgui::imgui
 )
