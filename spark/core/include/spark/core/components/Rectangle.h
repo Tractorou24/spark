@@ -24,6 +24,9 @@ namespace spark::core::components
         explicit Rectangle(GameObject* parent)
             : Component(parent) {}
 
+        explicit Rectangle(GameObject* parent, math::Vector2<float> size, math::Vector4<float> color)
+            : Component(parent), size(std::move(size)), color(std::move(color)) {}
+
         void render() const override
         {
             Component::render();
