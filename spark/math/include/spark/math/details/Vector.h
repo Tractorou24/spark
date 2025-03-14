@@ -1,7 +1,9 @@
 #pragma once
 
 #include <array>
+#include <cmath>
 #include <functional>
+#include <numeric>
 
 namespace spark::math::details
 {
@@ -172,6 +174,20 @@ namespace spark::math::details
             for (std::size_t i = 0; i < N; ++i)
                 result.m_values[i].get() = -m_values[i];
             return result;
+        }
+
+        /**
+         * \brief Computes the norm of the \ref Vector. (||v|| = sqrt(v1^2 + v2^2 + ... + vn^2))
+         * \return The norm of the \ref Vector.
+         */
+        [[nodiscard]] constexpr T norm() const noexcept
+        {
+            static_assert(std::is_floating_point_v<T>, "The norm can only be computed for floating point types.");
+
+            T value {};
+            for (std::size_t i = 0; i < N; ++i)
+                value += m_values[i].get() * m_values[i].get();
+            return std::sqrt(value);
         }
 
         /**

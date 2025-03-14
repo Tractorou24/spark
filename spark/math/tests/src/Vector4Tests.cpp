@@ -1,9 +1,8 @@
 #include "spark/math/Vector4.h"
-#include "spark/math/Vector4.h"
 
 #include "gtest/gtest.h"
 
-#include <numbers>
+#include <cmath>
 
 namespace spark::math::testing
 {
@@ -177,6 +176,13 @@ namespace spark::math::testing
         EXPECT_EQ(v2.y, -2);
         EXPECT_EQ(v2.z, -3);
         EXPECT_EQ(v2.w, -4);
+    }
+
+    TEST(Vector4Should, computeNorm)
+    {
+        const Vector4<float> v(1, 2, 3, 4);
+        const auto norm = v.norm();
+        EXPECT_FLOAT_EQ(norm, std::sqrt(1 + 4 + 9 + 16.f));
     }
 
     TEST(Vector4Should, beSwappable)
