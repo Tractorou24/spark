@@ -35,7 +35,7 @@ namespace boids
 
     private:
         GameObject* m_birdContainer = nullptr;
-        std::unordered_map<std::size_t, std::list<const Bird*>> m_birds;
+        std::unordered_map<std::size_t, std::list<Bird*>> m_birds;
     };
 }
 

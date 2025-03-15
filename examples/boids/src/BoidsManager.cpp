@@ -39,7 +39,11 @@ namespace boids
                                                                             spark::lib::Random::Number(0.f, screen_size.x),
                                                                             spark::lib::Random::Number(0.f, screen_size.y)
                                                                         },
-                                                                        &simulationData);
+                                                                        &simulationData,
+                                                                        [&](const std::size_t cell) -> std::list<Bird*>
+                                                                        {
+                                                                            return m_birds.at(cell);
+                                                                        });
                 m_birds[bird->cell()].push_back(bird);
 
                 // When a cell is changed, remote from the old one and add to the new one.

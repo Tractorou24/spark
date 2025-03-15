@@ -9,14 +9,20 @@
 #include "spark/math/Vector4.h"
 
 #include <cstddef>
+#include <list>
 #include <string>
 #include <utility>
 
 namespace boids
 {
-    Bird::Bird(std::string name, spark::core::GameObject* parent, spark::math::Vector2<float> position, const SimulationData* simulation_settings)
+    Bird::Bird(std::string name,
+               spark::core::GameObject* parent,
+               spark::math::Vector2<float> position,
+               const SimulationData* simulation_settings,
+               std::function<std::list<Bird*>(std::size_t)> birds_in_cell_fn)
         : spark::core::GameObject(std::move(name), parent)
         , m_simulationSettings(simulation_settings)
+        , m_birdsInCellFn(std::move(birds_in_cell_fn))
     {
         if (!m_simulationSettings)
             throw spark::base::NullPointerException("Simulation settings cannot be null");
