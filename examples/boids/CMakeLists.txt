@@ -12,6 +12,7 @@ spark_add_executable(${TARGET_NAME}
     PUBLIC_HEADERS
         ${HEADER_DIR}/boids/Bird.h
         ${HEADER_DIR}/boids/BoidsManager.h
+        ${HEADER_DIR}/boids/SimulationData.h
 )
 
 target_link_libraries(${TARGET_NAME} 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "boids/Bird.h"
+#include "boids/SimulationData.h"
 
 #include "spark/core/GameObject.h"
 
@@ -16,6 +17,9 @@ namespace boids
     public:
         /// \brief The number of boids (birds) in the scene.
         unsigned boidsCount = 10;
+
+        /// \brief The data that controls the boids behavior.
+        SimulationData simulationData;
 
     public:
         explicit BoidsManager(std::string name, spark::core::GameObject* parent);

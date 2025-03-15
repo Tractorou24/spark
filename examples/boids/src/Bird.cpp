@@ -1,4 +1,5 @@
 #include "boids/Bird.h"
+#include "boids/SimulationData.h"
 
 #include "spark/core/GameObject.h"
 #include "spark/core/Input.h"
@@ -13,9 +14,13 @@
 
 namespace boids
 {
-    Bird::Bird(std::string name, spark::core::GameObject* parent, spark::math::Vector2<float> position)
+    Bird::Bird(std::string name, spark::core::GameObject* parent, spark::math::Vector2<float> position, const SimulationData* simulation_settings)
         : spark::core::GameObject(std::move(name), parent)
+        , m_simulationSettings(simulation_settings)
     {
+        if (!m_simulationSettings)
+            throw spark::base::NullPointerException("Simulation settings cannot be null");
+
         addComponent<spark::core::components::Rectangle>(spark::math::Vector2<float> {15, 15.f}, spark::math::Vector4<float> {1, 1, 1, 1});
         transform()->position = std::move(position);
         m_currentCellId = cell();
@@ -32,7 +37,7 @@ namespace boids
         const auto mouse_position = spark::core::Input::MousePosition();
         const auto direction = (mouse_position - transform()->position).normalized();
 
-        transform()->position += direction * 100.f * dt;
+        transform()->position += direction * m_simulationSettings->maxSpeed * dt;
 
         // Update the cell position if it changed
         if (const auto new_cell = cell(); m_currentCellId != new_cell)

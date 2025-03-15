@@ -1,5 +1,7 @@
 #pragma once
 
+#include "boids/SimulationData.h"
+
 #include "spark/core/GameObject.h"
 #include "spark/math/Vector2.h"
 #include "spark/patterns/Signal.h"
@@ -17,7 +19,7 @@ namespace boids
         spark::patterns::Signal<Bird*, std::size_t> onCellChanged;
 
     public:
-        explicit Bird(std::string name, spark::core::GameObject* parent, spark::math::Vector2<float> position);
+        explicit Bird(std::string name, spark::core::GameObject* parent, spark::math::Vector2<float> position, const SimulationData* simulation_settings);
 
         /**
          * \brief Gets the cell unique ID the bird is in.
@@ -32,6 +34,7 @@ namespace boids
         friend bool operator!=(const Bird& lhs, const Bird& rhs) { return !(lhs == rhs); }
 
     private:
+        const SimulationData* m_simulationSettings = nullptr;
         std::size_t m_currentCellId = 0;
     };
 }
