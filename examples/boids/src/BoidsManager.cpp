@@ -1,5 +1,6 @@
 #include "boids/BoidsManager.h"
 #include "boids/Bird.h"
+#include "boids/SimulationData.h"
 
 #include "spark/core/Application.h"
 #include "spark/core/GameObject.h"
@@ -37,7 +38,8 @@ namespace boids
                                                                         spark::math::Vector2<float> {
                                                                             spark::lib::Random::Number(0.f, screen_size.x),
                                                                             spark::lib::Random::Number(0.f, screen_size.y)
-                                                                        });
+                                                                        },
+                                                                        &simulationData);
                 m_birds[bird->cell()].push_back(bird);
 
                 // When a cell is changed, remote from the old one and add to the new one.
@@ -69,6 +71,13 @@ namespace boids
 
         if (ImGui::SliderInt("Birds Count", reinterpret_cast<int*>(&boidsCount), 1, 100))
             adjustBirdCount();
+
+        ImGui::SliderFloat("Separation Weight", &simulationData.separationWeight, 0.f, 10.f);
+        ImGui::SliderFloat("Alignment Weight", &simulationData.alignmentWeight, 0.f, 10.f);
+        ImGui::SliderFloat("Cohesion Weight", &simulationData.cohesionWeight, 0.f, 10.f);
+        ImGui::SliderFloat("Max Speed", &simulationData.maxSpeed, 0.f, 500.f);
+        ImGui::SliderFloat("Max Distance", &simulationData.maxDistance, 0.f, 500.f);
+        ImGui::SliderFloat("Field Of View", &simulationData.fieldOfView, 0.f, 360.f);
 
         ImGui::End();
     }
