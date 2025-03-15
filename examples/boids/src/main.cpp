@@ -10,6 +10,8 @@
 #include <utility>
 #include <vector>
 
+#include "imgui.h"
+
 std::unique_ptr<spark::core::Application> spark_main(const std::vector<std::string>& /*args*/)
 {
     auto app = spark::core::ApplicationBuilder().setName("Boids").setSize(1280, 720).build();

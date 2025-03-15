@@ -6,6 +6,8 @@ set (SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 spark_add_executable(${TARGET_NAME}
     CXX_SOURCES
+        ${SOURCE_DIR}/Bird.cpp
+        ${SOURCE_DIR}/BoidsManager.cpp
         ${SOURCE_DIR}/main.cpp
     PUBLIC_HEADERS
         ${HEADER_DIR}/boids/Bird.h
