@@ -24,6 +24,7 @@ spark_add_library(${TARGET_NAME} INTERFACE
 target_link_libraries(${TARGET_NAME}
     INTERFACE
         ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_base
+        ${CMAKE_PROJECT_NAME}::${SPARK_NAME}_mpl
 )
 
 if(BUILD_TESTING)

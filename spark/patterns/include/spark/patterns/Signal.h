@@ -104,9 +104,11 @@ namespace spark::patterns
 
         /**
          * \brief Emits the signal to all connected slots.
+         * \tparam FnArgs The types of the arguments to emit. Must be convertible to the signal arguments.
          * \param args The arguments for the slots.
          */
-        void emit(Args&&... args) const;
+        template <typename... FnArgs>
+        void emit(FnArgs&&... args) const;
 
         /**
          * \brief Emits the signal to all connected slots. Same as \ref emit.

@@ -2,11 +2,22 @@
 
 #include "spark/patterns/Slot.h"
 
+#include "spark/mpl/typelist.h"
+
 #include <algorithm>
 #include <ranges>
 
 namespace spark::patterns
 {
+    namespace details
+    {
+        template <typename T, typename U>
+        struct convertible_or_same
+        {
+            static constexpr bool value = std::is_convertible_v<T, U> || std::is_same_v<T, U>;
+        };
+    }
+
     template <typename... Args>
     Signal<Args...>::Signal()
         : m_connections(), m_sequence(0) {}
@@ -125,8 +136,17 @@ namespace spark::patterns
     }
 
     template <typename... Args>
-    void Signal<Args...>::emit(Args&&... args) const
+    template <typename... FnArgs>
+    void Signal<Args...>::emit(FnArgs&&... args) const
     {
+        if constexpr (sizeof...(Args) != sizeof...(FnArgs))
+            static_assert(false, "Signal::emit() called with different number of arguments than the signal.");
+        else if constexpr (sizeof...(Args) != 0)
+            static_assert(mpl::typelist_match<details::convertible_or_same,
+                                              typename mpl::typelist<FnArgs...>::template transform<std::remove_cvref>,
+                                              typename mpl::typelist<Args...>::template transform<std::remove_cvref>>,
+                          "Cannot call Signal::emit() with args that are not in the signal.");
+
         /*
          * When emitting, we need to make sure that:
          * - the program does not crash if a slot is destroyed during the emit
@@ -144,7 +164,7 @@ namespace spark::patterns
             {
                 const auto& connection = m_connections.at(key);
                 if (connection.m_slot->m_callback)
-                    m_connections.at(key).m_slot->m_callback(std::forward<Args>(args)...);
+                    m_connections.at(key).m_slot->m_callback(std::forward<FnArgs>(args)...);
             }
         }
     }
