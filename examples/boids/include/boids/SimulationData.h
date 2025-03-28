@@ -7,6 +7,9 @@ namespace boids
      */
     struct SimulationData
     {
+        /// \brief `true` if the boids should follow the mouse cursor, `false` otherwise.
+        bool followMouse = true;
+
         /// \brief The weight of the separation behavior.
         float separationWeight = 1.5f;
 
