@@ -133,9 +133,9 @@ namespace boids
         transform()->position += m_direction * m_simulationSettings->maxSpeed * dt;
         if (const auto new_cell = cell(); m_currentCellId != new_cell)
         {
-            auto old_cell = m_currentCellId;
+            const auto old_cell = m_currentCellId;
             m_currentCellId = new_cell;
-            onCellChanged.emit(this, std::move(old_cell));
+            onCellChanged.emit(this, old_cell);
         }
     }
 
