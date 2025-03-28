@@ -53,4 +53,9 @@ namespace boids
             onCellChanged.emit(this, std::move(old_cell));
         }
     }
+
+    void Bird::onDestroyed()
+    {
+        onCellChanged.clear();
+    }
 }

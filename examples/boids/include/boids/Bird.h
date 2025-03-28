@@ -36,6 +36,9 @@ namespace boids
         /// \copydoc GameObject::onUpdate
         void onUpdate(float dt) override;
 
+        /// \copydoc GameObject::onDestroyed
+        void onDestroyed() override;
+
         friend bool operator==(const Bird& lhs, const Bird& rhs) { return lhs.uuid() == rhs.uuid(); }
         friend bool operator!=(const Bird& lhs, const Bird& rhs) { return !(lhs == rhs); }
 
