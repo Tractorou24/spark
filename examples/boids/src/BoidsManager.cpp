@@ -23,6 +23,11 @@ namespace boids
         : spark::core::GameObject(std::move(name), parent)
     {
         adjustBirdCount();
+
+        spark::core::Application::Instance()->window().onResize.connect([this](spark::math::Vector2<unsigned> /*new_size*/)
+        {
+            adjustCellCount();
+        });
     }
 
     void BoidsManager::adjustBirdCount()
