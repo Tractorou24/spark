@@ -27,7 +27,7 @@ namespace boids
         if (!m_simulationSettings)
             throw spark::base::NullPointerException("Simulation settings cannot be null");
 
-        addComponent<spark::core::components::Rectangle>(spark::math::Vector2<float> {15, 15.f}, spark::math::Vector4<float> {1, 1, 1, 1});
+        addComponent<spark::core::components::Rectangle>(spark::math::Vector2<float> {2.5f, 2.5f}, spark::math::Vector4<float> {1, 1, 1, 1});
         transform()->position = std::move(position);
         m_currentCellId = cell();
     }
