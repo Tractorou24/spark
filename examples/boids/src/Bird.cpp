@@ -8,8 +8,11 @@
 #include "spark/math/Vector2.h"
 #include "spark/math/Vector4.h"
 
+#include <algorithm>
+#include <cmath>
 #include <cstddef>
 #include <list>
+#include <numbers>
 #include <string>
 #include <utility>
 
@@ -40,12 +43,83 @@ namespace boids
 
     void Bird::onUpdate(const float dt)
     {
+        const auto nearby_birds = m_birdsInCellFn(m_currentCellId);
+
+        // Initialize force vectors for the three boids rules
+        spark::math::Vector2<float> separation {0.0f, 0.0f};
+        spark::math::Vector2<float> alignment {0.0f, 0.0f};
+        spark::math::Vector2<float> cohesion {0.0f, 0.0f};
+
+        unsigned neighbor_count = 0;
+
+        for (const Bird* other : nearby_birds)
+        {
+            if (other == this)
+                continue;
+
+            // Vector pointing from the current bird to the other bird
+            const spark::math::Vector2<float> offset = other->transform()->position - transform()->position;
+            const float distance = offset.norm();
+
+            // Skip birds that are too far away
+            if (distance > m_simulationSettings->maxDistance)
+                continue;
+
+            // Angle between the current bird's direction and the offset vector
+            const float dot_product = m_direction.dot(offset.normalized());
+            const float angle = std::acos(std::clamp(dot_product, -1.0f, 1.0f)) * (180.0f / std::numbers::pi_v<float>);
+
+            // Skip birds outside the field of view
+            if (angle > m_simulationSettings->fieldOfView / 2.0f)
+                continue;
+            neighbor_count++;
+
+            // Separation: steer to avoid crowding local flockmates
+            if (distance < m_simulationSettings->maxDistance)
+                separation -= offset.normalized() * (m_simulationSettings->maxDistance / (distance + 0.0001f)); // Closer the neighbor, stronger the repulsion
+
+            // Alignment: steer towards the average heading of local flockmates
+            alignment += other->m_direction;
+
+            // Cohesion: steer to move toward the average position of local flockmates
+            cohesion += other->transform()->position;
+        }
+
+        // Calculate the final steering force
+        spark::math::Vector2<float> steering {0.0f, 0.0f};
+
+        if (neighbor_count > 0)
+        {
+            separation = separation.normalized() * m_simulationSettings->separationWeight;
+
+            alignment = alignment / static_cast<float>(neighbor_count);
+            alignment = alignment.normalized() * m_simulationSettings->alignmentWeight;
+
+            cohesion = cohesion / static_cast<float>(neighbor_count) - transform()->position;
+            cohesion = cohesion.normalized() * m_simulationSettings->cohesionWeight;
+
+            // Combine all flocking forces
+            steering = separation + alignment + cohesion;
+        }
+
+        // Goal-seeking to the mouse position
         const auto mouse_position = spark::core::Input::MousePosition();
-        const auto direction = (mouse_position - transform()->position).normalized();
+        const auto mouse_direction = (mouse_position - transform()->position).normalized();
 
-        transform()->position += direction * m_simulationSettings->maxSpeed * dt;
+        if (steering.norm() > 0.0001f)
+        {
+            constexpr float mouse_influence = 0.8f;
+            const float steering_factor = 2.0f * dt; // Turning speed
+            m_direction = (m_direction + (steering + mouse_direction * mouse_influence) * steering_factor).normalized();
+        } else
+        {
+            // If no neighbors, gradually turn toward mouse
+            const float turn_factor = 2.0f * dt;
+            m_direction = (m_direction + mouse_direction * turn_factor).normalized();
+        }
 
-        // Update the cell position if it changed
+        // Update the position and the cell if it changed
+        transform()->position += m_direction * m_simulationSettings->maxSpeed * dt;
         if (const auto new_cell = cell(); m_currentCellId != new_cell)
         {
             auto old_cell = m_currentCellId;
