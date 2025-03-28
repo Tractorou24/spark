@@ -61,7 +61,8 @@ namespace spark::core
         {
             .title = settings.name,
             .size = settings.size,
-            .eventCallback = [this](events::Event& event) { onEvent(event); }
+            .eventCallback = [this](events::Event& event) { onEvent(event); },
+            .resizable = settings.resizable
         };
 
         m_window = std::make_unique<Window>(window_settings);

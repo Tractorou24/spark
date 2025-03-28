@@ -30,6 +30,7 @@ namespace spark::core
         {
             std::string name;
             spark::math::Vector2<unsigned int> size;
+            bool resizable = false;
         };
 
         /**

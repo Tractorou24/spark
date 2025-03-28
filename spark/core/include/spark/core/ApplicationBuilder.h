@@ -9,6 +9,8 @@ namespace spark::core
         struct set_name_called {};
 
         struct set_size_called {};
+
+        struct set_resize_policy {};
     }
 
     template <typename... Tags>
@@ -38,6 +40,13 @@ namespace spark::core
          * \return A new builder used to continue building the application.
          */
         ApplicationBuilder<details::application_tags::set_size_called, Tags...> setSize(unsigned int width, unsigned int height);
+
+        /**
+         * \brief Sets whether the application window is resizable.
+         * \param resizable `true` if the window should be resizable, `false` otherwise.
+         * \return A new builder used to continue building the application.
+         */
+        ApplicationBuilder<details::application_tags::set_resize_policy, Tags...> setResizable(bool resizable);
 
         /**
          * \brief Builds the application with the given settings.

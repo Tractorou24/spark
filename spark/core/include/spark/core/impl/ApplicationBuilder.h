@@ -37,6 +37,14 @@ namespace spark::core
     }
 
     template <typename... Tags>
+    ApplicationBuilder<details::application_tags::set_resize_policy, Tags...> ApplicationBuilder<Tags...>::setResizable(const bool resizable)
+    {
+        static_assert(!spark::mpl::typelist<Tags...>::template contains<details::application_tags::set_resize_policy>, "Cannot set resize policy twice.");
+        m_settings.resizable = resizable;
+        return ApplicationBuilder<details::application_tags::set_resize_policy, Tags...>(std::move(m_settings));
+    }
+
+    template <typename... Tags>
     std::unique_ptr<Application> ApplicationBuilder<Tags...>::build()
     {
         static_assert(spark::mpl::typelist<Tags...>::template contains<details::application_tags::set_name_called>, "Cannot build application without setting the name.");

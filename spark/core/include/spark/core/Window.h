@@ -5,6 +5,7 @@
 
 #include "spark/events/Event.h"
 #include "spark/math/Vector2.h"
+#include "spark/patterns/Signal.h"
 #include "spark/render/vk/VulkanBackend.h"
 
 #include <functional>
@@ -25,7 +26,11 @@ namespace spark::core
             std::string title;
             spark::math::Vector2<unsigned int> size;
             std::function<void(events::Event&)> eventCallback;
+            bool resizable;
         };
+
+        /// \brief Event triggered when the window is resized.
+        spark::patterns::Signal<spark::math::Vector2<unsigned int>> onResize;
 
     public:
         /**
