@@ -10,6 +10,9 @@ namespace boids
         /// \brief `true` if the boids should follow the mouse cursor, `false` otherwise.
         bool followMouse = true;
 
+        /// \brief `true` if the boids should avoid exiting the window, `false` otherwise.
+        bool avoidWalls = false;
+
         /// \brief The weight of the separation behavior.
         float separationWeight = 1.5f;
 
