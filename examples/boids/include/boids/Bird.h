@@ -28,6 +28,14 @@ namespace boids
                       std::function<std::list<Bird*>(std::size_t)> birds_in_cell_fn);
 
         /**
+         * \brief Changes the number of cells a bird could be in.
+         * \param new_count The new cell count.
+         *
+         * \note The \ref onCellChanged signal is not emitted.
+         */
+        void setCellCount(std::size_t new_count);
+
+        /**
          * \brief Gets the cell unique ID the bird is in.
          * \return The cell unique ID.
          */
@@ -46,6 +54,7 @@ namespace boids
         const SimulationData* m_simulationSettings = nullptr;
         std::function<std::list<Bird*>(std::size_t)> m_birdsInCellFn;
         spark::math::Vector2<float> m_direction = {0, 0};
+        std::size_t m_cellCount = 100;
         std::size_t m_currentCellId = 0;
     };
 }
