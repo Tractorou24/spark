@@ -104,6 +104,7 @@ namespace boids
             adjustCellCount();
 
         ImGui::Checkbox("Follow Mouse", &simulationData.followMouse);
+        ImGui::Checkbox("Avoid Walls", &simulationData.avoidWalls);
 
         ImGui::SliderFloat("Separation Weight", &simulationData.separationWeight, 0.f, 10.f);
         ImGui::SliderFloat("Alignment Weight", &simulationData.alignmentWeight, 0.f, 10.f);

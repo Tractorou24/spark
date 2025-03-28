@@ -1,6 +1,7 @@
 #include "boids/Bird.h"
 #include "boids/SimulationData.h"
 
+#include "spark/core/Application.h"
 #include "spark/core/GameObject.h"
 #include "spark/core/Input.h"
 #include "spark/core/components/Rectangle.h"
@@ -142,6 +143,36 @@ namespace boids
 
         // Update the position with the new direction
         transform()->position += m_direction * m_simulationSettings->maxSpeed * dt;
+
+        if (m_simulationSettings->avoidWalls)
+        {
+            const auto window_size = spark::core::Application::Instance()->window().size().castTo<float>();
+            constexpr float margin = 10.0f;
+            const float turn_strength = 5.0f * dt;
+
+            // Create boundary avoidance steering force
+            spark::math::Vector2<float> boundary_force {0.0f, 0.0f};
+
+            // Left & Right
+            if (transform()->position.x < margin)
+                boundary_force.x += (margin - transform()->position.x) / margin;
+            else if (transform()->position.x > window_size.x - margin)
+                boundary_force.x -= (transform()->position.x - (window_size.x - margin)) / margin;
+
+            // Top & Bottom
+            if (transform()->position.y < margin)
+                boundary_force.y += (margin - transform()->position.y) / margin;
+            else if (transform()->position.y > window_size.y - margin)
+                boundary_force.y -= (transform()->position.y - (window_size.y - margin)) / margin;
+
+            // Apply boundary force if needed with hard limit
+            if (boundary_force.norm() > 0.0001f)
+            {
+                m_direction = (m_direction + boundary_force.normalized() * turn_strength).normalized();
+                transform()->position.x = std::clamp(transform()->position.x, 0.0f, window_size.x);
+                transform()->position.y = std::clamp(transform()->position.y, 0.0f, window_size.y);
+            }
+        }
 
         // Update the cell if changed
         if (const auto new_cell = cell(); m_currentCellId != new_cell)
