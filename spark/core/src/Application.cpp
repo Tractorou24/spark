@@ -22,7 +22,6 @@ namespace
      */
     void draw_fps_graph([[maybe_unused]] const float dt)
     {
-#ifndef SPARK_RELEASE
         static std::vector<float> fps_values(100);
         static float min_fps = 1000.0f;
         static float max_fps = 0.0f;
@@ -44,7 +43,6 @@ namespace
         ImGui::Text("Avg FPS: %.2f", avg_fps);
         ImGui::PlotLines("##FPS", fps_values.data(), static_cast<int>(fps_values.size()), 0, nullptr, 0.0f, 3000.f, ImVec2(0, 80));
         ImGui::End();
-#endif
     }
 }
 
@@ -72,6 +70,12 @@ namespace spark::core
     // ReSharper disable once CppMemberFunctionMayBeConst
     void Application::run()
     {
+        bool should_draw_fps_graph = true;
+        spark::core::Input::keyPressedEvents[spark::base::KeyCodes::F1].connect([&should_draw_fps_graph]
+        {
+            should_draw_fps_graph = !should_draw_fps_graph;
+        });
+
         lib::Clock update_timer;
         while (m_isRunning)
         {
@@ -86,7 +90,8 @@ namespace spark::core
             m_scene->onUpdate(dt);
 
             // Render
-            draw_fps_graph(dt);
+            if (should_draw_fps_graph)
+                draw_fps_graph(dt);
             m_scene->onRender();
             m_window->renderer().render();
 
