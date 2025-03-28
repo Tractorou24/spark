@@ -16,7 +16,7 @@ namespace boids
 
     public:
         /// \brief The number of boids (birds) in the scene.
-        unsigned boidsCount = 10;
+        unsigned boidsCount = 250;
 
         /// \brief The number of cells in the scene.
         unsigned cellCount = 100;
