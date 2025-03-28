@@ -34,7 +34,6 @@ namespace boids
         void adjustBirdCount();
 
     private:
-        GameObject* m_birdContainer = nullptr;
         std::unordered_map<std::size_t, std::list<Bird*>> m_birds;
     };
 }

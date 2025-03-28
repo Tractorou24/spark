@@ -20,21 +20,21 @@ namespace boids
 {
     BoidsManager::BoidsManager(std::string name, spark::core::GameObject* parent)
         : spark::core::GameObject(std::move(name), parent)
-        , m_birdContainer(spark::core::GameObject::Instantiate("Birds", this))
     {
         adjustBirdCount();
     }
 
     void BoidsManager::adjustBirdCount()
     {
-        const std::int64_t diff = boidsCount - static_cast<unsigned>(m_birdContainer->children().size());
+        const std::int64_t diff = static_cast<std::int32_t>(boidsCount) - static_cast<std::int32_t>(children().size());
         if (diff > 0)
         {
             const auto screen_size = spark::core::Application::Instance()->window().size().castTo<float>();
             for (std::int64_t i = 0; i < diff; ++i)
             {
-                auto* bird = spark::core::GameObject::Instantiate<Bird>("Bird",
-                                                                        m_birdContainer,
+                static std::size_t counter = 0;
+                auto* bird = spark::core::GameObject::Instantiate<Bird>(std::format("Bird {}", counter),
+                                                                        this,
                                                                         spark::math::Vector2<float> {
                                                                             spark::lib::Random::Number(0.f, screen_size.x),
                                                                             spark::lib::Random::Number(0.f, screen_size.y)
@@ -46,7 +46,7 @@ namespace boids
                                                                         });
                 m_birds[bird->cell()].push_back(bird);
 
-                // When a cell is changed, remote from the old one and add to the new one.
+                // When a cell is changed, remove from the old one and add to the new one.
                 bird->onCellChanged.connect([&](Bird* bird, const std::size_t old_cell)
                 {
                     const auto new_cell = bird->cell();
@@ -55,6 +55,9 @@ namespace boids
                     SPARK_ASSERT(std::ranges::find(m_birds[old_cell], bird) != m_birds[old_cell].end()
                                  && "Bird should be in the old cell when 'onCellChanged' is emitted, but it isn't.");
 
+                    [[maybe_unused]] const auto removed = m_birds[old_cell].remove(bird);
+                    SPARK_ASSERT(removed == 1 && "The bird should have been removed from the cell, but it wasn't.");
+
                     m_birds[new_cell].push_back(bird);
                 });
             }
@@ -62,9 +65,18 @@ namespace boids
         {
             for (std::int64_t i = 0; i < -diff; ++i)
             {
-                auto& bird = static_cast<Bird&>(*m_birdContainer->children().back());
-                m_birds[bird.cell()].remove(&bird);
-                spark::core::GameObject::Destroy(&bird);
+                for (auto& birds : m_birds | std::views::values)
+                {
+                    if (!birds.empty())
+                    {
+                        auto* bird = birds.front();
+                        [[maybe_unused]] const auto removed = m_birds[bird->cell()].remove(bird);
+                        SPARK_ASSERT(removed == 1 && "The bird should have been removed from the cell, but it wasn't.");
+
+                        spark::core::GameObject::Destroy(bird);
+                        break;
+                    }
+                }
             }
         }
     }
