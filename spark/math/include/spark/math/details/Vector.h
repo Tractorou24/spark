@@ -200,6 +200,19 @@ namespace spark::math::details
         }
 
         /**
+         * \brief Computes the dot product between the current \ref Vector and \p other.
+         * \param other The \ref Vector to compute the dot product with.
+         * \return The value of the dot product between this and \p other.
+         */
+        [[nodiscard]] constexpr T dot(const Impl<T>& other) const noexcept
+        {
+            T value {};
+            for (std::size_t i = 0; i < N; ++i)
+                value += m_values[i].get() * other.m_values[i].get();
+            return value;
+        }
+
+        /**
          * \brief Swaps two \ref Vector.
          * \param lhs The first vector.
          * \param rhs The second vector.
