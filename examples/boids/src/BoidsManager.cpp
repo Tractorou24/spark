@@ -103,6 +103,8 @@ namespace boids
         if (ImGui::SliderInt("Cell Count", reinterpret_cast<int*>(&cellCount), 5, 500))
             adjustCellCount();
 
+        ImGui::Checkbox("Follow Mouse", &simulationData.followMouse);
+
         ImGui::SliderFloat("Separation Weight", &simulationData.separationWeight, 0.f, 10.f);
         ImGui::SliderFloat("Alignment Weight", &simulationData.alignmentWeight, 0.f, 10.f);
         ImGui::SliderFloat("Cohesion Weight", &simulationData.cohesionWeight, 0.f, 10.f);

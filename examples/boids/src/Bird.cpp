@@ -117,20 +117,33 @@ namespace boids
         const auto mouse_position = spark::core::Input::MousePosition();
         const auto mouse_direction = (mouse_position - transform()->position).normalized();
 
-        if (steering.norm() > 0.0001f)
+        if (m_simulationSettings->followMouse)
         {
-            constexpr float mouse_influence = 0.8f;
-            const float steering_factor = 2.0f * dt; // Turning speed
-            m_direction = (m_direction + (steering + mouse_direction * mouse_influence) * steering_factor).normalized();
+            if (steering.norm() > 0.0001f)
+            {
+                constexpr float mouse_influence = 0.8f;
+                const float steering_factor = 2.0f * dt; // Turning speed
+                m_direction = (m_direction + (steering + mouse_direction * mouse_influence) * steering_factor).normalized();
+            } else
+            {
+                // If no neighbors, gradually turn toward mouse
+                const float turn_factor = 2.0f * dt;
+                m_direction = (m_direction + mouse_direction * turn_factor).normalized();
+            }
         } else
         {
-            // If no neighbors, gradually turn toward mouse
-            const float turn_factor = 2.0f * dt;
-            m_direction = (m_direction + mouse_direction * turn_factor).normalized();
+            // Only use flocking behavior if not following mouse
+            if (steering.norm() > 0.0001f)
+            {
+                const float steering_factor = 2.0f * dt;
+                m_direction = (m_direction + steering * steering_factor).normalized();
+            }
         }
 
-        // Update the position and the cell if it changed
+        // Update the position with the new direction
         transform()->position += m_direction * m_simulationSettings->maxSpeed * dt;
+
+        // Update the cell if changed
         if (const auto new_cell = cell(); m_currentCellId != new_cell)
         {
             const auto old_cell = m_currentCellId;
