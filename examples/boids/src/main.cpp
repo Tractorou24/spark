@@ -14,7 +14,7 @@
 
 std::unique_ptr<spark::core::Application> spark_main(const std::vector<std::string>& /*args*/)
 {
-    auto app = spark::core::ApplicationBuilder().setName("Boids").setSize(1280, 720).build();
+    auto app = spark::core::ApplicationBuilder().setName("Boids").setSize(1280, 720).setResizable(true).build();
     ImGui::SetCurrentContext(static_cast<ImGuiContext*>(spark::imgui::context()));
 
     // Create the game scene
