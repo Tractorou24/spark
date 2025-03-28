@@ -98,7 +98,7 @@ namespace boids
     {
         ImGui::Begin("Data");
 
-        if (ImGui::SliderInt("Birds Count", reinterpret_cast<int*>(&boidsCount), 1, 100))
+        if (ImGui::SliderInt("Birds Count", reinterpret_cast<int*>(&boidsCount), 1, 7500))
             adjustBirdCount();
         if (ImGui::SliderInt("Cell Count", reinterpret_cast<int*>(&cellCount), 5, 500))
             adjustCellCount();
