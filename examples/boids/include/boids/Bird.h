@@ -45,6 +45,7 @@ namespace boids
     private:
         const SimulationData* m_simulationSettings = nullptr;
         std::function<std::list<Bird*>(std::size_t)> m_birdsInCellFn;
+        spark::math::Vector2<float> m_direction = {0, 0};
         std::size_t m_currentCellId = 0;
     };
 }
