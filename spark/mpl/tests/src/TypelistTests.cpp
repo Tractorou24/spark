@@ -182,4 +182,11 @@ namespace spark::mpl::testing
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist_concat<spark::mpl::typelist<int>>, spark::mpl::typelist<int>);
         STATIC_EXPECT_SAME_TYPE(spark::mpl::typelist_concat<spark::mpl::typelist<>>, spark::mpl::typelist<>);
     }
+
+    TEST(TypelistsShould, beMatchable)
+    {
+        EXPECT_TRUE((spark::mpl::typelist_match<std::is_same, spark::mpl::typelist<int, float>, spark::mpl::typelist<int, float>>));
+        EXPECT_FALSE((spark::mpl::typelist_match<std::is_same, spark::mpl::typelist<int, float>, spark::mpl::typelist<int, double>>));
+        EXPECT_TRUE((spark::mpl::typelist_match<std::is_same, spark::mpl::typelist<>, spark::mpl::typelist<>>));
+    }
 }

@@ -418,4 +418,23 @@ namespace spark::mpl::type_seq
 
     template <typename List>
     using flatten_t = typename flatten<List>::type;
+
+    // match
+    template <template<typename, typename> typename Matcher, typename L1, typename L2>
+    struct match {};
+
+    template <template <typename, typename> typename Matcher, template <typename...> typename C, typename T, typename U, typename... Ts, typename... Us>
+    struct match<Matcher, C<T, Ts...>, C<U, Us...>>
+    {
+        static constexpr bool value = Matcher<T, U>::value && match<Matcher, C<Ts...>, C<Us...>>::value;
+    };
+
+    template <template <typename, typename> typename Matcher, template <typename...> typename C>
+    struct match<Matcher, C<>, C<>>
+    {
+        static constexpr bool value = true;
+    };
+
+    template <template<typename, typename> typename Matcher, typename L1, typename L2>
+    inline static constexpr bool match_v = match<Matcher, L1, L2>::value;
 }

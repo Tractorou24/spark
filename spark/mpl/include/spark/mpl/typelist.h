@@ -182,4 +182,13 @@ namespace spark::mpl
      */
     template <typename List>
     using typelist_flatten = type_seq::flatten_t<List>;
+
+    /**
+     * \brief Checks if elements of the typelists at the same index match each other using \p Matcher.
+     * \tparam Matcher The matcher to use and having a static constexpr bool value member
+     * \tparam L1 The first typelist
+     * \tparam L2 The second typelist
+     */
+    template <template <typename, typename> typename Matcher, typename L1, typename L2>
+    static constexpr bool typelist_match = type_seq::match_v<Matcher, L1, L2>;
 }
