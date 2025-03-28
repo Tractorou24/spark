@@ -35,10 +35,21 @@ namespace boids
         m_currentCellId = cell();
     }
 
+    void Bird::setCellCount(const std::size_t new_count)
+    {
+        if (new_count == 0)
+            throw spark::base::BadArgumentException("The cell size cannot be zero.");
+        if (m_cellCount == new_count)
+            return;
+
+        m_cellCount = new_count;
+    }
+
     std::size_t Bird::cell() const
     {
         const auto position = transform()->position.castTo<std::size_t>();
-        return position.x / 50 * 100 + position.y / 50;
+        const auto cell_size = spark::core::Application::Instance()->window().size().castTo<std::size_t>() / m_cellCount;
+        return position.x / cell_size.x + position.y / cell_size.y * m_cellCount;
     }
 
     void Bird::onUpdate(const float dt)

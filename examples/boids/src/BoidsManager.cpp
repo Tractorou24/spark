@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <ranges>
 #include <string>
 #include <utility>
 #include <vector>
@@ -81,12 +82,21 @@ namespace boids
         }
     }
 
+    void BoidsManager::adjustCellCount()
+    {
+        for (const auto& birds : m_birds | std::views::values)
+            for (auto* bird : birds)
+                bird->setCellCount(cellCount);
+    }
+
     void BoidsManager::onUpdate(const float /*dt*/)
     {
         ImGui::Begin("Data");
 
         if (ImGui::SliderInt("Birds Count", reinterpret_cast<int*>(&boidsCount), 1, 100))
             adjustBirdCount();
+        if (ImGui::SliderInt("Cell Count", reinterpret_cast<int*>(&cellCount), 5, 500))
+            adjustCellCount();
 
         ImGui::SliderFloat("Separation Weight", &simulationData.separationWeight, 0.f, 10.f);
         ImGui::SliderFloat("Alignment Weight", &simulationData.alignmentWeight, 0.f, 10.f);
