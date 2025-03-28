@@ -163,6 +163,14 @@ namespace spark::math::testing
         EXPECT_FLOAT_EQ(normalized.y, 0.8f);
     }
 
+    TEST(Vector2Should, computeDotProduct)
+    {
+        const Vector2<int> v(1, 2);
+        const Vector2<int> v2(2, 1);
+        const auto dot = v.dot(v2);
+        EXPECT_EQ(dot, 4);
+    }
+
     TEST(Vector2Should, beSwappable)
     {
         Vector2<int> v(1, 2);
