@@ -27,6 +27,7 @@ namespace boids
         : spark::core::GameObject(std::move(name), parent)
         , m_simulationSettings(simulation_settings)
         , m_birdsInCellFn(std::move(birds_in_cell_fn))
+        , m_direction(0.f, 1.f)
     {
         if (!m_simulationSettings)
             throw spark::base::NullPointerException("Simulation settings cannot be null");
